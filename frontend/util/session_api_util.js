@@ -1,6 +1,6 @@
 export async function signup(user) {
   try {
-    let response = await fetch('http://localhost:3000/api/users', {
+    let response = await fetch('http://192.168.1.172:3000/api/users', {
       method: 'POST',
       headers: {
        'Accept': 'application/json',
@@ -8,10 +8,11 @@ export async function signup(user) {
       },
       body: JSON.stringify(user)
     });
+
     let responseJson = await response.json();
     return responseJson;
   } catch(error) {
-    return error.json();
+    return error;
   }
 }
 

@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 import { login, signup } from '../actions/session_actions';
 
-import HomeScreen from '../screens/HomeScreen';
+import SignupDetails from '../screens/SignupDetails';
 
 const mapStateToProps = ({ session }) => {
   return {
@@ -20,4 +20,4 @@ const mapDispatchToProps = ( dispatch ) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(HomeScreen);
+)(SignupDetails);
