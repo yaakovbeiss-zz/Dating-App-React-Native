@@ -1,10 +1,11 @@
 import React from 'react';
+import Layout from '../constants/Layout';
 import {
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
-  KeyboardAvoidingView,
+  ScrollView,
   TextInput
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -16,8 +17,8 @@ export default class Signup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      password: this.props.navigation.state.params.password || null,
-      email: this.props.navigation.state.params.email || null
+      email: null,
+      password: null,
     }
   }
   static navigationOptions = {
@@ -29,6 +30,10 @@ export default class Signup extends React.Component {
     this.props.signup(user);
   }
 
+  handleDisabledNext = () => {
+    this.setState({ email: 'Please enter email address.'})
+  }
+
   nextButton() {
     if (this.state.password && this.state.email ) {
       return (
@@ -38,7 +43,7 @@ export default class Signup extends React.Component {
       )
     } else {
       return (
-        <TouchableOpacity style={styles.nextButtonDisabled}>
+        <TouchableOpacity onPress={this.handleDisabledNext} style={styles.nextButtonDisabled}>
             <Text>Next</Text>
         </TouchableOpacity>
       )
@@ -58,6 +63,7 @@ export default class Signup extends React.Component {
         label={'Email'}
         autoCapitalize={'none'}
         autoCorrect={false}
+        selectTextOnFocus={true}
         value={this.state.email}
         borderColor={'#a5d1cc'}
         labelStyle={{ color: '#ac83c4' }}
@@ -67,6 +73,8 @@ export default class Signup extends React.Component {
     <Akira
         style={styles.input}
         label={'Password'}
+        secureTextEntry={true}
+        selectTextOnFocus={true}
         value={this.state.password}
         autoCapitalize={'none'}
         autoCorrect={false}
@@ -90,23 +98,26 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 75,
-
   },
   nextButton: {
     height: 40,
-    backgroundColor: '#70cadc',
+    backgroundColor: '#a5d1cc',
     borderRadius: 5,
     width: 100,
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: 25,
+    width: Layout.width / 1.2 ,
   },
   nextButtonDisabled: {
     height: 40,
-    backgroundColor: '#70cadc',
+    backgroundColor: '#a5d1cc',
     borderRadius: 5,
     width: 100,
     alignItems: 'center',
     justifyContent: 'center',
-    opacity: .5,
+    marginTop: 25,
+    alignSelf: 'stretch',
+    width: Layout.width / 1.2 ,
   }
 });
