@@ -12,3 +12,5 @@ export default {
   noticeBackground: tintColor,
   noticeText: '#fff',
 };
+
+// 4c69a5 cool blue

@@ -1,5 +1,6 @@
 import React from 'react';
-import { NavigationActions } from 'react-navigation'
+import { NavigationActions } from 'react-navigation';
+import Layout from '../constants/Layout';
 import merge from 'lodash/merge';
 import {
   Image,
@@ -7,6 +8,7 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  Button,
   TouchableOpacity,
   View,
   TextInput
@@ -15,7 +17,8 @@ import {
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Akira } from 'react-native-textinput-effects';
 import RadioForm from 'react-native-simple-radio-button';
-import DatePicker from 'react-native-datepicker'
+import DatePicker from 'react-native-datepicker';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default class SignupDetails extends React.Component {
   constructor(props) {
@@ -43,41 +46,22 @@ export default class SignupDetails extends React.Component {
   }
 
   render() {
-     const { navigate } = this.props.navigation;
+    const { navigate } = this.props.navigation;
     return (
-      <KeyboardAwareScrollView
-        style={{ backgroundColor: '#4c69a5' }}
-        resetScrollToCoords={{ x: 0, y: 0 }}
-        contentContainerStyle={styles.container}
-        scrollEnabled={false}
-      >
-      
-      <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.goBack()}>
-        <Text>Back</Text>
-      </TouchableOpacity>
+      <View style={styles.outer}>
 
-      <Akira
-        style={styles.input}
-        label={'First name'}
-        autoCapitalize={'none'}
-        autoCorrect={false}
-        value={this.state.first_name}
-        borderColor={'#a5d1cc'}
-        labelStyle={{ color: '#ac83c4' }}
-        inputStyle={{ color: '#ac83c4' }}
-        onChangeText={(first_name) => this.setState({first_name})}
-      />
-      <Akira
-        style={styles.input}
-        label={'Last name'}
-        autoCapitalize={'none'}
-        autoCorrect={false}
-        value={this.state.last_name}
-        borderColor={'#a5d1cc'}
-        labelStyle={{ color: '#ac83c4' }}
-        inputStyle={{ color: '#ac83c4' }}
-        onChangeText={(last_name) => this.setState({last_name})}
-      />
+        <TouchableOpacity style={styles.backButton} onPress={() => this.props.navigation.goBack()}>
+          <Icon name="chevron-left" size={22} style={styles.backText}></Icon>
+            <Text style={styles.backText}>Back</Text>
+          </TouchableOpacity>
+
+        <KeyboardAwareScrollView
+          style={{ backgroundColor: '#563d82' }}
+          resetScrollToCoords={{ x: 0, y: 0 }}
+          contentContainerStyle={styles.container}
+          scrollEnabled={true}
+        >
+
         <RadioForm
           style={styles.radio}
           radio_props={radio_props}
@@ -91,47 +75,96 @@ export default class SignupDetails extends React.Component {
         />
 
         <DatePicker
-          style={{width: 200}}
+          style={{width: Layout.width}}
           mode="date"
+          date={this.state.birthday}
           placeholder="select birthday"
-          format="YYYY-MM-DD"
+          format="MMMM Do YYYY"
           minDate="1900-01-01"
           maxDate="2003-12-31"
           confirmBtnText="Confirm"
+          showIcon={false}
           cancelBtnText="Cancel"
+          onDateChange={(date) => {this.setState({birthday: date})}}
           customStyles={{
             dateIcon: {
               position: 'absolute',
               left: 0,
-              top: 4,
-              marginLeft: 0
+              top: 0,
+              alignSelf: 'center',
             },
             dateInput: {
-              marginLeft: 100
+              alignItems: 'center',
+              alignSelf: 'center',
+              borderColor: '#ac83c4',
             }
-            // ... You can check the source to find the other keys.
           }}
-          onDateChange={(date) => {this.setState({birthday: date})}}
+        />
+
+        <Akira
+          style={styles.input}
+          label={'First name'}
+          autoCapitalize={'none'}
+          autoCorrect={false}
+          value={this.state.first_name}
+          borderColor={'#a5d1cc'}
+          labelStyle={{ color: '#ac83c4' }}
+          inputStyle={{ color: '#ac83c4' }}
+          onChangeText={(first_name) => this.setState({first_name})}
+        />
+        <Akira
+          style={styles.input}
+          label={'Last name'}
+          autoCapitalize={'none'}
+          autoCorrect={false}
+          value={this.state.last_name}
+          borderColor={'#a5d1cc'}
+          labelStyle={{ color: '#ac83c4' }}
+          inputStyle={{ color: '#ac83c4' }}
+          onChangeText={(last_name) => this.setState({last_name})}
         />
 
 
+        <TouchableOpacity style={styles.signUpButton} onPress={this.userSignup}>
+          <Text style={styles.signupText}>Sign up</Text>
+        </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button} onPress={this.userSignup}>
-        <Text>Sign up</Text>
-      </TouchableOpacity>
-
-    </KeyboardAwareScrollView>
+      </KeyboardAwareScrollView>
+    </View>
     );
   }
 
 }
 
 var radio_props = [
-  {label: 'Male', value: 1 },
+  {label: 'Male    ', value: 1 },
   {label: 'Female', value: 2 }
 ];
 
 const styles = StyleSheet.create({
+  outer: {
+    flex: 1,
+    backgroundColor: '#563d82',
+    paddingTop: 30,
+  },
+  buttonContainer: {
+    backgroundColor: '#563d82',
+  },
+  backButton: {
+    width: 85,
+    height: 33,
+    borderRadius: 5,
+    backgroundColor: "#ac83c4",
+    marginLeft: 3,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  backText: {
+    color: '#fff',
+    paddingRight: 5,
+    fontSize: 13,
+  },
   container: {
     flex: 1,
     paddingTop: 200,
@@ -143,15 +176,20 @@ const styles = StyleSheet.create({
   },
   radio: {
     height: 75,
-    marginBottom: 10,
     alignSelf: 'center',
   },
-  button: {
+  signUpButton: {
     height: 40,
-    backgroundColor: '#70cadc',
+    backgroundColor: '#a5d1cc',
     borderRadius: 5,
-    width: 100,
     alignItems: 'center',
     justifyContent: 'center',
+    flexDirection: 'row',
+    marginTop: 15,
+    color: '#fff'
   },
+  signupText: {
+    color: '#fff',
+    fontSize: 15
+  }
 });
