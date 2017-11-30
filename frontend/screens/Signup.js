@@ -3,6 +3,7 @@ import Layout from '../constants/Layout';
 import {
   StyleSheet,
   Text,
+  Image,
   TouchableOpacity,
   View,
   ScrollView,
@@ -12,13 +13,13 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { Akira } from 'react-native-textinput-effects';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
-
 export default class Signup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       email: null,
       password: null,
+      errors: false,
     }
   }
   static navigationOptions = {
@@ -31,7 +32,13 @@ export default class Signup extends React.Component {
   }
 
   handleDisabledNext = () => {
-    this.setState({ email: 'Please enter email address.'})
+    this.setState({ errors: true })
+  }
+
+  errors() {
+    if (this.state.errors) {
+      return <Text style={styles.errors}>Please enter email and password.</Text>
+    }
   }
 
   nextButton() {
@@ -58,6 +65,8 @@ export default class Signup extends React.Component {
         contentContainerStyle={styles.container}
         scrollEnabled={false}
       >
+
+      <View>{this.errors()}</View>
       <Akira
         style={styles.input}
         label={'Email'}
@@ -98,6 +107,12 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 75,
+    marginBottom: 10,
+  },
+  errors : {
+    color: 'red',
+    alignSelf: 'center',
+    marginBottom: 10,
   },
   nextButton: {
     height: 40,

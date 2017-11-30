@@ -16,10 +16,8 @@ export const SignupNavigator = StackNavigator({
     screen: Signup
   },
   SignupDetails: {
-    screen: SignupDetails,
+    screen: SignupDetails
   },
-}, {
-  headerMode: 'none',
 })
 
 export default TabNavigator(

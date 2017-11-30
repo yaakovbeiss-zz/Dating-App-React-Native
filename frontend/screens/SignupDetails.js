@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavigationActions } from 'react-navigation'
 import merge from 'lodash/merge';
 import {
   Image,
@@ -16,7 +17,6 @@ import { Akira } from 'react-native-textinput-effects';
 import RadioForm from 'react-native-simple-radio-button';
 import DatePicker from 'react-native-datepicker'
 
-
 export default class SignupDetails extends React.Component {
   constructor(props) {
     super(props);
@@ -30,6 +30,7 @@ export default class SignupDetails extends React.Component {
     }
   }
   static navigationOptions = {
+    title: 'Sign up',
     header: null,
   };
 
@@ -50,6 +51,11 @@ export default class SignupDetails extends React.Component {
         contentContainerStyle={styles.container}
         scrollEnabled={false}
       >
+      
+      <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.goBack()}>
+        <Text>Back</Text>
+      </TouchableOpacity>
+
       <Akira
         style={styles.input}
         label={'First name'}
@@ -73,6 +79,7 @@ export default class SignupDetails extends React.Component {
         onChangeText={(last_name) => this.setState({last_name})}
       />
         <RadioForm
+          style={styles.radio}
           radio_props={radio_props}
           initial={0}
           formHorizontal={true}
@@ -107,11 +114,9 @@ export default class SignupDetails extends React.Component {
           onDateChange={(date) => {this.setState({birthday: date})}}
         />
 
-      <TouchableOpacity style={styles.signup} onPress={() => navigate('Signup', this.state)}>
-        <Text>Back</Text>
-      </TouchableOpacity>
 
-      <TouchableOpacity style={styles.signup} onPress={this.userSignup}>
+
+      <TouchableOpacity style={styles.button} onPress={this.userSignup}>
         <Text>Sign up</Text>
       </TouchableOpacity>
 
@@ -132,7 +137,16 @@ const styles = StyleSheet.create({
     paddingTop: 200,
     backgroundColor: '#563d82',
   },
-  signup: {
+  input: {
+    height: 75,
+    marginBottom: 10,
+  },
+  radio: {
+    height: 75,
+    marginBottom: 10,
+    alignSelf: 'center',
+  },
+  button: {
     height: 40,
     backgroundColor: '#70cadc',
     borderRadius: 5,
