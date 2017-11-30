@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { Hoshi } from 'react-native-textinput-effects';
+import { Akira } from 'react-native-textinput-effects';
 import RadioForm from 'react-native-simple-radio-button';
 import DatePicker from 'react-native-datepicker'
 
@@ -42,6 +42,7 @@ export default class SignupDetails extends React.Component {
   }
 
   render() {
+     const { navigate } = this.props.navigation;
     return (
       <KeyboardAwareScrollView
         style={{ backgroundColor: '#4c69a5' }}
@@ -49,30 +50,35 @@ export default class SignupDetails extends React.Component {
         contentContainerStyle={styles.container}
         scrollEnabled={false}
       >
-        <Hoshi
-          label={'First Name'}
-          onChangeText={(first_name) => this.setState({first_name})}
-          backgroundColor={'#e01765'}
-          inputStyle={styles.input}
-          labelStyle={styles.input}
-          value={this.state.first_name}
-        />
-        <Hoshi
-          label={'Last Name'}
-          onChangeText={(last_name) => this.setState({last_name})}
-          backgroundColor={'#e01765'}
-          inputStyle={styles.input}
-          labelStyle={styles.input}
-          value={this.state.last_name}
-        />
-
+      <Akira
+        style={styles.input}
+        label={'First name'}
+        autoCapitalize={'none'}
+        autoCorrect={false}
+        value={this.state.first_name}
+        borderColor={'#a5d1cc'}
+        labelStyle={{ color: '#ac83c4' }}
+        inputStyle={{ color: '#ac83c4' }}
+        onChangeText={(first_name) => this.setState({first_name})}
+      />
+      <Akira
+        style={styles.input}
+        label={'Last name'}
+        autoCapitalize={'none'}
+        autoCorrect={false}
+        value={this.state.last_name}
+        borderColor={'#a5d1cc'}
+        labelStyle={{ color: '#ac83c4' }}
+        inputStyle={{ color: '#ac83c4' }}
+        onChangeText={(last_name) => this.setState({last_name})}
+      />
         <RadioForm
           radio_props={radio_props}
           initial={0}
           formHorizontal={true}
           labelHorizontal={true}
-          buttonColor={'#3fb990'}
-          labelColor={'#3fb990'}
+          buttonColor={'#ac83c4'}
+          labelColor={'#ac83c4'}
           animation={true}
           onPress={(value) => {this.setState({ gender: value } )} }
         />
@@ -94,16 +100,20 @@ export default class SignupDetails extends React.Component {
               marginLeft: 0
             },
             dateInput: {
-              marginLeft: 36
+              marginLeft: 100
             }
             // ... You can check the source to find the other keys.
           }}
           onDateChange={(date) => {this.setState({birthday: date})}}
         />
 
-        <TouchableOpacity onPress={this.userSignup}>
-          <Text>Sign up</Text>
-        </TouchableOpacity>
+      <TouchableOpacity style={styles.signup} onPress={() => navigate('Signup', this.state)}>
+        <Text>Back</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.signup} onPress={this.userSignup}>
+        <Text>Sign up</Text>
+      </TouchableOpacity>
 
     </KeyboardAwareScrollView>
     );
@@ -120,6 +130,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 200,
-    backgroundColor: '#e01765',
+    backgroundColor: '#563d82',
+  },
+  signup: {
+    height: 40,
+    backgroundColor: '#70cadc',
+    borderRadius: 5,
+    width: 100,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
