@@ -40,7 +40,7 @@ export default class SignupDetails extends React.Component {
   userSignup = () => {
     if (this.state.gender && this.state.birthday && this.state.first_name && this.state.last_name) {
 
-      const user = {user: this.state};
+      const user = this.state;
       this.props.signup(user);
     }
   }
@@ -80,8 +80,7 @@ export default class SignupDetails extends React.Component {
           date={this.state.birthday}
           placeholder="select birthday"
           format="MMMM Do YYYY"
-          minDate="1900-01-01"
-          maxDate="2003-12-31"
+
           confirmBtnText="Confirm"
           showIcon={false}
           cancelBtnText="Cancel"
@@ -154,7 +153,7 @@ const styles = StyleSheet.create({
     width: 85,
     height: 33,
     borderRadius: 5,
-    backgroundColor: "#ac83c4",
+    backgroundColor: "#563d82",
     marginLeft: 3,
     flexDirection: 'row',
     alignItems: 'center',
@@ -168,7 +167,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 200,
-    backgroundColor: '#563d82',
   },
   input: {
     height: 75,
@@ -186,7 +184,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     marginTop: 15,
-    color: '#fff'
   },
   signupText: {
     color: '#fff',

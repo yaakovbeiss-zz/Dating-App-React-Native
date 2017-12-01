@@ -23,7 +23,7 @@ export const SignupNavigator = StackNavigator({
 export default TabNavigator(
   {
     Home: {
-      screen: SignupNavigator,
+      screen: LinksScreen,
     },
     Links: {
       screen: LinksScreen,

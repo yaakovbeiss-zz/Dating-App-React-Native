@@ -14,14 +14,12 @@ export const receiveErrors = errors => ({
 });
 
 export const signup = user => dispatch => (
-  APIUtil.signup(user).then(function(res) {
-    if (res.ok) {
-      dispatch(receiveCurrentUser(res))
-    } else {
-      dispatch(receiveErrors(res))
-    }
-  }
-))
+  APIUtil.signup(user).then( res => (
+      dispatch(receiveCurrentUser(res.data))
+    ), err => (
+      dispatch(receiveErrors(err.response.data))
+    )
+));
 
 export const login = user => dispatch => (
   APIUtil.login(user).then(user => (

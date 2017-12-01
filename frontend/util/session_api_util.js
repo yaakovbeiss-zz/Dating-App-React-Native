@@ -1,34 +1,10 @@
-export async function signup(user) {
-  try {
-    let response = await fetch('http://192.168.1.172:3000/api/users', {
-      method: 'POST',
-      headers: {
-       'Accept': 'application/json',
-       'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(user)
-    });
+import axios from 'axios';
 
-    let responseJson = await response.json();
-    return responseJson;
-  } catch(error) {
-    return error;
-  }
-}
-
-// export function signup(user) {
-//    return fetch('http://localhost:3000/api/users', {
-//      method: 'POST',
-//      headers: {
-//       'Accept': 'application/json',
-//       'Content-Type': 'application/json',
-//      },
-//      body: JSON.stringify(user)
-//    })
-//     .then(res => res.json())
-//     .catch( err => err.json())
-//  }
-
+export const signup = user => (
+  axios.post('http://192.168.1.172:3000/api/users', {
+    user: user
+  })
+)
 
 export const login = user => (
   $.ajax({
