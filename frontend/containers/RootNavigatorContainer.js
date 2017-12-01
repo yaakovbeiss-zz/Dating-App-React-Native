@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import RootNavigation from '../navigation/RootNavigation';
+import RootNavigator from '../navigation/RootNavigator';
 
 const mapStateToProps = ({ session }) => {
   return {
@@ -12,4 +12,4 @@ const mapStateToProps = ({ session }) => {
 export default connect(
   mapStateToProps,
   null
-)(RootNavigation);
+)(RootNavigator);

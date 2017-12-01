@@ -2,44 +2,12 @@ import React from 'react';
 import { StackNavigator } from 'react-navigation';
 import { Notifications } from 'expo';
 
-import MainTabNavigator from './MainTabNavigator';
+import MainNavigator from './MainNavigator';
 import registerForPushNotificationsAsync from '../api/registerForPushNotificationsAsync';
 
-import Signup from '../screens/Signup';
-import SignupDetails from '../containers/SignupDetailsContainer';
 import * as AuthUtil from '../util/auth_util';
+import SignupNavigator from './SignupNavigator';
 
-const SignupNavigator = StackNavigator(
-  {
-    Signup: {
-      screen: Signup,
-    },
-    SignupDetails: {
-      screen: SignupDetails,
-    }
-  },
-  {
-    navigationOptions: () => ({
-      headerTitleStyle: {
-        fontWeight: 'normal',
-      },
-    }),
-  }
-);
-const RootStackNavigator = StackNavigator(
-  {
-    Main: {
-      screen: MainTabNavigator,
-    }
-  },
-  {
-    navigationOptions: () => ({
-      headerTitleStyle: {
-        fontWeight: 'normal',
-      },
-    }),
-  }
-);
 
 export default class RootNavigator extends React.Component {
   constructor(props) {
@@ -67,7 +35,7 @@ export default class RootNavigator extends React.Component {
       return null;
     }
     if (this.state.signedIn) {
-      return <RootStackNavigator />;
+      return <MainNavigation />;
     } else {
       return <SignupNavigator />
     }
