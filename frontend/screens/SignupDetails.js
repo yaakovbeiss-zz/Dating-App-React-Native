@@ -39,7 +39,6 @@ export default class SignupDetails extends React.Component {
 
   userSignup = () => {
     if (this.state.gender && this.state.birthday && this.state.first_name && this.state.last_name) {
-
       const user = this.state;
       this.props.signup(user);
     }

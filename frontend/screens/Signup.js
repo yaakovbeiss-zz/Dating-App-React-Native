@@ -42,46 +42,47 @@ export default class Signup extends React.Component {
 
   render() {
     return (
-      <KeyboardAwareScrollView
-        style={{ backgroundColor: '#563d82' }}
-        resetScrollToCoords={{ x: 0, y: 0 }}
-        contentContainerStyle={styles.container}
-        scrollEnabled={true}
-      >
+        <KeyboardAwareScrollView
+          style={{ backgroundColor: '#563d82' }}
+          resetScrollToCoords={{ x: 0, y: 0 }}
+          contentContainerStyle={styles.container}
+          scrollEnabled={true}
+        >
 
-      <View>{this.errors()}</View>
+
+        <View>{this.errors()}</View>
+        <Akira
+          style={styles.input}
+          label={'Email'}
+          onFocus={() => this.setState({errors: null})}
+          autoCapitalize={'none'}
+          autoCorrect={false}
+          selectTextOnFocus={true}
+          value={this.state.email}
+          borderColor={'#a5d1cc'}
+          labelStyle={{ color: '#ac83c4' }}
+          inputStyle={{ color: '#ac83c4' }}
+          onChangeText={(email) => this.setState({email})}
+        />
       <Akira
-        style={styles.input}
-        label={'Email'}
-        onFocus={() => this.setState({errors: null})}
-        autoCapitalize={'none'}
-        autoCorrect={false}
-        selectTextOnFocus={true}
-        value={this.state.email}
-        borderColor={'#a5d1cc'}
-        labelStyle={{ color: '#ac83c4' }}
-        inputStyle={{ color: '#ac83c4' }}
-        onChangeText={(email) => this.setState({email})}
-      />
-    <Akira
-        style={styles.input}
-        label={'Password'}
-        onFocus={() => this.setState({errors: null})}
-        secureTextEntry={true}
-        selectTextOnFocus={true}
-        value={this.state.password}
-        autoCapitalize={'none'}
-        autoCorrect={false}
-        borderColor={'#a5d1cc'}
-        labelStyle={{ color: '#ac83c4' }}
-        inputStyle={{ color: '#ac83c4' }}
-        onChangeText={(password) => this.setState({password})}
-      />
-    <TouchableOpacity style={styles.nextButton} onPress={this.handleNextButtonPress}>
-        <Text style={styles.nextText}>Next</Text>
-        <Icon name="chevron-right" size={22} style={styles.nextIcon}></Icon>
-      </TouchableOpacity>
-    </KeyboardAwareScrollView>
+          style={styles.input}
+          label={'Password'}
+          onFocus={() => this.setState({errors: null})}
+          secureTextEntry={true}
+          selectTextOnFocus={true}
+          value={this.state.password}
+          autoCapitalize={'none'}
+          autoCorrect={false}
+          borderColor={'#a5d1cc'}
+          labelStyle={{ color: '#ac83c4' }}
+          inputStyle={{ color: '#ac83c4' }}
+          onChangeText={(password) => this.setState({password})}
+        />
+      <TouchableOpacity style={styles.nextButton} onPress={this.handleNextButtonPress}>
+          <Text style={styles.nextText}>Next</Text>
+          <Icon name="chevron-right" size={22} style={styles.nextIcon}></Icon>
+        </TouchableOpacity>
+      </KeyboardAwareScrollView>
     );
   }
 }

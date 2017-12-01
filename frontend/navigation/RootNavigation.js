@@ -1,16 +1,33 @@
-import { Notifications } from 'expo';
 import React from 'react';
 import { StackNavigator } from 'react-navigation';
+import { Notifications } from 'expo';
 
 import MainTabNavigator from './MainTabNavigator';
-import { SignupNavigator } from './MainTabNavigator';
 import registerForPushNotificationsAsync from '../api/registerForPushNotificationsAsync';
 
-const RootStackNavigator = StackNavigator(
+import Signup from '../screens/Signup';
+import SignupDetails from '../containers/SignupDetailsContainer';
+import * as AuthUtil from '../util/auth_util';
+
+const SignupNavigator = StackNavigator(
   {
     Signup: {
-      screen: SignupNavigator,
+      screen: Signup,
     },
+    SignupDetails: {
+      screen: SignupDetails,
+    }
+  },
+  {
+    navigationOptions: () => ({
+      headerTitleStyle: {
+        fontWeight: 'normal',
+      },
+    }),
+  }
+);
+const RootStackNavigator = StackNavigator(
+  {
     Main: {
       screen: MainTabNavigator,
     }
@@ -25,6 +42,18 @@ const RootStackNavigator = StackNavigator(
 );
 
 export default class RootNavigator extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      signedIn: false,
+      checkSignIn: false,
+    }
+  }
+
+  componentWillMount() {
+    AuthUtil.verifyUser().then(res => this.setState({signedIn: res, checkSignIn: true}))
+  }
+
   componentDidMount() {
     this._notificationSubscription = this._registerForPushNotifications();
   }
@@ -34,7 +63,14 @@ export default class RootNavigator extends React.Component {
   }
 
   render() {
-    return <RootStackNavigator />;
+    if (this.state.checkedSignIn === false) {
+      return null;
+    }
+    if (this.state.signedIn) {
+      return <RootStackNavigator />;
+    } else {
+      return <SignupNavigator />
+    }
   }
 
   _registerForPushNotifications() {
