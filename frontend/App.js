@@ -5,15 +5,19 @@ import { Ionicons } from '@expo/vector-icons';
 import RootNavigator from './containers/RootNavigatorContainer';
 import { Provider } from 'react-redux';
 import configureStore from './store/store';
+import { PersistGate } from 'redux-persist/es/integration/react'
 
-let store;
-
-store = configureStore();
+const { persistor, store } = configureStore()
 
 export default class App extends React.Component {
-  state = {
-    isLoadingComplete: false,
-  };
+  constructor(props){
+    super(props);
+    this.state = {
+      storeLoaded: false,
+      isLoadingComplete: false,
+    };
+  }
+
 
   render() {
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
@@ -27,11 +31,14 @@ export default class App extends React.Component {
     } else {
       return (
         <Provider store={store}>
-          <View style={styles.container}>
-            {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-            {Platform.OS === 'android' && <View style={styles.statusBarUnderlay} />}
-            <RootNavigator />
-          </View>
+          <PersistGate
+            persistor={persistor}>
+            <View style={styles.container}>
+              {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+              {Platform.OS === 'android' && <View style={styles.statusBarUnderlay} />}
+              <RootNavigator />
+            </View>
+          </PersistGate>
         </Provider>
       );
     }

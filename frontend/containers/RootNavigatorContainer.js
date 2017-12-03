@@ -4,7 +4,8 @@ import RootNavigator from '../navigation/RootNavigator';
 
 const mapStateToProps = ({ session }) => {
   return {
-    loggedIn: Boolean(session.currentUser),
+    signedIn: Boolean(session.currentUser),
+    session: session,
   }
 };
 

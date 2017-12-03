@@ -26,17 +26,39 @@ export default class Signup extends React.Component {
     header: null,
   };
 
+  componentWillReceiveProps() {
+    this.invalidCredentialsError();
+  }
+
   errors() {
     if (this.state.errors) {
-      return <Text style={styles.errors}>Please enter email and password.</Text>
+      return <Text style={styles.errors}>{this.state.errors}</Text>
     }
   }
 
-  handleNextButtonPress = () => {
-    if (this.state.password && this.state.email ) {
-      this.props.navigation.navigate('SignupDetails', this.state)
+  invalidCredentialsError() {
+    if (this.props.errors && this.props.errors[0]) {
+      this.setState({ errors: this.props.errors[0]})
+    }
+  }
+
+  checkInput() {
+    if (this.state.password && this.state.email) {
+      return true;
     } else {
-      this.setState({ errors: true })
+      this.setState({ errors: 'Please enter email and password.' })
+    }
+  }
+
+  handleSignin = () => {
+    if (this.checkInput()) {
+      this.props.signin(this.state)
+    }
+  }
+
+  handleSignup = () => {
+    if (this.checkInput()) {
+      this.props.navigation.navigate('SignupDetails', this.state)
     }
   }
 
@@ -48,7 +70,6 @@ export default class Signup extends React.Component {
           contentContainerStyle={styles.container}
           scrollEnabled={true}
         >
-
 
         <View>{this.errors()}</View>
         <Akira
@@ -78,10 +99,16 @@ export default class Signup extends React.Component {
           inputStyle={{ color: '#ac83c4' }}
           onChangeText={(password) => this.setState({password})}
         />
-      <TouchableOpacity style={styles.nextButton} onPress={this.handleNextButtonPress}>
-          <Text style={styles.nextText}>Next</Text>
-          <Icon name="chevron-right" size={22} style={styles.nextIcon}></Icon>
-        </TouchableOpacity>
+      <View style={styles.buttonsContainer}>
+        <TouchableOpacity style={styles.nextButton} onPress={this.handleSignin}>
+            <Text style={styles.nextText}>Sign in</Text>
+          </TouchableOpacity>
+
+        <TouchableOpacity style={styles.nextButton} onPress={this.handleSignup}>
+            <Text style={styles.nextText}>Sign up</Text>
+            <Icon name="chevron-right" size={22} style={styles.nextIcon}></Icon>
+          </TouchableOpacity>
+        </View>
       </KeyboardAwareScrollView>
     );
   }
@@ -103,6 +130,10 @@ const styles = StyleSheet.create({
     color: 'red',
     alignSelf: 'center',
     marginBottom: 10,
+  },
+  buttonsContainer: {
+    flex: 1,
+    flexDirection: 'row',
   },
   nextButton: {
     height: 40,

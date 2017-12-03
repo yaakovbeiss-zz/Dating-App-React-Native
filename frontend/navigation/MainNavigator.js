@@ -9,6 +9,9 @@ const DrawersNavigator = StackNavigator(
   {
     LeftDrawerNavigator: {
       screen: LeftDrawerNavigator,
+      navigationOptions: () => ({
+        header: null,
+      }),
   },
     RightDrawerNavigator: {
       screen: RightDrawerNavigator,
@@ -19,6 +22,9 @@ export default MainNavigator =  StackNavigator(
   {
     Main: {
       screen: DrawersNavigator,
+      navigationOptions: () => ({
+        header: null,
+      })
     }
   }
-);
+)

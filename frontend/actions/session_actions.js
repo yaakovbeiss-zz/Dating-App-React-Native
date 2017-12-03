@@ -20,20 +20,21 @@ export const signup = user => dispatch => (
     ), err => (
       dispatch(receiveErrors(err.response.data))
     )
-  ).then( user => AuthUtil.persistUser(user.currentUser.session_token) )
+  )
 );
 
-export const login = user => dispatch => (
-  APIUtil.login(user).then(user => (
-    dispatch(receiveCurrentUser(user))
-  ), err => (
-    dispatch(receiveErrors(err.responseJSON))
-  ))
+export const signin = user => dispatch => (
+  APIUtil.signin(user).then(res => (
+     dispatch(receiveCurrentUser(res.data))
+   ), err => (
+     dispatch(receiveErrors(err.response.data))
+   )
+ )
 );
 
 
-export const logout = () => dispatch => (
-  APIUtil.logout().then(user => (
+export const signout = () => dispatch => (
+  APIUtil.signout().then( user => (
     dispatch(receiveCurrentUser(null))
   ))
 );

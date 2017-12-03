@@ -12,14 +12,6 @@ import SignupNavigator from './SignupNavigator';
 export default class RootNavigator extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      signedIn: false,
-      checkSignIn: false,
-    }
-  }
-
-  componentWillMount() {
-    AuthUtil.verifyUser().then(res => this.setState({signedIn: res, checkSignIn: true}))
   }
 
   componentDidMount() {
@@ -31,11 +23,8 @@ export default class RootNavigator extends React.Component {
   }
 
   render() {
-    if (this.state.checkedSignIn === false) {
-      return null;
-    }
-    if (this.state.signedIn) {
-      return <MainNavigation />;
+    if (this.props.signedIn) {
+      return <MainNavigator />;
     } else {
       return <SignupNavigator />
     }

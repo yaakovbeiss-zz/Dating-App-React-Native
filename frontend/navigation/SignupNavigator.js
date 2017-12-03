@@ -1,7 +1,7 @@
 import React from 'react';
 import { StackNavigator } from 'react-navigation';
 
-import Signup from '../screens/Signup';
+import Signup from '../containers/SignupContainer';
 import SignupDetails from '../containers/SignupDetailsContainer';
 
 export default SignupNavigator = StackNavigator(
