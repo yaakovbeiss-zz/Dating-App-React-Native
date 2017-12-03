@@ -9,7 +9,7 @@ import {
   View,
   TextInput
 } from 'react-native';
-import { ExpoLinksView } from '@expo/samples';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default class UserSettings extends React.Component {
   constructor(props) {
@@ -22,16 +22,12 @@ export default class UserSettings extends React.Component {
     }
   }
   static navigationOptions = {
-    title: 'Links',
-    header: null
+    title: 'Settings',
   };
 
-  componentDidMount() {
-    if(this.props.userSettings.userSettings.id) {
-      this.props.updateUserSettings(this.state);
-    } else {
-      this.props.createUserSettings(this.state);
-    }
+  saveSettings = () => {
+    this.props.createUserSettings(this.state);
+    this.props.navigation.navigate('UserProfile');
   }
 
   render() {
@@ -57,6 +53,11 @@ export default class UserSettings extends React.Component {
           value={this.state.suggestable}
           onValueChange={ () => {this.setState({suggestable: !this.state.suggestable}) } }/>
 
+        <TouchableOpacity style={styles.nextButton} onPress={this.saveSettings}>
+              <Text style={styles.nextText}>Next</Text>
+              <Icon name="chevron-right" size={22} style={styles.nextIcon}></Icon>
+          </TouchableOpacity>
+
       </ScrollView>
     );
   }
@@ -68,4 +69,20 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     backgroundColor: '#fff',
   },
+  nextIcon: {
+    color: '#fff',
+    paddingLeft: 5,
+  },nextButton: {
+    height: 40,
+    backgroundColor: '#a5d1cc',
+    borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    marginTop: 15,
+  },
+  nextText: {
+    fontSize: 15,
+    color: '#fff'
+  }
 });

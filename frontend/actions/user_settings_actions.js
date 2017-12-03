@@ -4,7 +4,7 @@ export const RECEIVE_USER_SETTINGS = 'RECEIVE_USER_SETTINGS';
 export const RECEIVE_ERRORS = 'RECEIVE_ERRORS';
 
 export const receiveUserSettings = userSettings => ({
-  type: RECEIVE_CURRENT_USER,
+  type: RECEIVE_USER_SETTINGS,
   userSettings
 });
 
