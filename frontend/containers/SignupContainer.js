@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
-
 import { signin } from '../actions/session_actions';
-import { persistUser } from '../util/auth_util';
+
 
 import Signup from '../screens/Signup';
 

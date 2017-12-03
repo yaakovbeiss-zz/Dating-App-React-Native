@@ -3,9 +3,9 @@ import { StackNavigator } from 'react-navigation';
 import { Notifications } from 'expo';
 
 import MainNavigator from './MainNavigator';
+import SetupNavigator from './SetupNavigator';
 import registerForPushNotificationsAsync from '../api/registerForPushNotificationsAsync';
 
-import * as AuthUtil from '../util/auth_util';
 import SignupNavigator from './SignupNavigator';
 
 
@@ -23,8 +23,10 @@ export default class RootNavigator extends React.Component {
   }
 
   render() {
-    if (this.props.signedIn) {
+    if (this.props.signedIn && this.props.currentUser.user_settings) {
       return <MainNavigator />;
+    } else if (this.props.signedIn) {
+      return <SetupNavigator />
     } else {
       return <SignupNavigator />
     }
