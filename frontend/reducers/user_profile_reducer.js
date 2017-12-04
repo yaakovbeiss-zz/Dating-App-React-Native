@@ -1,27 +1,27 @@
 import merge from 'lodash/merge';
 
 import {
-  RECEIVE_USER_SETTINGS,
-  RECEIVE_SETTINGS_ERRORS
-} from '../actions/user_settings_actions';
+  RECEIVE_USER_PROFILE,
+  RECEIVE_PROFILE_ERRORS
+} from '../actions/user_profile_actions';
 
 const defaultState = Object.freeze({
-  userSettings: {},
+  userProfile: {},
   errors: []
 });
 
-const UserSettingsReducer = (state = defaultState, action) => {
+const UserProfileReducer = (state = defaultState, action) => {
   Object.freeze(state)
   switch(action.type) {
 
-    case RECEIVE_USER_SETTINGS:
-      const userSettings = action.userSettings;
+    case RECEIVE_USER_PROFILE:
+      const userProfile = action.userProfile;
       return merge({}, state, {
-        userSettings
+        userProfile
       });
       break;
 
-    case RECEIVE_SETTINGS_ERRORS:
+    case RECEIVE_PROFILE_ERRORS:
       const errors = action.errors;
       return merge({}, state, {
         errors
@@ -32,4 +32,4 @@ const UserSettingsReducer = (state = defaultState, action) => {
   }
 };
 
-export default UserSettingsReducer;
+export default UserProfileReducer;
