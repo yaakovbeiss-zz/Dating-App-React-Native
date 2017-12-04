@@ -72,7 +72,8 @@ const styles = StyleSheet.create({
   nextIcon: {
     color: '#fff',
     paddingLeft: 5,
-  },nextButton: {
+  },
+  nextButton: {
     height: 40,
     backgroundColor: '#a5d1cc',
     borderRadius: 5,

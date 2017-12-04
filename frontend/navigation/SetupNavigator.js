@@ -2,7 +2,7 @@ import React from 'react';
 import { StackNavigator } from 'react-navigation';
 
 import UserSettings from '../containers/UserSettingsContainer';
-import UserProfile from '../screens/UserProfile';
+import UserProfile from '../containers/UserProfileContainer';
 
 export default SetupNavigator = StackNavigator(
   {

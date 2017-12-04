@@ -3,7 +3,7 @@ import { DrawerNavigator } from 'react-navigation';
 
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../containers/SettingsScreenContainer';
-import UserProfile from '../screens/UserProfile';
+import UserProfile from '../containers/UserProfileContainer';
 
 export default LeftDrawerNavigator = DrawerNavigator({
   LinksScreen: {
