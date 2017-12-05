@@ -21,6 +21,7 @@ export const requestUserSettings = (id) => dispatch => (
     )
   )
 );
+
 export const createUserSettings = userSettings => dispatch => (
   APIUtil.createUserSettings(userSettings).then( res => (
       dispatch(receiveUserSettings(res.data))
@@ -32,9 +33,9 @@ export const createUserSettings = userSettings => dispatch => (
 
 export const updateUserSettings = userSettings => dispatch => (
   APIUtil.updateUserSettings(userSettings).then(res => (
-     dispatch(receiveUserSettings(res.data))
-   ), err => (
-     dispatch(receiveSettingsErrors(err.response.data))
-   )
- )
+      dispatch(receiveUserSettings(res.data))
+    ), err => (
+      dispatch(receiveSettingsErrors(err.response.data))
+    )
+  )
 );

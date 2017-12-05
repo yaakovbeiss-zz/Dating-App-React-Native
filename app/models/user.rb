@@ -32,6 +32,12 @@ class User < ApplicationRecord
     self.session_token
   end
 
+  def age
+    dob = self.birthday
+    now = Time.now.utc.to_date
+    now.year - dob.year - ((now.month > dob.month || (now.month == dob.month && now.day >= dob.day)) ? 0 : 1)
+  end
+
   private
 
   def ensure_session_token

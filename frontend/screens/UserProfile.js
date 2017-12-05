@@ -31,7 +31,6 @@ export default class UserProfile extends React.Component {
 
   static navigationOptions = {
     title: 'Create Profile',
-    header: null,
   };
 
   _pickImage = async () => {
@@ -51,46 +50,73 @@ export default class UserProfile extends React.Component {
     return () => this.setState({ [field]: !this.state[field] })
   }
 
+  imageOrAddImage() {
+    if (this.state.image) {
+      return <Image source={{ uri: this.state.image }} style={styles.profileImage} />
+    } else {
+      return (
+        <Text>Add pic
+          <Ionicons name="ios-add" size={32} color="green" />
+        </Text>
+      )
+    }
+  }
+
+  gender() {
+    return this.props.currentUser.gender === 1 ? 'Male' : 'Female'
+  }
+
+  addInputIcon = (field) => {
+    if(this.state[field]) {
+      return <Ionicons name="ios-close" size={32} color="green" />
+    } else {
+      return <Ionicons name="ios-add" size={32} color="green" />
+    }
+  }
+
   input = (field) => {
       if (this.state[field]) {
         const textField = field.split('Open')[0]
         return <TextInput style={styles.textInput}
-          onChangeText={ (e) => this.setState({ [textField]: e.currentTarget.value })}>
+          onChangeText={ (field) => this.setState({ [textField]: field })}>
         </TextInput>
       }
   }
 
   render() {
-    let { image } = this.state;
-    console.log(this.state.education)
-    console.log(this.state.work)
-    console.log(this.state.bio)
     return (
       <ScrollView style={styles.container}>
 
-        <View style={styles.profileImageContainer}>
-          {image &&
-            <Image source={{ uri: image }} style={styles.profileImage} />}
+        <View style={styles.topContainer}>
+          <TouchableOpacity onPress={this._pickImage}>
+          <View style={styles.profileImageContainer}>
+            {this.imageOrAddImage()}
+
+          </View>
+          </TouchableOpacity>
+          <Text style={styles.name}>{this.props.currentUser.first_name} {this.props.currentUser.last_name},</Text>
+          <Text>{this.props.currentUser.age}</Text>
+          <Text>{this.gender()}</Text>
         </View>
-        <Button
-          title="Pick an image from camera roll"
-          onPress={this._pickImage}
-        />
 
-      <TouchableOpacity onPress={this._handlePress('bioOpen')}><Text>Add Bio</Text>
-        <Ionicons name="ios-add" size={32} color="green" />
-      </TouchableOpacity>
-      {this.input('bioOpen')}
+        <View style={styles.infoContainer}>
 
-      <TouchableOpacity onPress={this._handlePress('workOpen')}><Text>Add Work</Text>
-        <Ionicons name="ios-add" size={32} color="green" />
-      </TouchableOpacity>
-      {this.input('workOpen')}
+        <TouchableOpacity onPress={this._handlePress('bioOpen')}><Text>Add Bio
+        {this.addInputIcon('bioOpen')}</Text>
+        </TouchableOpacity>
+        {this.input('bioOpen')}
 
-      <TouchableOpacity onPress={this._handlePress('educationOpen')}><Text>Add Education</Text>
-        <Ionicons name="ios-add" size={32} color="green" />
-      </TouchableOpacity>
-      {this.input('educationOpen')}
+        <TouchableOpacity onPress={this._handlePress('workOpen')}><Text>Add Work
+        {this.addInputIcon('workOpen')}</Text>
+        </TouchableOpacity>
+        {this.input('workOpen')}
+
+        <TouchableOpacity onPress={this._handlePress('educationOpen')}><Text>Add Education
+        {this.addInputIcon('educationOpen')}</Text>
+        </TouchableOpacity>
+        {this.input('educationOpen')}
+
+      </View>
 
     </ScrollView>
     );
@@ -107,17 +133,33 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 20,
-    backgroundColor: '#fff'
+    borderColor: '#bbb',
+    borderWidth: 1,
+    borderStyle: 'dashed'
+  },
+  topContainer: {
+    flex: 1,
+    flexDirection: 'row',
   },
   profileImage: {
     width: 100,
     height: 100,
     borderRadius: 20,
   },
+  name: {
+    fontSize: 30,
+  },
+  infoContainer: {
+    marginTop: 40,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 10,
+  },
   textInput: {
     borderColor: 'grey',
     borderWidth: 1,
-    height: 20,
-    width: 200,
+    height: 60,
+    width: 300,
   }
 });

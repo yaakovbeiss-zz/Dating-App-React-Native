@@ -15,9 +15,9 @@ class Api::UserSettingsController < ApplicationController
   end
 
   def update
-    if current_user.update(user_settings_params)
-      @user_settings = current_user.user_settings
-      render :show
+    user_settings = UserSettings.find(params[:id])
+    if user_settings.update(user_settings_params)
+      render "api/users/show"
     else
       render json: @user_settings.errors.full_messages, status: 422
     end
@@ -26,6 +26,6 @@ class Api::UserSettingsController < ApplicationController
   private
 
   def user_settings_params
-    params.require(:user_settings).permit(:user_id, :discoverable, :messageable, :suggestable)
+    params.require(:user_settings).permit(:id, :user_id, :discoverable, :messageable, :suggestable)
   end
 end
