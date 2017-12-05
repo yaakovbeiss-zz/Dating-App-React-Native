@@ -54,9 +54,9 @@ export default class UserSettings extends React.Component {
           onValueChange={ () => {this.setState({suggestable: !this.state.suggestable}) } }/>
 
         <TouchableOpacity style={styles.nextButton} onPress={this.saveSettings}>
-              <Text style={styles.nextText}>Next</Text>
-              <Icon name="chevron-right" size={22} style={styles.nextIcon}></Icon>
-          </TouchableOpacity>
+          <Text style={styles.nextText}>Next</Text>
+          <Icon name="chevron-right" size={22} style={styles.nextIcon}></Icon>
+        </TouchableOpacity>
 
       </ScrollView>
     );

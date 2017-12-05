@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   ScrollView,
-  Switch,
   StyleSheet,
   Text,
   Image,
@@ -11,6 +10,7 @@ import {
   TextInput
 } from 'react-native';
 import { ImagePicker } from 'expo';
+import { Ionicons } from '@expo/vector-icons';
 
 export default class UserProfile extends React.Component {
   constructor(props) {
@@ -23,6 +23,9 @@ export default class UserProfile extends React.Component {
       bio: null,
       work: null,
       education: null,
+      bioOpen: false,
+      workOpen: false,
+      educationOpen: false,
     };
   }
 
@@ -44,11 +47,27 @@ export default class UserProfile extends React.Component {
     }
   };
 
+  _handlePress = (field) => {
+    return () => this.setState({ [field]: !this.state[field] })
+  }
+
+  input = (field) => {
+      if (this.state[field]) {
+        const textField = field.split('Open')[0]
+        return <TextInput style={styles.textInput}
+          onChangeText={ (e) => this.setState({ [textField]: e.currentTarget.value })}>
+        </TextInput>
+      }
+  }
+
   render() {
     let { image } = this.state;
-    
+    console.log(this.state.education)
+    console.log(this.state.work)
+    console.log(this.state.bio)
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <ScrollView style={styles.container}>
+
         <View style={styles.profileImageContainer}>
           {image &&
             <Image source={{ uri: image }} style={styles.profileImage} />}
@@ -58,7 +77,22 @@ export default class UserProfile extends React.Component {
           onPress={this._pickImage}
         />
 
-      </View>
+      <TouchableOpacity onPress={this._handlePress('bioOpen')}><Text>Add Bio</Text>
+        <Ionicons name="ios-add" size={32} color="green" />
+      </TouchableOpacity>
+      {this.input('bioOpen')}
+
+      <TouchableOpacity onPress={this._handlePress('workOpen')}><Text>Add Work</Text>
+        <Ionicons name="ios-add" size={32} color="green" />
+      </TouchableOpacity>
+      {this.input('workOpen')}
+
+      <TouchableOpacity onPress={this._handlePress('educationOpen')}><Text>Add Education</Text>
+        <Ionicons name="ios-add" size={32} color="green" />
+      </TouchableOpacity>
+      {this.input('educationOpen')}
+
+    </ScrollView>
     );
   }
 }
@@ -80,4 +114,10 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 20,
   },
+  textInput: {
+    borderColor: 'grey',
+    borderWidth: 1,
+    height: 20,
+    width: 200,
+  }
 });
