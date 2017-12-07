@@ -1,9 +1,10 @@
 import React from 'react';
-import { DrawerNavigator } from 'react-navigation';
+import { DrawerNavigator, StackNavigator } from 'react-navigation';
 
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../containers/SettingsScreenContainer';
 import UserProfile from '../containers/UserProfileContainer';
+import RightDrawerNavigator from './RightDrawerNavigator'
 
 export default LeftDrawerNavigator = DrawerNavigator({
   LinksScreen: {
@@ -15,4 +16,7 @@ export default LeftDrawerNavigator = DrawerNavigator({
   SettingsScreen: {
     screen: SettingsScreen
   }
+},
+{
+  drawerBackgroundColor: '#a5d1cc',
 })
