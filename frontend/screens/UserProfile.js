@@ -68,7 +68,7 @@ export default class UserProfile extends React.Component {
       formData.append("profile_image[image]", { uri: localUri, name: filename, type });
       formData.append("profile_image[user_profile_id]", id);
       this.props.createProfileImage(formData);
-    })
+    }).then( () => this.props.requestUser(this.state.user_id))
   }
 
   imageOrAddImage() {

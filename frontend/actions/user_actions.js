@@ -14,9 +14,9 @@ export const receiveSessionErrors = errors => ({
 });
 
 
-export const requestUser = (id) => dispatch => (
+export const requestUser = id => dispatch => (
   APIUtil.fetchUser(id).then( res => (
-      dispatch(receiveUser(res.data))
+      dispatch(receiveCurrentUser(res.data))
     ), err => (
       dispatch(receiveSessionErrors(err.response.data))
     )

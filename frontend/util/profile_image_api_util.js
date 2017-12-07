@@ -23,8 +23,7 @@ export const createProfileImage = profileImage => (
       "Content-Type": "multipart/form-data"
     },
     body: profileImage,
-  })
-
+  }).then( response => response.json())
 )
 
 export const deleteProfileImage = (profileImage) => (
