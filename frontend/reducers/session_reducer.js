@@ -1,4 +1,5 @@
 import merge from 'lodash/merge';
+import axios from 'axios';
 
 import {
   RECEIVE_CURRENT_USER,
@@ -16,6 +17,10 @@ const SessionReducer = (state = nullUser, action) => {
 
     case RECEIVE_CURRENT_USER:
       const currentUser = action.currentUser;
+
+      const token = currentUser ? currentUser.session_token : null
+      axios.defaults.headers.common['AUTH_TOKEN'] = token;
+
       return merge({}, state, {
         currentUser
       });

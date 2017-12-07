@@ -11,12 +11,14 @@ import {
 } from 'react-native';
 import { ImagePicker } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
+import { facebookLogIn } from '../util/facebook_api_util';
 
 export default class UserProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       image: null,
+      imageUrl: null,
       user_id: this.props.currentUser.id,
       lat: null,
       lng: null,
@@ -42,7 +44,7 @@ export default class UserProfile extends React.Component {
     console.log(result);
 
     if (!result.cancelled) {
-      this.setState({ image: result.uri });
+      this.setState({ imageUrl: result.uri, image: result });
     }
   };
 
@@ -50,14 +52,34 @@ export default class UserProfile extends React.Component {
     return () => this.setState({ [field]: !this.state[field] })
   }
 
+  createProfile = () => {
+    const { user_id, lat, lng, bio, work, education } = this.state;
+    const user_profile = { user_id, lat, lng, bio, education }
+    this.props.createUserProfile(user_profile).then( user_profile => {
+      const id = user_profile.userProfile.id
+      let formData = new FormData();
+
+      let localUri = this.state.imageUrl;
+      let filename = localUri.split('/').pop();
+
+      let match = /\.(\w+)$/.exec(filename);
+      let type = match ? `image/${match[1]}` : `image`;
+
+      formData.append("profile_image[image]", { uri: localUri, name: filename, type });
+      formData.append("profile_image[user_profile_id]", id);
+      this.props.createProfileImage(formData);
+    })
+  }
+
   imageOrAddImage() {
     if (this.state.image) {
-      return <Image source={{ uri: this.state.image }} style={styles.profileImage} />
+      return <Image source={{ uri: this.state.imageUrl }} style={styles.profileImage} />
     } else {
       return (
-        <Text>Add pic
+        <View style={styles.addButton}>
+          <Text>Add pic </Text>
           <Ionicons name="ios-add" size={32} color="green" />
-        </Text>
+        </View>
       )
     }
   }
@@ -88,12 +110,13 @@ export default class UserProfile extends React.Component {
       <ScrollView style={styles.container}>
 
         <View style={styles.topContainer}>
-          <TouchableOpacity onPress={this._pickImage}>
-          <View style={styles.profileImageContainer}>
-            {this.imageOrAddImage()}
 
-          </View>
+          <TouchableOpacity onPress={this._pickImage}>
+            <View style={styles.profileImageContainer}>
+              {this.imageOrAddImage()}
+            </View>
           </TouchableOpacity>
+
           <Text style={styles.name}>{this.props.currentUser.first_name} {this.props.currentUser.last_name},</Text>
           <Text>{this.props.currentUser.age}</Text>
           <Text>{this.gender()}</Text>
@@ -101,22 +124,38 @@ export default class UserProfile extends React.Component {
 
         <View style={styles.infoContainer}>
 
-        <TouchableOpacity onPress={this._handlePress('bioOpen')}><Text>Add Bio
-        {this.addInputIcon('bioOpen')}</Text>
+        <TouchableOpacity onPress={this._handlePress('bioOpen')}>
+          <View style={styles.addButton}>
+            <Text>Add Bio </Text>
+            {this.addInputIcon('bioOpen')}
+          </View>
         </TouchableOpacity>
+
         {this.input('bioOpen')}
 
-        <TouchableOpacity onPress={this._handlePress('workOpen')}><Text>Add Work
-        {this.addInputIcon('workOpen')}</Text>
-        </TouchableOpacity>
+          <TouchableOpacity onPress={this._handlePress('workOpen')}>
+            <View style={styles.addButton}>
+                <Text>Add Work </Text>
+                {this.addInputIcon('workOpen')}
+            </View>
+          </TouchableOpacity>
+
         {this.input('workOpen')}
 
-        <TouchableOpacity onPress={this._handlePress('educationOpen')}><Text>Add Education
-        {this.addInputIcon('educationOpen')}</Text>
+        <TouchableOpacity onPress={this._handlePress('educationOpen')}>
+          <View style={styles.addButton}>
+            <Text>Add Education </Text>
+            {this.addInputIcon('educationOpen')}
+          </View>
         </TouchableOpacity>
+
         {this.input('educationOpen')}
 
       </View>
+
+      <TouchableOpacity onPress={this.createProfile}>
+        <Text>Create Profile</Text>
+      </TouchableOpacity>
 
     </ScrollView>
     );
@@ -135,7 +174,10 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderColor: '#bbb',
     borderWidth: 1,
-    borderStyle: 'dashed'
+    borderStyle: 'dashed',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   topContainer: {
     flex: 1,
@@ -156,10 +198,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginRight: 10,
   },
+  addButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   textInput: {
     borderColor: 'grey',
+    borderRadius: 5,
     borderWidth: 1,
-    height: 60,
-    width: 300,
+    height: 100,
+    width: 350,
   }
 });

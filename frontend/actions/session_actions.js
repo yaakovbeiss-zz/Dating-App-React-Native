@@ -38,5 +38,5 @@ export const signout = () => dispatch => (
   ), err => (
     dispatch(receiveSessionErrors(err.response.data))
   )
-)
+ )
 );

@@ -36,6 +36,12 @@ gem 'pry-rails'
 
 gem 'devise'
 
+gem 'figaro'
+
+gem 'aws-sdk', '< 3.0'
+
+gem "paperclip", '~> 5.0.0'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

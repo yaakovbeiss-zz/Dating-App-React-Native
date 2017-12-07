@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     resources :users, only: [:create, :show, :update]
     resources :user_settings, only: [:create, :update, :show]
     resources :user_profiles, only: [:create, :update, :show]
+    resources :profile_images, only: [:create, :destroy, :index, :show]
   end
 
 end

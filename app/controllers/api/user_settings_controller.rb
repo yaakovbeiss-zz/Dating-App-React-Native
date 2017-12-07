@@ -17,9 +17,10 @@ class Api::UserSettingsController < ApplicationController
   def update
     user_settings = UserSettings.find(params[:id])
     if user_settings.update(user_settings_params)
+      @user = current_user
       render "api/users/show"
     else
-      render json: @user_settings.errors.full_messages, status: 422
+      render json: user_settings.errors.full_messages, status: 422
     end
   end
 

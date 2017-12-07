@@ -4,7 +4,7 @@ import RootNavigator from '../navigation/RootNavigator';
 
 const mapStateToProps = ({ session, userSettings, userProfile }) => ({
     signedIn: Boolean(session.currentUser),
-    setup: Boolean(userSettings.userSettings.id && userProfile.userProfile.id),
+    setup: Boolean(userSettings.settings && userProfile.userProfile.id),
 });
 
 
