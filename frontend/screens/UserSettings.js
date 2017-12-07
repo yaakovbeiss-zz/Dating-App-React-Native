@@ -33,6 +33,7 @@ export default class UserSettings extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (!isEqual(prevState, this.state) ) {
+      console.log(this.state)
       this.props.updateUserSettings(this.state);
     }
   }

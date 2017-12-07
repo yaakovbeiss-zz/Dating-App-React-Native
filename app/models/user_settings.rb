@@ -1,6 +1,7 @@
 class UserSettings < ApplicationRecord
 
-  validates :discoverable, :suggestable, :messageable, presence: true
+  validates_inclusion_of :discoverable, :suggestable, :messageable, in: [true, false]
+
   validates :user_id, uniqueness: true
 
   belongs_to :user

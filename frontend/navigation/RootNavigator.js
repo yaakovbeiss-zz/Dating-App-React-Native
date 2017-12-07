@@ -23,7 +23,7 @@ export default class RootNavigator extends React.Component {
   }
 
   render() {
-    if (this.props.signedIn && this.props.setup) {
+    if (this.props.signedIn && this.props.currentUser.setup) {
       return <MainNavigator />;
     } else if (this.props.signedIn) {
       return <SetupNavigator />
