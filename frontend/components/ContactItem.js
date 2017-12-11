@@ -25,7 +25,7 @@ export default class ContactItem extends React.Component {
           <Image source={{ uri: this.props.imageUrl }} style={styles.profileImage} />
           <Text style={styles.name}>{this.props.firstName} {this.props.lastName}</Text>
         </TouchableOpacity>
-        <ConnectButton gender={this.props.gender} />
+        <ConnectButton gender={this.props.gender} id={this.props.id} />
       </View>
     )
 

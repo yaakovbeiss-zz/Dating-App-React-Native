@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import { StackNavigator } from 'react-navigation';
 import { Notifications } from 'expo';
 
@@ -16,7 +17,11 @@ export default class RootNavigator extends React.Component {
 
   componentDidMount() {
     this._notificationSubscription = this._registerForPushNotifications();
-  }
+    const token = this.props.currentUser.session_token;
+    if(token) {
+        axios.defaults.headers.common['AUTH_TOKEN'] = token;
+      }
+    }
 
   componentWillUnmount() {
     this._notificationSubscription && this._notificationSubscription.remove();

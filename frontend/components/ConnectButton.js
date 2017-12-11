@@ -12,19 +12,12 @@ import { Ionicons } from '@expo/vector-icons';
 class ConnectButton extends React.Component {
   constructor(props) {
     super(props);
+    this._handlePress = this._handlePress.bind(this);
   }
 
   _handlePress = () => {
-
+    let connection = { status: "pending", requester_id: this.props.id }
     this.props.createConnection(connection);
-  }
-
-  genderStyle = () => {
-    if (this.props.gender === 2) {
-      return "#e6186c"
-    } else {
-      return "#81d2e0"
-    }
   }
 
   render() {

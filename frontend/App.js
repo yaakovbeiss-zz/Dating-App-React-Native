@@ -18,7 +18,6 @@ export default class App extends React.Component {
     };
   }
 
-
   render() {
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
       return (
@@ -34,8 +33,6 @@ export default class App extends React.Component {
           <PersistGate
             persistor={persistor}>
             <View style={styles.container}>
-              {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-              {Platform.OS === 'android' && <View style={styles.statusBarUnderlay} />}
               <RootNavigator />
             </View>
           </PersistGate>

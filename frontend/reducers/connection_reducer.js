@@ -6,7 +6,7 @@ import {
 } from '../actions/connection_actions';
 
 const defaultState = Object.freeze({
-  connections: [],
+  entities: {},
   errors: []
 });
 
@@ -18,7 +18,7 @@ export default ConnectionReducer = (state = defaultState, action) => {
       const connections = action.connections;
 
       return merge({}, state, {
-        connections
+        entities: connections
       });
       break;
 
