@@ -8,23 +8,27 @@ import {
   View,
 } from 'react-native';
 
-class ContactItem extends React.Component {
+export default class ContactItem extends React.Component {
   constructor(props) {
     super(props);
+  }
+
+  handlePress = () => {
+    this.props.navigation.navigate('ContactsProfile', this.props)
   }
 
   render() {
     return(
       <View style={styles.container}>
-        <Image source={{ uri: this.props.imageUrl }} style={styles.profileImage} />
-        <Text style={styles.name}>{this.props.firstName} {this.props.lastName}</Text>
+        <TouchableOpacity style={styles.touchable} onPress={this.handlePress}>
+          <Image source={{ uri: this.props.imageUrl }} style={styles.profileImage} />
+          <Text style={styles.name}>{this.props.firstName} {this.props.lastName}</Text>
+        </TouchableOpacity>
       </View>
     )
 
   }
 }
-
-export default ContactItem;
 
 const styles = StyleSheet.create({
   container: {
@@ -33,6 +37,10 @@ const styles = StyleSheet.create({
     borderColor: 'grey',
     borderBottomWidth: .5,
     marginTop: 10,
+  },
+  touchable: {
+    flex: 1,
+    flexDirection: 'row',
   },
   profileImage: {
     width: 50,

@@ -1,11 +1,11 @@
 import React from 'react';
 import { DrawerNavigator, StackNavigator } from 'react-navigation';
 
-import LinksScreen from '../screens/LinksScreen';
+import ContactsNavigator from './ContactsNavigator';
 
 export default RightDrawerNavigator = DrawerNavigator({
-  LinksScreen: {
-    screen: LinksScreen
+  ContactsNavigator: {
+    screen: ContactsNavigator
   }
 },
 {

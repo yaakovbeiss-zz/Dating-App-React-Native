@@ -1,14 +1,14 @@
 import React from 'react';
 import { DrawerNavigator, StackNavigator } from 'react-navigation';
 
-import LinksScreen from '../containers/LinksScreenContainer';
 import SettingsScreen from '../containers/SettingsScreenContainer';
 import UserProfile from '../containers/UserProfileContainer';
-import RightDrawerNavigator from './RightDrawerNavigator'
+import RightDrawerNavigator from './RightDrawerNavigator';
+import ContactsNavigator from './ContactsNavigator';
 
 export default LeftDrawerNavigator = DrawerNavigator({
-  LinksScreen: {
-    screen: LinksScreen
+  ContactsNavigator: {
+    screen: ContactsNavigator
   },
   UserProfile: {
     screen: UserProfile

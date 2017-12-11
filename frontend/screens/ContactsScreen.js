@@ -13,13 +13,12 @@ import {
 import ContactItem from '../components/ContactItem';
 import { requestUsers } from '../actions/user_actions';
 
-export default class LinksScreen extends React.Component {
+export default class ContactsScreen extends React.Component {
   constructor(props) {
     super(props);
   }
   static navigationOptions = {
-    title: 'Contacts',
-    header: null,
+    title: 'Find Contacts',
     drawerPosition: 'right',
   };
 
@@ -29,10 +28,12 @@ export default class LinksScreen extends React.Component {
 
   render() {
     const users = this.props.users;
+    const navigation = this.props.navigation;
+
     return (
       <ScrollView style={styles.container}>
         {users.map( user => <ContactItem key={user.id} firstName={user.first_name}
-          lastName={user.last_name} imageUrl={user.url} />
+          lastName={user.last_name} imageUrl={user.url} navigation={navigation}/>
         )}
       </ScrollView>
     );

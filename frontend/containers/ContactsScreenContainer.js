@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { requestUsers } from '../actions/user_actions';
 
-import LinksScreen from '../screens/LinksScreen';
+import ContactsScreen from '../screens/ContactsScreen';
 
 const mapStateToProps = ({ user }) => ({
   users: user.users
@@ -16,4 +16,4 @@ const mapDispatchToProps = ( dispatch ) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(LinksScreen);
+)(ContactsScreen);
