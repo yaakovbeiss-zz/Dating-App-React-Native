@@ -1,28 +1,28 @@
 import merge from 'lodash/merge';
 
 import {
-  RECEIVE_PROFILE_IMAGES,
-  RECEIVE_PROFILE_IMAGE_ERRORS
-} from '../actions/profile_image_actions';
+  RECEIVE_CONNECTIONS,
+  RECEIVE_CONNECTIONS_ERRORS
+} from '../actions/connection_actions';
 
 const defaultState = Object.freeze({
-  profileImages: {},
+  connections: [],
   errors: []
 });
 
-export default ProfileImageReducer = (state = defaultState, action) => {
+export default ConnectionReducer = (state = defaultState, action) => {
   Object.freeze(state)
   switch(action.type) {
 
-    case RECEIVE_PROFILE_IMAGES:
-      const profileImages = action.profileImages;
+    case RECEIVE_CONNECTIONS:
+      const connections = action.connections;
 
       return merge({}, state, {
-        profileImages
+        connections
       });
       break;
 
-    case RECEIVE_PROFILE_IMAGE_ERRORS:
+    case RECEIVE_CONNECTIONS_ERRORS:
       const errors = action.errors;
       return merge({}, state, {
         errors

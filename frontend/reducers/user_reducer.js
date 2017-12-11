@@ -9,7 +9,7 @@ const nullUser = Object.freeze({
   errors: []
 });
 
-const UserReducer = (state = nullUser, action) => {
+export default UserReducer = (state = nullUser, action) => {
   Object.freeze(state)
   switch(action.type) {
 
@@ -24,5 +24,3 @@ const UserReducer = (state = nullUser, action) => {
       return state;
   }
 };
-
-export default UserReducer;

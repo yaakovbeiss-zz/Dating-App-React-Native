@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import ConnectButton from '../components/ConnectButton';
 
 export default class ContactItem extends React.Component {
   constructor(props) {
@@ -24,6 +25,7 @@ export default class ContactItem extends React.Component {
           <Image source={{ uri: this.props.imageUrl }} style={styles.profileImage} />
           <Text style={styles.name}>{this.props.firstName} {this.props.lastName}</Text>
         </TouchableOpacity>
+        <ConnectButton gender={this.props.gender} />
       </View>
     )
 

@@ -9,6 +9,7 @@ import {
   View,
   TextInput
 } from 'react-native';
+import ConnectButton from '../components/ConnectButton';
 
 export default class ContactsProfile extends React.Component {
   constructor(props) {
@@ -28,7 +29,6 @@ export default class ContactsProfile extends React.Component {
     return (
       <ScrollView style={styles.container}>
         <Image source={{ uri: imageUrl }} style={styles.backGroundImage} />
-
       </ScrollView>
     );
   }

@@ -33,7 +33,7 @@ export default class ContactsScreen extends React.Component {
     return (
       <ScrollView style={styles.container}>
         {users.map( user => <ContactItem key={user.id} firstName={user.first_name}
-          lastName={user.last_name} imageUrl={user.url} navigation={navigation}/>
+          lastName={user.last_name} imageUrl={user.url} gender={user.gender} navigation={navigation}/>
         )}
       </ScrollView>
     );
@@ -43,7 +43,6 @@ export default class ContactsScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 15,
     backgroundColor: '#fff',
   },
 });
