@@ -11,12 +11,15 @@ class Api::UsersController < ApplicationController
     end
   end
 
+  def index
+    @users = User.all.includes(:user_settings, :user_profile)
+  end
+
   def show
     @user = User.find(params[:id])
   end
 
   def update
-
     if current_user.update(user_params)
       @user = current_user
       render "api/users/show"

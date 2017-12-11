@@ -12,6 +12,7 @@ import {
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Akira } from 'react-native-textinput-effects';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { facebookLogIn } from '../util/facebook_api_util.js';
 
 export default class Signup extends React.Component {
   constructor(props) {
@@ -62,6 +63,10 @@ export default class Signup extends React.Component {
     }
   }
 
+  handleFacebookSignup() {
+    facebookLogIn();
+  }
+
   render() {
     return (
         <KeyboardAwareScrollView
@@ -108,7 +113,12 @@ export default class Signup extends React.Component {
             <Text style={styles.nextText}>Sign up</Text>
             <Icon name="chevron-right" size={22} style={styles.nextIcon}></Icon>
           </TouchableOpacity>
+
+        <TouchableOpacity style={styles.nextButton} onPress={this.handleFacebookSignup}>
+            <Text style={styles.nextText}>Log in with Facebook</Text>
+          </TouchableOpacity>
         </View>
+
       </KeyboardAwareScrollView>
     );
   }

@@ -2,7 +2,7 @@ const APP_ID = '497811640605404'
 
 export async function facebookLogIn() {
   const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(APP_ID, {
-      permissions: ['public_profile', 'user_birthday'],
+      permissions: ['public_profile', 'user_birthday', 'email', 'user_friends'],
     });
   if (type === 'success') {
     // Get the user's name using Facebook's Graph API

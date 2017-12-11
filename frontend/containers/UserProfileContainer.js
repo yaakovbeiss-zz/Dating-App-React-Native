@@ -8,6 +8,7 @@ import UserProfile from '../screens/UserProfile';
 const mapStateToProps = ({ session, userProfile, profileImage }) => ({
   currentUser: session.currentUser,
   userProfile: userProfile,
+  errors: userProfile.errors,
   profileImage
 })
 

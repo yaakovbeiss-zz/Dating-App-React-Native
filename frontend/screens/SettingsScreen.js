@@ -22,16 +22,18 @@ export default class SettingsScreen extends React.Component {
   }
 
   rightDrawer = () => {
-    this.props.navigation.navigate('RightDrawerOpen')
+    const { navigate } = this.props.navigation;
+    navigate('RightDrawerOpen')
   }
 
   render() {
+
     return (
       <View>
         <TouchableOpacity style={styles.signOutButton} onPress={this.handlePress}>
           <Text>Sign Out</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.rightDrawer} onPress={this.handlePress}>
+        <TouchableOpacity style={styles.rightDrawer} onPress={this.rightDrawer}>
           <Text>Right Drawer</Text>
         </TouchableOpacity>
       </View>

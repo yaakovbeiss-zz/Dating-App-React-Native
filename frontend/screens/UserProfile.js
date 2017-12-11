@@ -28,6 +28,7 @@ export default class UserProfile extends React.Component {
       bioOpen: false,
       workOpen: false,
       educationOpen: false,
+      errors: null,
     };
   }
 
