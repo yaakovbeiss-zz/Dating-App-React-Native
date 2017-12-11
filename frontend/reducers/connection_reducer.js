@@ -17,7 +17,7 @@ export default ConnectionReducer = (state = defaultState, action) => {
     case RECEIVE_CONNECTIONS:
       const connections = action.connections;
 
-      return merge({}, state, {
+      return Object.assign({}, state, {
         entities: connections
       });
       break;

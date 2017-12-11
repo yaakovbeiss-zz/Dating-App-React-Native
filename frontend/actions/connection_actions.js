@@ -33,8 +33,8 @@ export const createConnection = connection => dispatch => (
  )
 );
 
-export const deleteConnection = connection => dispatch => (
-  APIUtil.deleteConnection(connection).then( res => (
+export const deleteConnection = id => dispatch => (
+  APIUtil.deleteConnection(id).then( res => (
     dispatch(receiveConnections(res.data))
   ), err => (
     dispatch(receiveConnectionsErrors(err.response.data))

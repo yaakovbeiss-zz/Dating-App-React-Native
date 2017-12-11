@@ -15,3 +15,7 @@ export const updateConnection = connection => (
     connection: connection
   })
 )
+
+export const deleteConnection = id => (
+  axios.delete(`http://192.168.1.172:3000/api/connections/${id}`)
+)

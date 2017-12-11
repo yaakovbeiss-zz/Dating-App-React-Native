@@ -13,6 +13,7 @@ export default {
   noticeText: '#fff',
   slackBlue: "#81d2e0",
   slackRed: "#e6186c",
+  slackPurple: "#5c3a57",
 };
 
 // 4c69a5 cool blue
