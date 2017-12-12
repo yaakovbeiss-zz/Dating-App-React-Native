@@ -11,6 +11,21 @@ class User < ApplicationRecord
   has_one :user_settings
   has_one :user_profile
 
+  has_many :connections
+
+  has_many :accepted_connections, -> { where status: 'Accepted' },
+    class_name: "Connection",
+    foreign_key: :user_id
+
+  has_many :pending_connections, -> { where status: 'Pending' },
+    class_name: "Connection",
+    foreign_key: :user_id
+
+  has_many :friends,
+    through: :accepted_connections,
+    source: :user
+
+
   def self.find_by_credentials(email, password)
     user = User.find_by(email: email)
     return nil unless user

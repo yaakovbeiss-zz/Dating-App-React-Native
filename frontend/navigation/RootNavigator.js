@@ -17,11 +17,23 @@ export default class RootNavigator extends React.Component {
 
   componentDidMount() {
     this._notificationSubscription = this._registerForPushNotifications();
-    const token = this.props.currentUser.session_token;
-    if(token) {
+    const currentUser = this.props.currentUser;
+    if(currentUser && currentUser.session_token) {
+        const token = currentUser.session_token;
         axios.defaults.headers.common['AUTH_TOKEN'] = token;
       }
+  }
+
+  componentDidUpdate() {
+    const currentUser = this.props.currentUser;
+    if(currentUser && currentUser.session_token) {
+        const token = currentUser.session_token;
+        axios.defaults.headers.common['AUTH_TOKEN'] = token;
+      }
+    if (!this.props.signedIn) {
+      this.props.persistor.purge();
     }
+  }
 
   componentWillUnmount() {
     this._notificationSubscription && this._notificationSubscription.remove();

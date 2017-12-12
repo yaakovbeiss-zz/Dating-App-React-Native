@@ -8,7 +8,8 @@ import {
   Button,
   TouchableOpacity,
   View,
-  TextInput
+  TextInput,
+  StatusBar,
 } from 'react-native';
 import ContactItem from '../components/ContactItem';
 import { requestUsers } from '../actions/user_actions';
@@ -18,12 +19,13 @@ export default class ContactsScreen extends React.Component {
     super(props);
   }
   static navigationOptions = {
-    title: 'Find Contacts',
-    drawerPosition: 'right',
+    title: 'Connections',
+    tabBarIcon: <Text>Sup</Text>
   };
 
   componentDidMount() {
     this.props.requestUsers();
+    this.props.requestConnections();
   }
 
   render() {
@@ -31,11 +33,14 @@ export default class ContactsScreen extends React.Component {
     const navigation = this.props.navigation;
 
     return (
-      <ScrollView style={styles.container}>
-        {users.map( user => <ContactItem key={user.id} id={user.id} firstName={user.first_name}
-          lastName={user.last_name} imageUrl={user.url} gender={user.gender} navigation={navigation}/>
-        )}
-      </ScrollView>
+      <View style={styles.container}>
+        <StatusBar hidden={false} />
+        <ScrollView style={styles.container}>
+          {users.map( user => <ContactItem key={user.id} id={user.id} firstName={user.first_name}
+            lastName={user.last_name} imageUrl={user.url} gender={user.gender} navigation={navigation}/>
+          )}
+        </ScrollView>
+        </View>
     );
   }
 }

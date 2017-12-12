@@ -1,5 +1,7 @@
 class Connection < ApplicationRecord
 
-  validates :user_id, :requester_id, :status, presence: true
+  validates :user_id, :requested_id, :status, presence: true
+
+  belongs_to :user
 
 end

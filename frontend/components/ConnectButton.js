@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createConnection, deleteConnection } from '../actions/connection_actions';
 import {
@@ -18,17 +19,17 @@ class ConnectButton extends React.Component {
   }
 
   _sendRequest = () => {
-    let connection = { status: "pending", requester_id: this.props.id }
+    let connection = { status: "Pending", requested_id: this.props.id }
     this.props.createConnection(connection);
   }
 
   _deleteRequest = () => {
-    let connection = this.props.connections[this.props.id];
+    let connection = this.props.friend_requests[this.props.id];
     this.props.deleteConnection(connection.id);
   }
 
   render() {
-    if (this.props.connections[this.props.id]) {
+    if (this.props.friend_requests[this.props.id]) {
       return (
         <TouchableOpacity
           onPress={this._deleteRequest}
@@ -51,8 +52,14 @@ class ConnectButton extends React.Component {
 
 }
 
+ConnectButton.propTypes = {
+  id: PropTypes.number,
+  gender: PropTypes.number,
+};
+
 const mapStateToProps = ({ connection }) => ({
-  connections: connection.entities
+  connections: connection.entities,
+  friend_requests: connection.entities.friend_requests,
 });
 
 const mapDispatchToProps = dispatch => ({

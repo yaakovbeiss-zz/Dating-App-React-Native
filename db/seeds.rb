@@ -10,6 +10,15 @@ require 'faker'
 
 image = File.new("app/assets/images/default_profile_pic.jpg")
 
+yaakov = User.create!({ email: "yaakovbeiss@gmail.com", password: 'password', first_name: "Yaakov", last_name: "Beiss",
+  gender: 1, birthday: Faker::Date.birthday })
+
+user_settings = UserSettings.create!({ user_id: yaakov.id, discoverable: true, suggestable: true, messageable: true })
+user_profile = UserProfile.create!({ user_id: yaakov.id, lat: Faker::Address.latitude, lng: Faker::Address.longitude,
+  bio: Faker::Seinfeld.quote, work: Faker::Seinfeld.quote, education: Faker::Seinfeld.quote })
+
+profile_image = ProfileImage.create!({ user_profile_id: user_profile.id, main_image: true, image: image })
+
 20.times do
   full_name = Faker::Name.name
   first_name = full_name.split(" ")[0]
@@ -24,4 +33,8 @@ image = File.new("app/assets/images/default_profile_pic.jpg")
     bio: Faker::Seinfeld.quote, work: Faker::Seinfeld.quote, education: Faker::Seinfeld.quote })
 
   profile_image = ProfileImage.create!({ user_profile_id: user_profile.id, main_image: true, image: image })
+
+
+  status = (rand(2) + 1) > 1 ? 'Pending' : 'Accepted'
+  Connection.create!({ user_id: yaakov.id, requested_id: user.id, status: status})
 end

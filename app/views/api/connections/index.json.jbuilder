@@ -1,7 +1,23 @@
+friends = {}
+friend_requests = {}
+
 @connections.each do |connection|
-  json.set! connection.requester_id do
-    json.id connection.id
-    json.requester_id connection.requester_id
-    json.status connection.status
+
+  if connection.status == 'Accepted'
+    friends[connection.requested_id] = {
+      id: connection.id,
+      requested_id: connection.requested_id,
+      status: connection.status
+    }
+  else
+    friend_requests[connection.requested_id] = {
+      id: connection.id,
+      requested_id: connection.requested_id,
+      status: connection.status
+    }
   end
+
 end
+
+json.friends friends
+json.friend_requests friend_requests

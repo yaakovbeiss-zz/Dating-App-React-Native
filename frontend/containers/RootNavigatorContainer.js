@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 import RootNavigator from '../navigation/RootNavigator';
 
-const mapStateToProps = ({ session, userSettings, userProfile }) => ({
+const mapStateToProps = ({ session }) => ({
     signedIn: Boolean(session.currentUser),
     currentUser: session.currentUser,
 });

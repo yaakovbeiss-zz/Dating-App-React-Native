@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import PropTypes from 'prop-types';
 import ConnectButton from '../components/ConnectButton';
 
 export default class ContactItem extends React.Component {
@@ -31,6 +32,14 @@ export default class ContactItem extends React.Component {
 
   }
 }
+
+ContactItem.propTypes = {
+  id: PropTypes.number,
+  gender: PropTypes.number,
+  imageUrl: PropTypes.string,
+  firstName: PropTypes.string,
+  lastName: PropTypes.string,
+};
 
 const styles = StyleSheet.create({
   container: {

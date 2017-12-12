@@ -33,7 +33,7 @@ export default class App extends React.Component {
           <PersistGate
             persistor={persistor}>
             <View style={styles.container}>
-              <RootNavigator />
+              <RootNavigator persistor={persistor} />
             </View>
           </PersistGate>
         </Provider>

@@ -37,7 +37,7 @@ class Api::ConnectionsController < ApplicationController
  private
 
  def connection_params
-   params.require(:connection).permit(:user_id, :requester_id, :status)
+   params.require(:connection).permit(:user_id, :requested_id, :status)
  end
 
 end
