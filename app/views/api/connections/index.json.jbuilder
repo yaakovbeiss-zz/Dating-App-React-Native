@@ -1,5 +1,6 @@
 friends = {}
-friend_requests = {}
+you_requested = {}
+requested_you = {}
 
 @connections.each do |connection|
 
@@ -9,8 +10,14 @@ friend_requests = {}
       requested_id: connection.requested_id,
       status: connection.status
     }
-  else
-    friend_requests[connection.requested_id] = {
+  elsif connection.user_id == current_user.id
+    you_requested[connection.requested_id] = {
+      id: connection.id,
+      requested_id: connection.requested_id,
+      status: connection.status
+    }
+  elsif connection.requested_id == current_user.id
+    requested_you[connection.requested_id] = {
       id: connection.id,
       requested_id: connection.requested_id,
       status: connection.status
@@ -20,4 +27,5 @@ friend_requests = {}
 end
 
 json.friends friends
-json.friend_requests friend_requests
+json.you_requested you_requested
+json.requested_you requested_you

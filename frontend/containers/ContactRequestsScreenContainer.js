@@ -7,7 +7,7 @@ import ContactsScreen from '../screens/ContactsScreen';
 
 const mapStateToProps = ({ users, connection }) => ({
   users: selectAllUsers(users),
-  connection: connection.entities.friends,
+  connection: connection.entities.you_requested,
 })
 
 const mapDispatchToProps = ( dispatch ) => {

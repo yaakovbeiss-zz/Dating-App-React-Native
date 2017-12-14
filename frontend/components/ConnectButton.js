@@ -24,12 +24,12 @@ class ConnectButton extends React.Component {
   }
 
   _deleteRequest = () => {
-    let connection = this.props.friend_requests[this.props.id];
+    let connection = this.props.you_requested[this.props.id];
     this.props.deleteConnection(connection.id);
   }
 
   render() {
-    if (this.props.friend_requests[this.props.id]) {
+    if (this.props.you_requested[this.props.id]) {
       return (
         <TouchableOpacity
           onPress={this._deleteRequest}
@@ -59,7 +59,7 @@ ConnectButton.propTypes = {
 
 const mapStateToProps = ({ connection }) => ({
   connections: connection.entities,
-  friend_requests: connection.entities.friend_requests,
+  you_requested: connection.entities.you_requested,
 });
 
 const mapDispatchToProps = dispatch => ({

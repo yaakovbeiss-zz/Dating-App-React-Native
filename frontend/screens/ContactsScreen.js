@@ -18,9 +18,10 @@ export default class ContactsScreen extends React.Component {
   constructor(props) {
     super(props);
   }
-  static navigationOptions = {
-    title: 'Connections',
-    tabBarIcon: <Text>Sup</Text>
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: `${navigation.state.routeName}`,
+    }
   };
 
   componentDidMount() {
@@ -28,15 +29,21 @@ export default class ContactsScreen extends React.Component {
     this.props.requestConnections();
   }
 
+  isInConnections = (user) => {
+    return this.props.connection[user.id]
+  }
+
   render() {
     const users = this.props.users;
     const navigation = this.props.navigation;
+    const allUsers = this.props.allUsers;
+    const connections = allUsers || users.filter(this.isInConnections)
 
     return (
       <View style={styles.container}>
         <StatusBar hidden={false} />
         <ScrollView style={styles.container}>
-          {users.map( user => <ContactItem key={user.id} id={user.id} firstName={user.first_name}
+          {connections.map( user => <ContactItem key={user.id} id={user.id} firstName={user.first_name}
             lastName={user.last_name} imageUrl={user.url} gender={user.gender} navigation={navigation}/>
           )}
         </ScrollView>

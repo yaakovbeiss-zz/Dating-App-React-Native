@@ -42,7 +42,7 @@ export default MainNavigator =  DrawerNavigator(
   },
   { //DrawerNavigatorConfig
     drawerPosition: 'right',
-    initialRouteName: 'Settings',
+    initialRouteName: 'Main',
     drawerOpenRoute: 'RightDrawerOpen', //your custom navigation key (default: DrawerOpen)
     drawerCloseRoute: 'FooDrawerClose'
   }

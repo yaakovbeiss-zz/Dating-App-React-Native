@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import {
   Image,
   StyleSheet,
@@ -10,13 +11,19 @@ import {
 import PropTypes from 'prop-types';
 import ConnectButton from '../components/ConnectButton';
 
-export default class ContactItem extends React.Component {
+class ContactItem extends React.Component {
   constructor(props) {
     super(props);
   }
 
   handlePress = () => {
     this.props.navigation.navigate('ContactsProfile', this.props)
+  }
+
+  connectButton(id) {
+    if (!this.props.friends[id]) {
+      return <ConnectButton gender={this.props.gender} id={this.props.id} />
+    }
   }
 
   render() {
@@ -26,7 +33,7 @@ export default class ContactItem extends React.Component {
           <Image source={{ uri: this.props.imageUrl }} style={styles.profileImage} />
           <Text style={styles.name}>{this.props.firstName} {this.props.lastName}</Text>
         </TouchableOpacity>
-        <ConnectButton gender={this.props.gender} id={this.props.id} />
+        {this.connectButton(this.props.id)}
       </View>
     )
 
@@ -40,6 +47,22 @@ ContactItem.propTypes = {
   firstName: PropTypes.string,
   lastName: PropTypes.string,
 };
+
+const mapStateToProps = ({ connection }) => ({
+  connections: connection.entities,
+  friends: connection.entities.friends,
+  you_requested: connection.entities.you_requested,
+});
+
+const mapDispatchToProps = dispatch => ({
+  createConnection: (connection) => dispatch(createConnection(connection)),
+  deleteConnection: (id) => dispatch(deleteConnection(id)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ContactItem)
 
 const styles = StyleSheet.create({
   container: {
