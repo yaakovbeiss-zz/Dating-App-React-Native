@@ -9,7 +9,9 @@ import {
   View,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import ConnectButton from '../components/ConnectButton';
+import ConnectButton from './ConnectButton';
+import RequestSentButton from './RequestSentButton';
+import ConfirmConnectButton from './ConfirmConnectButton';
 
 class ContactItem extends React.Component {
   constructor(props) {
@@ -21,8 +23,16 @@ class ContactItem extends React.Component {
   }
 
   connectButton(id) {
-    if (!this.props.friends[id]) {
-      return <ConnectButton gender={this.props.gender} id={this.props.id} />
+    if (!this.props.not_friends[id]) {
+      if (!this.props.friends[id]) {
+        if (this.props.requested_you[id]) {
+          return <ConfirmConnectButton id={this.props.id} />
+        }
+        if (this.props.you_requested[id]) {
+          return <RequestSentButton id={this.props.id} />
+        }
+        return <ConnectButton gender={this.props.gender} id={this.props.id} />
+      }
     }
   }
 
@@ -51,6 +61,8 @@ ContactItem.propTypes = {
 const mapStateToProps = ({ connection }) => ({
   connections: connection.entities,
   friends: connection.entities.friends,
+  not_friends: connection.entities.not_friends,
+  requested_you: connection.entities.requested_you,
   you_requested: connection.entities.you_requested,
 });
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { createConnection } from '../actions/connection_actions';
+import { deleteConnection } from '../actions/connection_actions';
 import {
   StyleSheet,
   View,
@@ -11,32 +11,30 @@ import {
 import Colors from '../constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
 
-class ConnectButton extends React.Component {
+class RequestSentButton extends React.Component {
   constructor(props) {
     super(props);
-    this._sendRequest = this._sendRequest.bind(this);
+    this._deleteRequest = this._deleteRequest.bind(this);
   }
 
-  _sendRequest = () => {
-    let connection = { status: "Pending", requested_id: this.props.id }
-    this.props.createConnection(connection);
+  _deleteRequest = () => {
+    let connection = this.props.you_requested[this.props.id];
+    this.props.deleteConnection(connection.id);
   }
 
   render() {
-    return(
+    return (
       <TouchableOpacity
-        onPress={this._sendRequest}
-        style={[styles.container,
-          {backgroundColor: this.props.gender === 1 ? Colors.slackBlue : Colors.slackRed } ]}>
-          <Text style={styles.textStyle}>Connect</Text>
-          <Ionicons name="ios-contact" size={32} color="white" />
-        </TouchableOpacity>
-      )
+        onPress={this._deleteRequest}
+        style={[styles.container, {backgroundColor: Colors.slackPurple } ]}>
+          <Text style={styles.textStyle}>Request Sent</Text>
+      </TouchableOpacity>
+    )
   }
 
 }
 
-ConnectButton.propTypes = {
+RequestSentButton.propTypes = {
   id: PropTypes.number,
 };
 
@@ -46,13 +44,13 @@ const mapStateToProps = ({ connection }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  createConnection: (connection) => dispatch(createConnection(connection)),
+  deleteConnection: (id) => dispatch(deleteConnection(id)),
 });
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ConnectButton)
+)(RequestSentButton)
 
 const styles = StyleSheet.create({
   container: {

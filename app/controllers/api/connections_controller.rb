@@ -22,7 +22,8 @@ class Api::ConnectionsController < ApplicationController
    connection = Connection.find(params[:id])
 
    if connection.update(connection_params)
-     @connections = Connection.where(user_id: current_user.id)
+     @connections = Connection.where(["user_id = :user_id OR requested_id = :requested_id",
+       { user_id: current_user.id, requested_id: current_user.id }])
      render :index
    else
      render json: @connection.errors.full_messages, status: 422

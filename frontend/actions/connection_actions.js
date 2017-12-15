@@ -41,3 +41,12 @@ export const deleteConnection = id => dispatch => (
   )
  )
 );
+
+export const updateConnection = connection => dispatch => (
+  APIUtil.updateConnection(connection).then( res => (
+    dispatch(receiveConnections(res.data))
+  ), err => (
+    dispatch(receiveConnectionsErrors(err.response.data))
+  )
+ )
+);

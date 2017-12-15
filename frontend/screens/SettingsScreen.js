@@ -43,6 +43,6 @@ export default class SettingsScreen extends React.Component {
 
 const styles = StyleSheet.create({
   signOutButton: {
-    marginTop: 20,
+    marginTop: 100,
   }
 })

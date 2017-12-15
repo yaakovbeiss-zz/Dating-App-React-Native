@@ -13,11 +13,11 @@ export default ConnectionsNavigator = TabNavigator({
     ContactsNavigator: {
       screen: ContactsNavigator
     },
+    Confirm: {
+      screen: RequestedYou
+    },
     Requests: {
       screen: ContactRequests
-    },
-    RequestedYou: {
-      screen: RequestedYou
     },
     AllUsers: {
       screen: AllUsers
@@ -36,9 +36,9 @@ export default ConnectionsNavigator = TabNavigator({
                 : 'md-information-circle';
             break;
           case 'Requests':
-            iconName = Platform.OS === 'ios' ? `ios-link${focused ? '' : '-outline'}` : 'md-link';
+            iconName = Platform.OS === 'ios' ? `ios-paper-plane${focused ? '' : '-outline'}` : 'md-link';
             break;
-          case 'RequestedYou':
+          case 'Confirm':
             iconName =
               Platform.OS === 'ios' ? `ios-person-add${focused ? '' : '-outline'}` : 'md-options';
             break;

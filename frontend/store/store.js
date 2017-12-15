@@ -24,6 +24,7 @@ const configureStore = () => {
     reducer,
     applyMiddleware(...middlewares)
   )
+  
   let persistor = persistStore(store);
   return { persistor, store }
 };

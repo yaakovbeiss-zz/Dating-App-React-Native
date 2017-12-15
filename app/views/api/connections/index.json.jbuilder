@@ -1,4 +1,5 @@
 friends = {}
+not_friends = {}
 you_requested = {}
 requested_you = {}
 
@@ -6,6 +7,12 @@ requested_you = {}
 
   if connection.status == 'Accepted'
     friends[connection.requested_id] = {
+      id: connection.id,
+      requested_id: connection.requested_id,
+      status: connection.status
+    }
+  elsif connection.status == 'Denied'
+    not_friends[connection.requested_id] = {
       id: connection.id,
       requested_id: connection.requested_id,
       status: connection.status
@@ -28,5 +35,6 @@ requested_you = {}
 end
 
 json.friends friends
+json.not_friends not_friends
 json.you_requested you_requested
 json.requested_you requested_you

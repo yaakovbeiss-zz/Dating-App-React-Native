@@ -57,8 +57,8 @@ export default class ContactsScreen extends React.Component {
 
     return (
       <View style={styles.container}>
+        {this.searchBar()}
         <ScrollView style={styles.container}>
-          {this.searchBar()}
           {contacts.map( user => <ContactItem key={user.id} id={user.id} firstName={user.first_name}
             lastName={user.last_name} imageUrl={user.url} gender={user.gender} navigation={navigation}/>
           )}
