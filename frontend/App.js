@@ -2,6 +2,7 @@ import React from 'react';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { AppLoading, Asset, Font } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
+import Colors from './constants/Colors';
 import RootNavigator from './containers/RootNavigatorContainer';
 import { Provider } from 'react-redux';
 import configureStore from './store/store';
@@ -13,7 +14,6 @@ export default class App extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      storeLoaded: false,
       isLoadingComplete: false,
     };
   }
@@ -72,10 +72,6 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-  },
-  statusBarUnderlay: {
-    height: 24,
-    backgroundColor: 'rgba(0,0,0,0.2)',
+    backgroundColor: Colors.slackPurple,
   },
 });

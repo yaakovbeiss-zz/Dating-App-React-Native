@@ -10,54 +10,66 @@ import RequestedYou from '../containers/RequestedYouScreenContainer';
 import AllUsers from '../containers/AllUsersContainer';
 
 export default ConnectionsNavigator = TabNavigator({
-  ContactsNavigator: {
-    screen: ContactsNavigator
-  },
-  Requests: {
-    screen: ContactRequests
-  },
-  RequestedYou: {
-    screen: RequestedYou
-  },
-  AllUsers: {
-    screen: AllUsers
-  }
-},
-{
-  navigationOptions: ({ navigation }) => ({
-    tabBarIcon: ({ focused }) => {
-      const { routeName } = navigation.state;
-      let iconName;
-      switch (routeName) {
-        case 'ContactsNavigator':
-          iconName =
-            Platform.OS === 'ios'
-              ? `ios-information-circle${focused ? '' : '-outline'}`
-              : 'md-information-circle';
-          break;
-        case 'Requests':
-          iconName = Platform.OS === 'ios' ? `ios-link${focused ? '' : '-outline'}` : 'md-link';
-          break;
-        case 'RequestedYou':
-          iconName =
-            Platform.OS === 'ios' ? `ios-options${focused ? '' : '-outline'}` : 'md-options';
-          break;
-        case 'AllUsers':
-          iconName =
-            Platform.OS === 'ios' ? `ios-options${focused ? '' : '-outline'}` : 'md-options';
-      }
-      return (
-        <Ionicons
-          name={iconName}
-          size={28}
-          style={{ marginBottom: -3 }}
-          color={focused ? Colors.tabIconSelected : Colors.tabIconDefault}
-        />
-      );
+    ContactsNavigator: {
+      screen: ContactsNavigator
     },
-  }),
-  tabBarPosition: 'bottom',
-  animationEnabled: false,
-  swipeEnabled: false,
-}
+    Requests: {
+      screen: ContactRequests
+    },
+    RequestedYou: {
+      screen: RequestedYou
+    },
+    AllUsers: {
+      screen: AllUsers
+    }
+  },
+  {
+    navigationOptions: ({ navigation }) => ({
+      tabBarIcon: ({ focused }) => {
+        const { routeName } = navigation.state;
+        let iconName;
+        switch (routeName) {
+          case 'ContactsNavigator':
+            iconName =
+              Platform.OS === 'ios'
+                ? `ios-contacts${focused ? '' : '-outline'}`
+                : 'md-information-circle';
+            break;
+          case 'Requests':
+            iconName = Platform.OS === 'ios' ? `ios-link${focused ? '' : '-outline'}` : 'md-link';
+            break;
+          case 'RequestedYou':
+            iconName =
+              Platform.OS === 'ios' ? `ios-person-add${focused ? '' : '-outline'}` : 'md-options';
+            break;
+          case 'AllUsers':
+            iconName =
+              Platform.OS === 'ios' ? `ios-search${focused ? '' : '-outline'}` : 'md-options';
+        }
+        return (
+          <Ionicons
+            name={iconName}
+            size={28}
+            style={{ marginBottom: -3 }}
+            color={focused ? Colors.slackGreen : Colors.slackGreen}
+          />
+        );
+      },
+    }),
+    tabBarPosition: 'top',
+    animationEnabled: false,
+    swipeEnabled: false,
+    tabBarOptions: {
+      activeTintColor: Colors.slackGreen,
+      inactiveTintColor: Colors.slackGreen,
+      inactiveBackgroundColor: Colors.slackPurple,
+      activeBackgroundColor: Colors.slackRed,
+      style: {
+        marginTop: 20,
+        borderColor: Colors.slackRed,
+        backgroundColor: Colors.slackPurple,
+      },
+    }
+
+  }
 )

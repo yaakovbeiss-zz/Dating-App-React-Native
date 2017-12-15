@@ -17,8 +17,9 @@ requested_you = {}
       status: connection.status
     }
   elsif connection.requested_id == current_user.id
-    requested_you[connection.requested_id] = {
+    requested_you[connection.user_id] = {
       id: connection.id,
+      user_id: connection.user_id,
       requested_id: connection.requested_id,
       status: connection.status
     }

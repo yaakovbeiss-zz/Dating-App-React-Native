@@ -12,12 +12,17 @@ import {
   StatusBar,
 } from 'react-native';
 import ContactItem from '../components/ContactItem';
+import SearchBar from '../components/SearchBar';
 import { requestUsers } from '../actions/user_actions';
 
 export default class ContactsScreen extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      searchResults: null,
+    }
   }
+
   static navigationOptions = ({ navigation }) => {
     return {
       title: `${navigation.state.routeName}`,
@@ -33,17 +38,28 @@ export default class ContactsScreen extends React.Component {
     return this.props.connection[user.id]
   }
 
+  setSearchState = (results) => {
+    this.setState({ searchResults: results })
+  }
+
+  searchBar() {
+    if (this.props.allUsers) {
+      return <SearchBar setSearchState={this.setSearchState}
+        searching={this.props.allUsers} />
+    }
+  }
+
   render() {
     const users = this.props.users;
     const navigation = this.props.navigation;
     const allUsers = this.props.allUsers;
-    const connections = allUsers || users.filter(this.isInConnections)
+    const contacts = this.state.searchResults || allUsers || users.filter(this.isInConnections)
 
     return (
       <View style={styles.container}>
-        <StatusBar hidden={false} />
         <ScrollView style={styles.container}>
-          {connections.map( user => <ContactItem key={user.id} id={user.id} firstName={user.first_name}
+          {this.searchBar()}
+          {contacts.map( user => <ContactItem key={user.id} id={user.id} firstName={user.first_name}
             lastName={user.last_name} imageUrl={user.url} gender={user.gender} navigation={navigation}/>
           )}
         </ScrollView>

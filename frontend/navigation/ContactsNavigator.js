@@ -15,6 +15,7 @@ export default ContactsNavigator = StackNavigator(
   },
   {
     navigationOptions: () => ({
+      header: null,
       headerTitleStyle: {
         fontWeight: 'normal',
       },

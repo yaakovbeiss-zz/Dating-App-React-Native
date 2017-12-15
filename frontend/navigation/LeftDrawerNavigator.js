@@ -25,7 +25,6 @@ const CustomDrawerContentComponent = (props) => (
   <View>
     <TextInput style={styles.textInput}></TextInput>
   <ScrollView>
-    <StatusBar hidden={true} />
     <SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }}>
       <DrawerItems {...props} />
     </SafeAreaView>
