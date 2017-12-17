@@ -8,6 +8,14 @@ import { Provider } from 'react-redux';
 import configureStore from './store/store';
 import { PersistGate } from 'redux-persist/es/integration/react'
 
+const MyStatusBar = ({backgroundColor, ...props}) => (
+  <View style={[styles.statusBar, { backgroundColor }]}>
+    <StatusBar translucent backgroundColor={backgroundColor} {...props} />
+  </View>
+);
+
+const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : StatusBar.currentHeight;
+
 const { persistor, store } = configureStore()
 
 export default class App extends React.Component {
@@ -34,6 +42,7 @@ export default class App extends React.Component {
           <PersistGate
             persistor={persistor}>
             <View style={styles.container}>
+              <MyStatusBar backgroundColor={Colors.slackPurple} barStyle="light-content" />
               <RootNavigator persistor={persistor} />
             </View>
           </PersistGate>
@@ -73,6 +82,10 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: Colors.slackPurple,
+  },
+  statusBar: {
+    height: 20,
     backgroundColor: Colors.slackPurple,
   },
 });

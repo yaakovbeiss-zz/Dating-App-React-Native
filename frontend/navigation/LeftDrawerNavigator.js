@@ -12,6 +12,7 @@ import {
   StatusBar,
 } from 'react-native';
 import { Constants } from 'expo';
+import Colors from '../constants/Colors';
 import { DrawerNavigator, StackNavigator, DrawerItems, SafeAreaView } from 'react-navigation';
 
 import SettingsScreen from '../containers/SettingsScreenContainer';
@@ -60,5 +61,5 @@ export default LeftDrawerNavigator = DrawerNavigator({
 },
 {
   contentComponent: CustomDrawerContentComponent,
-  drawerBackgroundColor: '#a5d1cc',
+  drawerBackgroundColor: Colors.slackPurple,
 })

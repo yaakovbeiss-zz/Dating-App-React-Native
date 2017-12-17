@@ -4,14 +4,14 @@ import { Ionicons } from '@expo/vector-icons';
 import Colors from '../constants/Colors';
 import { TabNavigator } from 'react-navigation';
 
-import ContactsNavigator from './ContactsNavigator';
+import ContactsScreen from '../containers/ContactsScreenContainer';
 import ContactRequests from '../containers/ContactRequestsScreenContainer';
 import RequestedYou from '../containers/RequestedYouScreenContainer';
 import AllUsers from '../containers/AllUsersContainer';
 
 export default ConnectionsNavigator = TabNavigator({
-    ContactsNavigator: {
-      screen: ContactsNavigator
+    Contacts: {
+      screen: ContactsScreen,
     },
     Confirm: {
       screen: RequestedYou
@@ -29,7 +29,7 @@ export default ConnectionsNavigator = TabNavigator({
         const { routeName } = navigation.state;
         let iconName;
         switch (routeName) {
-          case 'ContactsNavigator':
+          case 'Contacts':
             iconName =
               Platform.OS === 'ios'
                 ? `ios-contacts${focused ? '' : '-outline'}`
@@ -65,7 +65,6 @@ export default ConnectionsNavigator = TabNavigator({
       inactiveBackgroundColor: Colors.slackPurple,
       activeBackgroundColor: Colors.slackRed,
       style: {
-        marginTop: 20,
         borderColor: Colors.slackRed,
         backgroundColor: Colors.slackPurple,
       },

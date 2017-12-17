@@ -3,12 +3,11 @@ import axios from 'axios';
 import { StackNavigator } from 'react-navigation';
 import { Notifications } from 'expo';
 
-import MainNavigator from './MainNavigator';
-import SetupNavigator from './SetupNavigator';
 import registerForPushNotificationsAsync from '../api/registerForPushNotificationsAsync';
 
+import MainNavigator from './MainNavigator';
+import SetupNavigator from './SetupNavigator';
 import SignupNavigator from './SignupNavigator';
-
 
 export default class RootNavigator extends React.Component {
   constructor(props) {

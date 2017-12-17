@@ -2,48 +2,30 @@ import React from 'react';
 import { Platform } from 'react-native';
 import { DrawerNavigator, StackNavigator } from 'react-navigation';
 
+import Colors from '../constants/Colors';
+
 import SettingsScreen from '../containers/SettingsScreenContainer';
 import LeftDrawerNavigator from './LeftDrawerNavigator'
 import RightDrawerNavigator from './RightDrawerNavigator'
+import ContactsProfile from '../screens/ContactsProfile';
 
-//  const  = DrawerNavigator(//const DrawerStackNavigator = StackNavigator(
-//   {
-//     LeftDrawerNavigator: {
-//       screen: LeftDrawerNavigator,
-//   },
-//     RightDrawerNavigator: {
-//       screen: RightDrawerNavigator,
-//       navigationOptions: {
-//         drawerBackgroundColor: '#a5d1cc',
-//         drawerPosition: 'right',
-//         initialRoute: 'RightDrawerNavigator',
-//         drawerOpenRoute: 'RightDrawerOpen', //your custom navigation key (default: DrawerOpen)
-//         drawerCloseRoute: 'LeftDrawerClose',
-//       }
-//   }
-// },
-// {
-//   headerMode: 'none'
-// }
-// )
-
-export default MainNavigator =  DrawerNavigator(
+export default MainNavigator =  StackNavigator(
   {
-    Settings: {
-      screen: SettingsScreen,
-    },
     Main: {
       screen: LeftDrawerNavigator,
       navigationOptions: () => ({
         header: null,
         title: 'Main'
       })
-    }
+    },
+    Settings: {
+      screen: SettingsScreen,
+    },
+    ContactsProfile: {
+      screen: ContactsProfile,
+    },
   },
-  { //DrawerNavigatorConfig
-    drawerPosition: 'right',
-    initialRouteName: 'Main',
-    drawerOpenRoute: 'RightDrawerOpen', //your custom navigation key (default: DrawerOpen)
-    drawerCloseRoute: 'FooDrawerClose'
+  { //StackNavigatorConfig
+  
   }
 )

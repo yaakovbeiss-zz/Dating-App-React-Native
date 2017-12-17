@@ -11,6 +11,7 @@ import {
   TextInput,
   StatusBar,
 } from 'react-native';
+import Colors from '../constants/Colors';
 import ContactItem from '../components/ContactItem';
 import SearchBar from '../components/SearchBar';
 import { requestUsers } from '../actions/user_actions';
