@@ -12,7 +12,7 @@ class Api::UsersController < ApplicationController
   end
 
   def index
-    @users = User.all.includes(:user_settings, :user_profile)
+    @users = User.all.includes(:user_settings, user_profile: :profile_images)
   end
 
   def show

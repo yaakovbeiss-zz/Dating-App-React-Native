@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     resources :user_profiles, only: [:create, :update, :show]
     resources :profile_images, only: [:create, :destroy, :index, :show]
     resources :connections, only: [:create, :update, :destroy, :index]
+    resources :ratings, only: [:create, :update, :destroy, :index]
   end
 
 end

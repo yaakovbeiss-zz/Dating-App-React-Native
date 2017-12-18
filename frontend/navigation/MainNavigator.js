@@ -26,6 +26,6 @@ export default MainNavigator =  StackNavigator(
     },
   },
   { //StackNavigatorConfig
-  
+
   }
 )

@@ -13,6 +13,8 @@ class User < ApplicationRecord
 
   has_many :connections
 
+  has_many :ratings
+
   has_many :accepted_connections, -> { where status: 'Accepted' },
     class_name: "Connection",
     foreign_key: :user_id

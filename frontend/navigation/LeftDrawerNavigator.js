@@ -19,12 +19,13 @@ import SettingsScreen from '../containers/SettingsScreenContainer';
 import UserProfile from '../containers/UserProfileContainer';
 import RightDrawerNavigator from './RightDrawerNavigator';
 import ConnectionsNavigator from './ConnectionsNavigator';
+import DrawerSearchBar from '../components/DrawerSearchBar';
 
 import { } from 'react-navigation';
 
 const CustomDrawerContentComponent = (props) => (
   <View>
-    <TextInput style={styles.textInput}></TextInput>
+    <DrawerSearchBar />
   <ScrollView>
     <SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }}>
       <DrawerItems {...props} />
@@ -38,12 +39,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#C2185B",
     height: Constants.statusBarHeight,
     paddingTop: 5,
-  },
-  textInput: {
-    height: 20,
-    width: 200,
-    borderColor: 'black',
-    borderWidth: 1,
   },
 })
 

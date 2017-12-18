@@ -9,7 +9,8 @@ import {
   View,
   TextInput
 } from 'react-native';
-import ConnectButton from '../components/ConnectButton';
+import Colors from '../constants/Colors';
+import Rater from '../components/Rater';
 
 export default class ContactsProfile extends React.Component {
   constructor(props) {
@@ -21,6 +22,19 @@ export default class ContactsProfile extends React.Component {
 
     return {
       title: `${firstName} ${lastName}`,
+      headerTintColor: Colors.slackGreen,
+      headerStyle: {
+        backgroundColor: Colors.slackPurple,
+        height: 25,
+        paddingBottom: 20,
+      },
+      headerTitleStyle: {
+        alignItems: 'center',
+        color: Colors.slackGreen,
+      },
+      headerBackTitleStyle: {
+        color: Colors.slackGreen,
+      }
     }
   };
 
@@ -29,6 +43,7 @@ export default class ContactsProfile extends React.Component {
     return (
       <ScrollView style={styles.container}>
         <Image source={{ uri: imageUrl }} style={styles.backGroundImage} />
+        <Rater ratedId={this.props.id}/>
       </ScrollView>
     );
   }

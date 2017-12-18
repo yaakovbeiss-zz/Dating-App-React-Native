@@ -6,20 +6,27 @@ requested_you = {}
 @connections.each do |connection|
 
   if connection.status == 'Accepted'
-    friends[connection.requested_id] = {
+    user_id_or_requested_id = connection.requested_id == current_user.id ?
+      connection.user_id : connection.requested_id
+
+    friends[user_id_or_requested_id] = {
       id: connection.id,
+      user_id: connection.user_id,
       requested_id: connection.requested_id,
       status: connection.status
     }
+    
   elsif connection.status == 'Denied'
     not_friends[connection.requested_id] = {
       id: connection.id,
+      user_id: connection.user_id,
       requested_id: connection.requested_id,
       status: connection.status
     }
   elsif connection.user_id == current_user.id
     you_requested[connection.requested_id] = {
       id: connection.id,
+      user_id: connection.user_id,
       requested_id: connection.requested_id,
       status: connection.status
     }

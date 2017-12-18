@@ -1,7 +1,7 @@
 class Api::ConnectionsController < ApplicationController
 
  def create
-   connection = Connection.find_by(user_id: requested_id, requested_id: current_user.id )
+   connection = Connection.find_by(user_id: params[:requested_id], requested_id: current_user.id )
    if connection
      connection.status = "Approved"
      connection.save
@@ -19,7 +19,7 @@ class Api::ConnectionsController < ApplicationController
      end
 
    end
-   
+
  end
 
  def index
@@ -50,7 +50,7 @@ class Api::ConnectionsController < ApplicationController
  private
 
  def connection_params
-   params.require(:connection).permit(:user_id, :requested_id, :status)
+   params.require(:connection).permit(:id, :user_id, :requested_id, :status)
  end
 
 end

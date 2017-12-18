@@ -4,6 +4,7 @@ import UserSettingsReducer from './user_settings_reducer';
 import UserProfileReducer from './user_profile_reducer';
 import ProfileImageReducer from './profile_image_reducer';
 import ConnectionReducer from './connection_reducer';
+import RatingReducer from './rating_reducer';
 import NavReducer from './nav_reducer';
 
 export default {
@@ -14,4 +15,5 @@ export default {
   userProfile: UserProfileReducer,
   profileImages: ProfileImageReducer,
   connection: ConnectionReducer,
+  rating: RatingReducer,
 }

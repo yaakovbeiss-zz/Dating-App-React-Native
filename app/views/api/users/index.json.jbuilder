@@ -1,11 +1,12 @@
 @users.each do |user|
+  next if user.id == current_user.id
   json.set! user.id do
 
     json.extract! user, :id, :email, :first_name, :last_name, :gender, :session_token
     json.birthday user.birthday.strftime("%B " "%d, " "%Y")
     json.age user.age
 
-    json.url user.user_profile.main_image.image.url if user.user_profile
+    # json.url user.user_profile.main_image.image.url if user.user_profile
 
     if user.user_settings
       json.settings do

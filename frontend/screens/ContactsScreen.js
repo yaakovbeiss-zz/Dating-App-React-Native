@@ -1,20 +1,15 @@
 import React from 'react';
 import {
-  Image,
-  Platform,
   ScrollView,
   StyleSheet,
-  Text,
   Button,
   TouchableOpacity,
   View,
-  TextInput,
   StatusBar,
 } from 'react-native';
 import Colors from '../constants/Colors';
 import ContactItem from '../components/ContactItem';
 import SearchBar from '../components/SearchBar';
-import { requestUsers } from '../actions/user_actions';
 
 export default class ContactsScreen extends React.Component {
   constructor(props) {
@@ -33,6 +28,7 @@ export default class ContactsScreen extends React.Component {
   componentDidMount() {
     this.props.requestUsers();
     this.props.requestConnections();
+    this.props.requestRatings();
   }
 
   isInConnections = (user) => {
