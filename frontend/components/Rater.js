@@ -13,13 +13,16 @@ class Rater extends React.Component {
     };
   }
 
-  componentDidUpdate(ratedId) {
-    let rating = { rater_id: this.props.currentUser.id, rated_id: ratedId, rating: this.state.starCount }
-    if (this.props.ratings[ratedId]) {
-      rating = this.props.ratings[ratedId];
-      this.props.updateRating(rating);
-    } else {
-      this.props.createRating(rating);
+  componentDidUpdate(prevProps, prevState) {
+    const { ratedId } = this.props;
+    if (prevState.starCount !== this.state.starCount) {
+      let rating = { rater_id: this.props.currentUser.id, rated_id: ratedId, rating: this.state.starCount }
+      if (this.props.ratings[ratedId]) {
+        rating["id"] = this.props.ratings[ratedId].id;
+        this.props.updateRating(rating);
+      } else {
+        this.props.createRating(rating);
+      }
     }
   }
 

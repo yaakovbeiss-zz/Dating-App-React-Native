@@ -6,7 +6,7 @@ class Api::RatingsController < ApplicationController
    rating.rater_id = current_user.id
 
    if rating.save
-     @ratings = Rating.find_by(rater_id: current_user.id)
+     @ratings = Rating.where(rater_id: current_user.id)
      render :index
    else
      render json: rating.errors.full_messages, status: 422
@@ -22,7 +22,7 @@ class Api::RatingsController < ApplicationController
    rating = Rating.find(params[:id])
 
    if rating.update(rating_params)
-     @ratings = Rating.find_by(rater_id: current_user.id)
+     @ratings = Rating.where(rater_id: current_user.id)
      render :index
    else
      render json: @rating.errors.full_messages, status: 422
@@ -32,7 +32,7 @@ class Api::RatingsController < ApplicationController
  def destroy
    rating = Rating.find(params[:id])
    rating.destroy
-   @ratings = Rating.find_by(rater_id: current_user.id)
+   @ratings = Rating.where(rater_id: current_user.id)
    render :index
  end
 

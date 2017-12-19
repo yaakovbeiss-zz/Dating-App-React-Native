@@ -39,11 +39,11 @@ export default class ContactsProfile extends React.Component {
   };
 
   render() {
-    const { imageUrl } = this.props.navigation.state.params;
+    const { imageUrl, id } = this.props.navigation.state.params;
     return (
       <ScrollView style={styles.container}>
         <Image source={{ uri: imageUrl }} style={styles.backGroundImage} />
-        <Rater ratedId={this.props.id}/>
+        <Rater ratedId={id}/>
       </ScrollView>
     );
   }

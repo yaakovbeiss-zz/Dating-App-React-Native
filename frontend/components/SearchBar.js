@@ -6,6 +6,8 @@ import {
   View,
 } from 'react-native';
 import PropTypes from 'prop-types';
+import Colors from '../constants/Colors';
+import { Ionicons } from '@expo/vector-icons';
 
 export default class SearchBar extends React.Component {
   constructor(props) {
@@ -26,12 +28,21 @@ export default class SearchBar extends React.Component {
   render() {
     return(
       <View style={styles.container}>
-        <Text></Text>
+        <View style={styles.innerContainer}>
+        <Ionicons
+          name={'ios-search'}
+          size={28}
+          style={styles.searchIcon}
+        />
         <TextInput
           style={styles.searchbar}
           onChangeText={(query) => this._handleSearch(query) }
           value={this.state.query}
+          placeholderTextColor={Colors.slackGreen}
+          placeholder="Search..."
+          clearButtonMode="while-editing"
           />
+        </View>
       </View>
     )
   }
@@ -43,9 +54,32 @@ SearchBar.propTypes = {
 };
 
 const styles = StyleSheet.create({
-  searchbar: {
-    borderColor: 'grey',
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 50,
+    backgroundColor: Colors.slackGreen,
+  },
+  innerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: Colors.slackPurple,
+    marginLeft: 10,
+    marginRight: 10,
+    borderRadius: 3,
     borderWidth: 1,
-    marginTop: 0,
+    borderColor: Colors.slackPurple,
+  },
+  searchbar: {
+    flex: 1,
+    backgroundColor: Colors.slackPurple,
+    color: Colors.slackGreen,
+    height: 37,
+  },
+  searchIcon: {
+    paddingLeft: 10,
+    paddingRight: 5,
+    color: Colors.slackGreen,
+    backgroundColor: Colors.slackPurple,
   },
 });
