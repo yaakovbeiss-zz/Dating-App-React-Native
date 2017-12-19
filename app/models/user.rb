@@ -13,7 +13,17 @@ class User < ApplicationRecord
 
   has_many :connections
 
-  has_many :ratings
+  has_many :ratings,
+    class_name: 'Rating',
+    foreign_key: :rater_id
+
+  has_many :highly_rated, -> { where rating: [4,5] },
+    class_name: 'Rating',
+    foreign_key: :rater_id
+
+  has_many :highly_rated_matches,
+    through: :highly_rated,
+    source: :rated
 
   has_many :accepted_connections, -> { where status: 'Accepted' },
     class_name: "Connection",
@@ -26,6 +36,10 @@ class User < ApplicationRecord
   has_many :friends,
     through: :accepted_connections,
     source: :user
+
+  def suggest_matches_through_ratings
+    highly_rated_ids = self.highly_rated_matches.pluck(:id)
+  end
 
 
   def self.find_by_credentials(email, password)

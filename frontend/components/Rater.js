@@ -27,6 +27,9 @@ class Rater extends React.Component {
   }
 
   _onStarRatingPress(rating) {
+    if (this.state.starCount === 1 && rating === 1) {
+      rating = 0;
+    }
     this.setState({
       starCount: rating
     });

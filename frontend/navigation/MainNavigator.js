@@ -26,6 +26,8 @@ export default MainNavigator =  StackNavigator(
     },
   },
   { //StackNavigatorConfig
-
+    // navigationOptions: {
+    //   gesturesEnabled: false,
+    // }
   }
 )

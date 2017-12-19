@@ -72,7 +72,6 @@ const styles = StyleSheet.create({
   },
   searchbar: {
     flex: 1,
-    backgroundColor: Colors.slackPurple,
     color: Colors.slackGreen,
     height: 37,
   },
