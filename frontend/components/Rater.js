@@ -36,17 +36,19 @@ class Rater extends React.Component {
   }
 
   render() {
-    return (
-      <View style={styles.container}>
-        <StarRating
-          disabled={false}
-          maxStars={5}
-          rating={this.state.starCount}
-          selectedStar={(rating) => this._onStarRatingPress(rating)}
-          starColor={'gold'}
-        />
-      </View>
-    );
+    if (this.props.currentUser.gender !== this.props.gender) {
+      return (
+        <View style={styles.container}>
+          <StarRating
+            disabled={false}
+            maxStars={5}
+            rating={this.state.starCount}
+            selectedStar={(rating) => this._onStarRatingPress(rating)}
+            starColor={'gold'}
+            />
+        </View>
+      );
+    } else { return null }
   }
 
 }

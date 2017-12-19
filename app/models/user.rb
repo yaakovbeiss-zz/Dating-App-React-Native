@@ -38,7 +38,19 @@ class User < ApplicationRecord
     source: :user
 
   def suggest_matches_through_ratings
-    highly_rated_ids = self.highly_rated_matches.pluck(:id)
+    ratings = []
+    my_highly_rated_ids = self.highly_rated_matches.pluck(:id)
+    User.all.each do |user|
+      other_user_ratings_ids = user.highly_rated_matches.pluck(:id)
+      puts "my_highly_rated_ids: #{my_highly_rated_ids}"
+      if (other_user_ratings_ids & my_highly_rated_ids).count > 1
+        puts "other_user_ratings_ids: #{other_user_ratings_ids}"
+        ratings.concat(other_user_ratings_ids - my_highly_rated_ids)
+      end
+    end
+    # only show unique users. Maybe use duplicate ids in ratings to provide
+    # more in depth analysis of who is a good match.
+    User.where(id: ratings.uniq)
   end
 
 
