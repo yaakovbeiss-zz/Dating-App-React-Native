@@ -15,6 +15,7 @@ import { Constants } from 'expo';
 import Colors from '../constants/Colors';
 import { DrawerNavigator, StackNavigator, DrawerItems, SafeAreaView } from 'react-navigation';
 
+import SuggestMatch from '../screens/SuggestMatch';
 import SettingsScreen from '../containers/SettingsScreenContainer';
 import UserProfile from '../containers/UserProfileContainer';
 import RightDrawerNavigator from './RightDrawerNavigator';
@@ -46,6 +47,9 @@ const styles = StyleSheet.create({
 export default LeftDrawerNavigator = DrawerNavigator({
   ConnectionsNavigator: {
     screen: ConnectionsNavigator
+  },
+  SuggestMatch: {
+    screen: SuggestMatch
   },
   UserProfile: {
     screen: UserProfile

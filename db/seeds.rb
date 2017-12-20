@@ -35,7 +35,7 @@ profile_image = ProfileImage.create!({ user_profile_id: user_profile.id, main_im
   profile_image = ProfileImage.create!({ user_profile_id: user_profile.id, main_image: true, image: image })
 
 
-  status = (rand(2) + 1) > 1 ? 'Pending' : 'Accepted'
+  status = 'Accepted'
   Connection.create!({ user_id: yaakov.id, requested_id: user.id, status: status})
 
   User.all.each do |other_user|

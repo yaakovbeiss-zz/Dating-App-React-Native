@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import Colors from '../constants/Colors';
 import Rater from '../components/Rater';
+import DraggableProfilePic from '../components/DraggableProfilePic';
 
 export default class ContactsProfile extends React.Component {
   constructor(props) {
@@ -41,10 +42,10 @@ export default class ContactsProfile extends React.Component {
   render() {
     const { imageUrl, id, gender } = this.props.navigation.state.params;
     return (
-      <ScrollView style={styles.container}>
-        <Image source={{ uri: imageUrl }} style={styles.backGroundImage} />
-        <Rater gender={gender} ratedId={id}/>
-      </ScrollView>
+        <ScrollView style={styles.container}>
+          <Image source={{ uri: imageUrl }} style={styles.backGroundImage} />
+          <Rater gender={gender} ratedId={id}/>
+        </ScrollView>
     );
   }
 }

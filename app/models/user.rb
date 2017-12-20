@@ -35,7 +35,7 @@ class User < ApplicationRecord
 
   has_many :friends,
     through: :accepted_connections,
-    source: :user
+    source: :requested
 
   def suggest_matches_through_ratings
     ratings = []

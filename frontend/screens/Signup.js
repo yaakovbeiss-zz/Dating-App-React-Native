@@ -7,8 +7,9 @@ import {
   TouchableOpacity,
   View,
   ScrollView,
-  TextInput
+  TextInput,
 } from 'react-native';
+import Colors from '../constants/Colors';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Akira } from 'react-native-textinput-effects';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -70,7 +71,7 @@ export default class Signup extends React.Component {
   render() {
     return (
         <KeyboardAwareScrollView
-          style={{ backgroundColor: '#563d82' }}
+          style={{ backgroundColor: Colors.slackPurple }}
           resetScrollToCoords={{ x: 0, y: 0 }}
           contentContainerStyle={styles.container}
           scrollEnabled={true}
@@ -85,9 +86,9 @@ export default class Signup extends React.Component {
           autoCorrect={false}
           selectTextOnFocus={true}
           value={this.state.email}
-          borderColor={'#a5d1cc'}
-          labelStyle={{ color: '#ac83c4' }}
-          inputStyle={{ color: '#ac83c4' }}
+          borderColor={Colors.slackGreen}
+          labelStyle={{ color: Colors.slackRed }}
+          inputStyle={{ color: Colors.slackRed }}
           onChangeText={(email) => this.setState({email})}
         />
       <Akira
@@ -99,9 +100,9 @@ export default class Signup extends React.Component {
           value={this.state.password}
           autoCapitalize={'none'}
           autoCorrect={false}
-          borderColor={'#a5d1cc'}
-          labelStyle={{ color: '#ac83c4' }}
-          inputStyle={{ color: '#ac83c4' }}
+          borderColor={Colors.slackGreen}
+          labelStyle={{ color: Colors.slackRed }}
+          inputStyle={{ color: Colors.slackRed }}
           onChangeText={(password) => this.setState({password})}
         />
       <View style={styles.buttonsContainer}>
@@ -128,7 +129,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 350,
-    backgroundColor: '#563d82',
+    backgroundColor: Colors.slackPurple,
     marginLeft: 5,
     marginRight: 5,
   },
@@ -147,7 +148,7 @@ const styles = StyleSheet.create({
   },
   nextButton: {
     height: 40,
-    backgroundColor: '#a5d1cc',
+    backgroundColor: Colors.slackGreen,
     borderRadius: 5,
     alignItems: 'center',
     justifyContent: 'center',
