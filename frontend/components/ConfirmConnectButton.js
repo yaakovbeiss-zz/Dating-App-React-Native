@@ -19,7 +19,7 @@ class ConfirmConnectButton extends React.Component {
 
   _updateRequest = (status) => {
       let connection = this.props.requested_you[this.props.id];
-      console.log(connection)
+
       connection["status"] = status;
       this.props.updateConnection(connection);
   }

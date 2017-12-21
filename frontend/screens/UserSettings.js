@@ -9,7 +9,7 @@ import {
   View,
   TextInput
 } from 'react-native';
-import isEqual from 'lodash/isEqual'
+import isEqual from 'lodash/isEqual';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default class UserSettings extends React.Component {
@@ -33,7 +33,6 @@ export default class UserSettings extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (!isEqual(prevState, this.state) ) {
-      console.log(this.state)
       this.props.updateUserSettings(this.state);
     }
   }

@@ -5,37 +5,85 @@ import {
   StyleSheet,
   View,
   FlatList,
+  Animated,
+  Picker,
+  Image,
 } from 'react-native';
 import Colors from '../constants/Colors';
+import Layout from '../constants/Layout';
 import DraggableProfilePic from '../components/DraggableProfilePic';
 
 class SuggestMatch extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      scrollFemales: null,
+      scrollMales: null,
+    }
   }
 
-  static navigationOptions = ({ navigation }) => {
-    return {
-      title: `${navigation.state.routeName}`,
-    }
-  };
+  _handleScrollFemales = (e) => {
+    this.setState({ scrollFemales: e.nativeEvent.contentOffset.y })
+  }
+
+  _handleScrollMales = (e) => {
+    this.setState({ scrollMales: e.nativeEvent.contentOffset.y })
+  }
 
   render() {
     const { friends } = this.props;
 
-    let maleFriends = friends.filter((friend) => friend.gender === 1)
-    let femaleFriends = friends.filter((friend) => friend.gender === 2)
+    const maleFriends = friends.filter((friend) => friend.gender === 1)
+    const femaleFriends = friends.filter((friend) => friend.gender === 2)
+    let scrollY;
 
     return (
       <View style={styles.container}>
 
-        <ScrollView contentContainerStyle={styles.contentContainer} style={styles.scrollableSmooshFemale}>
-          {femaleFriends.map(friend => <DraggableProfilePic key={friend.id} firstName={friend.first_name} /> )}
-        </ScrollView>
+        <Animated.ScrollView
+          style={styles.scrollableSmooshFemale}
+          contentContainerStyle={styles.contentContainer}
+          snapToInterval={Layout.window.height / 4}
+          snapToAlignment={'center'}
+          scrollEventThrottle={10}
+          decelerationRate={'fast'}
+          onScroll={Animated.event(
+            [
+              {
+                nativeEvent: {
+                  contentOffset: {y: this.state.scrollY},
+                },
+              },
+            ],
+            {listener: this._handleScrollFemales},
+            {useNativeDriver: true}
+          )}>
 
-        <ScrollView contentContainerStyle={styles.contentContainer} style={styles.scrollableSmooshMale}>
-          {maleFriends.map(friend => <DraggableProfilePic key={friend.id} firstName={friend.first_name} /> )}
-        </ScrollView>
+          {femaleFriends.map(friend => <DraggableProfilePic key={friend.id} firstName={friend.first_name}
+            scrollY={this.state.scrollFemales}/> )}
+        </Animated.ScrollView>
+
+        <Animated.ScrollView
+          style={styles.scrollableSmooshMale}
+          contentContainerStyle={styles.contentContainer}
+          snapToInterval={Layout.window.height / 4}
+          snapToAlignment={'center'}
+          scrollEventThrottle={1}
+          decelerationRate={'fast'}
+          onScroll={Animated.event(
+            [
+              {
+                nativeEvent: {
+                  contentOffset: {y: this.state.scrollY},
+                },
+              },
+            ],
+            {listener: this._handleScrollMales},
+            {useNativeDriver: true}
+          )}>
+         {maleFriends.map(friend => <DraggableProfilePic key={friend.id} firstName={friend.first_name}
+           scrollY={this.state.scrollMales}/> )}
+       </Animated.ScrollView>
 
       </View>
     );
@@ -69,6 +117,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.slackBlue,
   },
   contentContainer: {
-    marginTop: 20
+    paddingTop: Math.floor(Layout.window.height / 4),
+    paddingBottom: Math.floor(Layout.window.height / 2),
   },
 });
