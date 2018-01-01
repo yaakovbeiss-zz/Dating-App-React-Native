@@ -19,7 +19,9 @@ class SuggestMatch extends React.Component {
     this.state = {
       scrollFemales: null,
       scrollMales: null,
+      setCurrentFemale: null,
     }
+    this.handleScrollEnd = this.handleScrollEnd.bind(this);
   }
 
   _handleScrollFemales = (e) => {
@@ -28,6 +30,15 @@ class SuggestMatch extends React.Component {
 
   _handleScrollMales = (e) => {
     this.setState({ scrollMales: e.nativeEvent.contentOffset.y })
+  }
+
+  handleScrollEnd = (e) => {
+    const femaleFriendsCount = this.props.friends.filter((friend) => friend.gender === 1).length
+    const height =  femaleFriendsCount * 150;
+    debugger
+    let currentHeight = height - this.state.scrollFemales;
+    let id = Math.floor(femaleFriendsCount - (currentHeight / 150))
+    this.setState({ setCurrentFemale: id })
   }
 
   render() {
@@ -47,6 +58,7 @@ class SuggestMatch extends React.Component {
           snapToAlignment={'center'}
           scrollEventThrottle={10}
           decelerationRate={'fast'}
+          onMomentumScrollEnd={this.handleScrollEnd}
           onScroll={Animated.event(
             [
               {
@@ -59,7 +71,7 @@ class SuggestMatch extends React.Component {
             {useNativeDriver: true}
           )}>
 
-          {femaleFriends.map(friend => <DraggableProfilePic key={friend.id} firstName={friend.first_name}
+          {femaleFriends.map(friend => <DraggableProfilePic id={friend.id} key={friend.id} firstName={friend.first_name}
             scrollY={this.state.scrollFemales}/> )}
         </Animated.ScrollView>
 
@@ -81,8 +93,10 @@ class SuggestMatch extends React.Component {
             {listener: this._handleScrollMales},
             {useNativeDriver: true}
           )}>
+
          {maleFriends.map(friend => <DraggableProfilePic key={friend.id} firstName={friend.first_name}
            scrollY={this.state.scrollMales}/> )}
+
        </Animated.ScrollView>
 
       </View>
