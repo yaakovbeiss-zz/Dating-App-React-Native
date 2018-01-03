@@ -19,19 +19,32 @@ export default class DraggableProfilePic extends React.Component {
     this.state = {
       scale: new Animated.Value(1),
       height: null,
+      scrollX: new Animated.Value(0),
     }
     this.currentHeight = null;
     this.opacity;
     this._handleLayout = this._handleLayout.bind(this);
   }
 
+  _handleLayout(e) {
+    this.currentHeight = e.nativeEvent.layout.y;
+    this.setState({ height: e.nativeEvent.layout.y })
+  }
+
+  handleScroll = (e) => {
+    if (e.nativeEvent.contentOffset.x > 60) {
+      this.props.makeMatch();
+    }
+  }
+
   componentDidUpdate(prevProps) {
-    if (!isEqual(prevProps, this.props) ) {
+    if (prevProps.scrollY !== this.props.scrollY) {
       const { height } = this.state;
       const { scrollY } = this.props;
 
       let currentHeight = height - scrollY;
       this.currentHeight = currentHeight;
+
       let springValue;
       switch (true) {
         case (currentHeight < 0):
@@ -45,6 +58,7 @@ export default class DraggableProfilePic extends React.Component {
         case (currentHeight < 300):
             springValue = 1.2
             this.opacity = 1;
+            this.props.setCurrentMaleOrFemaleId(this.props.gender, this.props.id)
           break;
         case (currentHeight < 440):
             springValue = .7
@@ -69,26 +83,53 @@ export default class DraggableProfilePic extends React.Component {
     }
   }
 
-  _handleLayout(e) {
-    this.currentHeight = e.nativeEvent.layout.y;
-    this.setState({ height: e.nativeEvent.layout.y })
-  }
-
   render() {
     let { scale } = this.state;
     let scrollable = this.currentHeight > 150 && this.currentHeight < 300 ? true : false;
+
+    const rotateImage = this.state.scrollX.interpolate({
+      inputRange: [0, 130],
+      outputRange: ['0deg', '80deg'],
+      extrapolate: 'clamp',
+    });
+
+    const translateY = this.state.scrollX.interpolate({
+      inputRange: [0, 130],
+      outputRange: [0, -50],
+      extrapolate: 'clamp',
+    });
+
+    const translateX = this.state.scrollX.interpolate({
+      inputRange: [0, 130],
+      outputRange: [0, -50],
+      extrapolate: 'clamp',
+    });
+
       return (
         <Animated.View style={[styles.container, {transform: [{scale}]} ]}
           onLayout={this._handleLayout}
           >
-          <ScrollView
-            style={{opacity: this.opacity}}
+          <Animated.ScrollView
+            style={{opacity: this.opacity, transform: [{rotateY: rotateImage}, {translateY: translateY}, {translateX: translateX}] }}
             scrollEnabled={scrollable}
-            horizontal={true}>
-            <Image source={require('../assets/images/default_profile_pic.jpg')}
+            horizontal={true}
+            scrollEventThrottle={10}
+            decelerationRate={'fast'}
+            onScroll={Animated.event(
+              [
+                {
+                  nativeEvent: {
+                    contentOffset: {x: this.state.scrollX},
+                  },
+                },
+              ],
+              {listener: this.handleScroll},
+              {useNativeDriver: true}
+            )}>
+            <Animated.Image source={require('../assets/images/default_profile_pic.jpg')}
             style={styles.imageStyle} />
             <Text style={styles.firstName}>{this.props.firstName}</Text>
-          </ScrollView>
+          </Animated.ScrollView>
         </Animated.View>
       );
   }

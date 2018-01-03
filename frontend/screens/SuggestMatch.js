@@ -17,11 +17,25 @@ class SuggestMatch extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      scrolling: "initial",
+      males: null,
+      females: null,
       scrollFemales: null,
       scrollMales: null,
-      setCurrentFemale: null,
+      currentFemale: null,
+      femalesCount: null,
+      malesCount: null,
+      addedHeight: Math.floor(Layout.window.height * .75)
     }
-    this.handleScrollEnd = this.handleScrollEnd.bind(this);
+    this.setCurrentMaleOrFemaleId = this.setCurrentMaleOrFemaleId.bind(this);
+    this.makeMatch = this.makeMatch.bind(this);
+  }
+
+  componentDidMount() {
+    const females = this.props.friends.filter((friend) => friend.gender === 2);
+    const males = this.props.friends.filter((friend) => friend.gender === 1);
+    this.setState({ females: females, males: males,
+      femalesCount: females.length, malesCount: males.length})
   }
 
   _handleScrollFemales = (e) => {
@@ -32,13 +46,19 @@ class SuggestMatch extends React.Component {
     this.setState({ scrollMales: e.nativeEvent.contentOffset.y })
   }
 
-  handleScrollEnd = (e) => {
-    const femaleFriendsCount = this.props.friends.filter((friend) => friend.gender === 1).length
-    const height =  femaleFriendsCount * 150;
-    debugger
-    let currentHeight = height - this.state.scrollFemales;
-    let id = Math.floor(femaleFriendsCount - (currentHeight / 150))
-    this.setState({ setCurrentFemale: id })
+  setCurrentMaleOrFemaleId(gender, id) {
+    if (gender === 1) {
+      this.currentMaleId = id;
+    } else {
+      this.currentFemaleId = id;
+    }
+  }
+
+  makeMatch() {
+    const guy = this.state.females.find((female) => female.id === this.currentFemaleId )
+    const girl = this.state.males.find((male) => male.id === this.currentMaleId )
+    console.log(guy)
+    console.log(girl)
   }
 
   render() {
@@ -46,7 +66,6 @@ class SuggestMatch extends React.Component {
 
     const maleFriends = friends.filter((friend) => friend.gender === 1)
     const femaleFriends = friends.filter((friend) => friend.gender === 2)
-    let scrollY;
 
     return (
       <View style={styles.container}>
@@ -56,9 +75,8 @@ class SuggestMatch extends React.Component {
           contentContainerStyle={styles.contentContainer}
           snapToInterval={Layout.window.height / 4}
           snapToAlignment={'center'}
-          scrollEventThrottle={10}
+          scrollEventThrottle={1}
           decelerationRate={'fast'}
-          onMomentumScrollEnd={this.handleScrollEnd}
           onScroll={Animated.event(
             [
               {
@@ -72,7 +90,9 @@ class SuggestMatch extends React.Component {
           )}>
 
           {femaleFriends.map(friend => <DraggableProfilePic id={friend.id} key={friend.id} firstName={friend.first_name}
-            scrollY={this.state.scrollFemales}/> )}
+            gender={2} setCurrentMaleOrFemaleId={this.setCurrentMaleOrFemaleId} scrollY={this.state.scrollFemales}
+            makeMatch={this.makeMatch}
+            /> )}
         </Animated.ScrollView>
 
         <Animated.ScrollView
@@ -94,8 +114,10 @@ class SuggestMatch extends React.Component {
             {useNativeDriver: true}
           )}>
 
-         {maleFriends.map(friend => <DraggableProfilePic key={friend.id} firstName={friend.first_name}
-           scrollY={this.state.scrollMales}/> )}
+         {maleFriends.map(friend => <DraggableProfilePic key={friend.id} id={friend.id} firstName={friend.first_name}
+           gender={1} setCurrentMaleOrFemaleId={this.setCurrentMaleOrFemaleId} scrollY={this.state.scrollMales}
+           makeMatch={this.makeMatch}
+           /> )}
 
        </Animated.ScrollView>
 
