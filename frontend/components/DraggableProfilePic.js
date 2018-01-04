@@ -32,9 +32,21 @@ export default class DraggableProfilePic extends React.Component {
   }
 
   handleScroll = (e) => {
-    if (e.nativeEvent.contentOffset.x > 60) {
+    console.log(e.nativeEvent.contentOffset.x)
+    // this.props.squishBoth(this.props.gender, e)
+    if (Math.abs(e.nativeEvent.contentOffset.x)> 60) {
       this.props.makeMatch();
     }
+  }
+
+  squish = (e) => {
+    // console.log(e.nativeEvent.contentOffset.x * -1)
+    //
+    // const rotateImage = this.state.scrollX.interpolate({
+    //   inputRange: [0, 130],
+    //   outputRange: ['0deg', '80deg'],
+    //   extrapolate: 'clamp',
+    // });
   }
 
   componentDidUpdate(prevProps) {
@@ -58,7 +70,6 @@ export default class DraggableProfilePic extends React.Component {
         case (currentHeight < 300):
             springValue = 1.2
             this.opacity = 1;
-            this.props.setCurrentMaleOrFemaleId(this.props.gender, this.props.id)
           break;
         case (currentHeight < 440):
             springValue = .7
@@ -86,6 +97,8 @@ export default class DraggableProfilePic extends React.Component {
   render() {
     let { scale } = this.state;
     let scrollable = this.currentHeight > 150 && this.currentHeight < 300 ? true : false;
+    let translateY;
+    let translateX;
 
     const rotateImage = this.state.scrollX.interpolate({
       inputRange: [0, 130],
@@ -93,17 +106,33 @@ export default class DraggableProfilePic extends React.Component {
       extrapolate: 'clamp',
     });
 
-    const translateY = this.state.scrollX.interpolate({
-      inputRange: [0, 130],
-      outputRange: [0, -50],
-      extrapolate: 'clamp',
-    });
+    if (this.props.gender === 1) {
+      translateY = this.state.scrollX.interpolate({
+        inputRange: [0, 70],
+        outputRange: [0, -50],
+        extrapolate: 'clamp',
+      });
+    } else {
+      translateY = this.state.scrollX.interpolate({
+        inputRange: [-70, 0],
+        outputRange: [-50, 0],
+        extrapolate: 'clamp',
+      });
+    }
 
-    const translateX = this.state.scrollX.interpolate({
-      inputRange: [0, 130],
-      outputRange: [0, -50],
-      extrapolate: 'clamp',
-    });
+    if (this.props.gender === 1) {
+      translateX = this.state.scrollX.interpolate({
+        inputRange: [0, 70],
+        outputRange: [0, -50],
+        extrapolate: 'clamp',
+      });
+    } else {
+      translateX = this.state.scrollX.interpolate({
+        inputRange: [-70, 0],
+        outputRange: [50, 0],
+        extrapolate: 'clamp',
+      });
+    }
 
       return (
         <Animated.View style={[styles.container, {transform: [{scale}]} ]}
@@ -113,7 +142,7 @@ export default class DraggableProfilePic extends React.Component {
             style={{opacity: this.opacity, transform: [{rotateY: rotateImage}, {translateY: translateY}, {translateX: translateX}] }}
             scrollEnabled={scrollable}
             horizontal={true}
-            scrollEventThrottle={10}
+            scrollEventThrottle={1}
             decelerationRate={'fast'}
             onScroll={Animated.event(
               [
@@ -126,7 +155,7 @@ export default class DraggableProfilePic extends React.Component {
               {listener: this.handleScroll},
               {useNativeDriver: true}
             )}>
-            <Animated.Image source={require('../assets/images/default_profile_pic.jpg')}
+            <Image source={require('../assets/images/default_profile_pic.jpg')}
             style={styles.imageStyle} />
             <Text style={styles.firstName}>{this.props.firstName}</Text>
           </Animated.ScrollView>
