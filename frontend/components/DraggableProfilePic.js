@@ -46,7 +46,7 @@ export default class DraggableProfilePic extends React.Component {
   }
 
   squish = (animatedEvent) => {
-    // console.log('squishing')
+    if(!this.props.selected) {return}
     if (this.props.gender === 1) {
       this.rotateImage = animatedEvent.interpolate({
         inputRange: [-70, 0],
@@ -60,7 +60,7 @@ export default class DraggableProfilePic extends React.Component {
       });
       this.translateX = animatedEvent.interpolate({
         inputRange: [-70, 0],
-        outputRange: [-50, 0],
+        outputRange: [-135, 0],
         extrapolate: 'clamp',
       });
     } else {
@@ -76,7 +76,7 @@ export default class DraggableProfilePic extends React.Component {
       });
       this.translateX = animatedEvent.interpolate({
         inputRange: [0, 70],
-        outputRange: [0, 50],
+        outputRange: [0, 135],
         extrapolate: 'clamp',
       });
     }
