@@ -17,20 +17,23 @@ class SuggestMatch extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      scrolling: "initial",
-      males: null,
-      females: null,
-      scrollFemales: null,
-      scrollMales: null,
-      currentFemale: null,
+      males: [],
+      females: [],
+      scrollYFemales: null,
+      scrollYMales: null,
+      currentFemaleElement: null,
+      currentFemaleId: null,
+      currentMaleElement: null,
+      currentMaleId: null,
       femalesCount: null,
       malesCount: null,
-      addedHeight: Math.floor(Layout.window.height * .75)
+      currentlySwiping: null,
+      addedHeight: Math.floor(Layout.window.height * .75),
     }
-    this.elements = [];
+    this.femaleElements = {};
+    this.maleElements = {};
     this.setCurrentMaleOrFemaleId = this.setCurrentMaleOrFemaleId.bind(this);
     this.makeMatch = this.makeMatch.bind(this);
-    this.squishBoth = this.squishBoth.bind(this);
   }
 
   componentDidMount() {
@@ -40,40 +43,38 @@ class SuggestMatch extends React.Component {
       femalesCount: females.length, malesCount: males.length})
   }
 
-  _handleScrollFemales = (e) => {
-    this.setState({ scrollFemales: e.nativeEvent.contentOffset.y })
+  handleScrollFemales = (e) => {
+    this.setState({ scrollYFemales: e.nativeEvent.contentOffset.y })
   }
 
-  _handleScrollMales = (e) => {
-    this.setState({ scrollMales: e.nativeEvent.contentOffset.y })
-  }
-
-  squishBoth(gender, e) {
-    // const otherSquish = gender === 1 ? this.femaleScrollView : this.maleScrollView;
-    // otherSquish.squish(e);
+  handleScrollMales = (e) => {
+    this.setState({ scrollYMales: e.nativeEvent.contentOffset.y })
   }
 
   setCurrentMaleOrFemaleId(gender) {
     if (gender === 1) {
-      this.maleScrollView = this.elements.find((el) => el.currentHeight > 150 && el.currentHeight < 300 )
-      console.log(this.maleScrollView)
-      this.currentMaleId = this.maleScrollView.props.id
+      const mappableMales = Object.keys(this.maleElements).map(id => this.maleElements[id] );
+      const maleScrollView = mappableMales.find((el) => el.currentHeight > 150 && el.currentHeight < 300 );
+      this.setState({ currentMaleElement: maleScrollView, currentMaleId: maleScrollView.props.id });
     } else {
-      this.femaleScrollView = this.elements.find((el) => el.currentHeight > 150 && el.currentHeight < 300 )
-      console.log(this.femaleScrollView)
-      this.currentFemaleId = this.femaleScrollView.props.id
+      const mappableFemales = Object.keys(this.femaleElements).map(id => this.femaleElements[id] );
+      const femaleScrollView = mappableFemales.find((el) => el.currentHeight > 150 && el.currentHeight < 300 );
+      this.setState({ currentFemaleElement: femaleScrollView, currentFemaleId: femaleScrollView.props.id });
     }
   }
 
+  setCurrentlySwiping = (id) => {
+    this.setState({ currentlySwiping: id })
+  }
+
   makeMatch() {
-    const guy = this.state.females.find((female) => female.id === this.currentFemaleId )
-    const girl = this.state.males.find((male) => male.id === this.currentMaleId )
+    const guy = this.state.females.find((female) => female.id === this.state.currentFemaleId )
+    const girl = this.state.males.find((male) => male.id === this.state.currentMaleId )
   }
 
   render() {
-    const { friends } = this.props;
-    const maleFriends = friends.filter((friend) => friend.gender === 1)
-    const femaleFriends = friends.filter((friend) => friend.gender === 2)
+    const maleFriends = this.state.males;
+    const femaleFriends = this.state.females;
 
     return (
       <View style={styles.container}>
@@ -90,17 +91,19 @@ class SuggestMatch extends React.Component {
             [
               {
                 nativeEvent: {
-                  contentOffset: {y: this.state.scrollY},
+                  contentOffset: {y: this.state.scrollYFemales},
                 },
               },
             ],
-            {listener: this._handleScrollFemales},
+            {listener: this.handleScrollFemales},
             {useNativeDriver: true}
           )}>
 
           {femaleFriends.map(friend => <DraggableProfilePic id={friend.id} key={friend.id} firstName={friend.first_name}
-            gender={2} setCurrentMaleOrFemaleId={this.setCurrentMaleOrFemaleId} scrollY={this.state.scrollFemales}
-            makeMatch={this.makeMatch} ref={el => this.elements.push(el)} squishBoth={this.squishBoth}
+            gender={2} setCurrentMaleOrFemaleId={this.setCurrentMaleOrFemaleId} scrollY={this.state.scrollYFemales}
+            makeMatch={this.makeMatch} ref={el => this.femaleElements[`${friend.id}`] = el}
+            otherElement={this.state.currentMaleElement} selected={this.state.currentFemaleId === friend.id}
+            setCurrentlySwiping={this.setCurrentlySwiping} currentlySwiping={this.state.currentlySwiping}
             /> )}
         </Animated.ScrollView>
 
@@ -116,17 +119,19 @@ class SuggestMatch extends React.Component {
             [
               {
                 nativeEvent: {
-                  contentOffset: {y: this.state.scrollY},
+                  contentOffset: {y: this.state.scrollYMales},
                 },
               },
             ],
-            {listener: this._handleScrollMales},
+            {listener: this.handleScrollMales},
             {useNativeDriver: true}
           )}>
 
          {maleFriends.map(friend => <DraggableProfilePic key={friend.id} id={friend.id} firstName={friend.first_name}
-           gender={1} setCurrentMaleOrFemaleId={this.setCurrentMaleOrFemaleId} scrollY={this.state.scrollMales}
-           makeMatch={this.makeMatch} ref={el => this.elements.push(el)} squishBoth={this.squishBoth}
+           gender={1} setCurrentMaleOrFemaleId={this.setCurrentMaleOrFemaleId} scrollY={this.state.scrollYMales}
+           makeMatch={this.makeMatch} ref={el => this.maleElements[`${friend.id}`] = el}
+           otherElement={this.state.currentFemaleElement} selected={this.state.currentMaleId === friend.id}
+           setCurrentlySwiping={this.setCurrentlySwiping} currentlySwiping={this.state.currentlySwiping}
            /> )}
 
        </Animated.ScrollView>
@@ -140,13 +145,9 @@ const mapStateToProps = ({ session }) => ({
   friends: session.currentUser.friends
 });
 
-const mapDispatchToProps = dispatch => ({
-  createConnection: (connection) => dispatch(createConnection(connection)),
-});
-
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  null
 )(SuggestMatch)
 
 const styles = StyleSheet.create({

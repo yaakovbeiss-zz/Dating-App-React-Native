@@ -25,11 +25,11 @@ export default class ContactsScreen extends React.Component {
     }
   };
 
-  componentDidMount() {
-    this.props.requestUsers();
-    this.props.requestConnections();
-    this.props.requestRatings();
-  }
+  // componentDidMount() {
+  //   this.props.requestUsers();
+  //   this.props.requestConnections();
+  //   this.props.requestRatings();
+  // }
 
   isInConnections = (user) => {
     return this.props.connection[user.id]

@@ -18,38 +18,108 @@ export default class DraggableProfilePic extends React.Component {
     super(props);
     this.state = {
       scale: new Animated.Value(1),
-      height: null,
       scrollX: new Animated.Value(0),
+      height: null,
     }
     this.currentHeight = null;
     this.opacity;
-    this._handleLayout = this._handleLayout.bind(this);
+    this.rotateImage = '0deg';
+    this.translateX = 0;
+    this.translateY = 0;
+    this.handleLayout = this.handleLayout.bind(this);
+    this.handleSwipe = this.handleSwipe.bind(this);
+    this.swipe = this.swipe.bind(this);
   }
 
-  _handleLayout(e) {
+  handleLayout(e) {
     this.currentHeight = e.nativeEvent.layout.y;
     this.setState({ height: e.nativeEvent.layout.y })
   }
 
-  handleScroll = (e) => {
-    console.log(e.nativeEvent.contentOffset.x)
-    // this.props.squishBoth(this.props.gender, e)
-    if (Math.abs(e.nativeEvent.contentOffset.x)> 60) {
-      this.props.makeMatch();
+  handleSwipe = (e) => {
+    this.props.setCurrentlySwiping(this.props.id);
+    this.props.otherElement.squish(this.state.scrollX)
+
+    // if (Math.abs(e.nativeEvent.contentOffset.x)> 60) {
+    //   this.props.makeMatch();
+    // }
+  }
+
+  squish = (animatedEvent) => {
+    // console.log('squishing')
+    if (this.props.gender === 1) {
+      this.rotateImage = animatedEvent.interpolate({
+        inputRange: [-70, 0],
+        outputRange: ['50deg', '0deg'],
+        extrapolate: 'clamp',
+      });
+      this.translateY = animatedEvent.interpolate({
+        inputRange: [-70, 0],
+        outputRange: [-50, 0],
+        extrapolate: 'clamp',
+      });
+      this.translateX = animatedEvent.interpolate({
+        inputRange: [-70, 0],
+        outputRange: [-50, 0],
+        extrapolate: 'clamp',
+      });
+    } else {
+      this.rotateImage = animatedEvent.interpolate({
+        inputRange: [0, 70],
+        outputRange: ['0deg', '50deg'],
+        extrapolate: 'clamp',
+      });
+      this.translateY = animatedEvent.interpolate({
+        inputRange: [0, 70],
+        outputRange: [0, -50],
+        extrapolate: 'clamp',
+      });
+      this.translateX = animatedEvent.interpolate({
+        inputRange: [0, 70],
+        outputRange: [0, 50],
+        extrapolate: 'clamp',
+      });
     }
   }
 
-  squish = (e) => {
-    // console.log(e.nativeEvent.contentOffset.x * -1)
-    //
-    // const rotateImage = this.state.scrollX.interpolate({
-    //   inputRange: [0, 130],
-    //   outputRange: ['0deg', '80deg'],
-    //   extrapolate: 'clamp',
-    // });
+  swipe() {
+    // console.log('swiping')
+    if (this.props.gender === 1) {
+      this.rotateImage = this.state.scrollX.interpolate({
+        inputRange: [0, 70],
+        outputRange: ['0deg', '50deg'],
+        extrapolate: 'clamp',
+      });
+      this.translateY = this.state.scrollX.interpolate({
+        inputRange: [0, 70],
+        outputRange: [0, -50],
+        extrapolate: 'clamp',
+      });
+      this.translateX = this.state.scrollX.interpolate({
+        inputRange: [0, 70],
+        outputRange: [0, -50],
+        extrapolate: 'clamp',
+      });
+    } else {
+      this.rotateImage = this.state.scrollX.interpolate({
+        inputRange: [-70, 0],
+        outputRange: ['50deg', '0deg'],
+        extrapolate: 'clamp',
+      });
+      this.translateY = this.state.scrollX.interpolate({
+        inputRange: [-70, 0],
+        outputRange: [-50, 0],
+        extrapolate: 'clamp',
+      });
+      this.translateX = this.state.scrollX.interpolate({
+        inputRange: [-70, 0],
+        outputRange: [50, 0],
+        extrapolate: 'clamp',
+      });
+    }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     if (prevProps.scrollY !== this.props.scrollY) {
       const { height } = this.state;
       const { scrollY } = this.props;
@@ -90,57 +160,23 @@ export default class DraggableProfilePic extends React.Component {
         },
         {useNativeDriver: true}
       ).start();
-
     }
   }
 
   render() {
     let { scale } = this.state;
-    let scrollable = this.currentHeight > 150 && this.currentHeight < 300 ? true : false;
-    let translateY;
-    let translateX;
-
-    const rotateImage = this.state.scrollX.interpolate({
-      inputRange: [0, 130],
-      outputRange: ['0deg', '80deg'],
-      extrapolate: 'clamp',
-    });
-
-    if (this.props.gender === 1) {
-      translateY = this.state.scrollX.interpolate({
-        inputRange: [0, 70],
-        outputRange: [0, -50],
-        extrapolate: 'clamp',
-      });
-    } else {
-      translateY = this.state.scrollX.interpolate({
-        inputRange: [-70, 0],
-        outputRange: [-50, 0],
-        extrapolate: 'clamp',
-      });
-    }
-
-    if (this.props.gender === 1) {
-      translateX = this.state.scrollX.interpolate({
-        inputRange: [0, 70],
-        outputRange: [0, -50],
-        extrapolate: 'clamp',
-      });
-    } else {
-      translateX = this.state.scrollX.interpolate({
-        inputRange: [-70, 0],
-        outputRange: [50, 0],
-        extrapolate: 'clamp',
-      });
+    if (this.props.currentlySwiping === this.props.id) {
+      this.swipe();
     }
 
       return (
-        <Animated.View style={[styles.container, {transform: [{scale}]} ]}
-          onLayout={this._handleLayout}
+        <Animated.View style={[styles.container, {transform: [{scale}] } ]}
+          onLayout={this.handleLayout}
           >
           <Animated.ScrollView
-            style={{opacity: this.opacity, transform: [{rotateY: rotateImage}, {translateY: translateY}, {translateX: translateX}] }}
-            scrollEnabled={scrollable}
+            style={{opacity: this.opacity,
+              transform: [{rotateY: this.rotateImage}, {translateY: this.translateY}, {translateX: this.translateX}] }}
+            scrollEnabled={this.props.selected}
             horizontal={true}
             scrollEventThrottle={1}
             decelerationRate={'fast'}
@@ -152,7 +188,7 @@ export default class DraggableProfilePic extends React.Component {
                   },
                 },
               ],
-              {listener: this.handleScroll},
+              {listener: this.handleSwipe},
               {useNativeDriver: true}
             )}>
             <Image source={require('../assets/images/default_profile_pic.jpg')}
