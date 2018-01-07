@@ -40,20 +40,22 @@ export default class DraggableProfilePic extends React.Component {
     this.props.changeOpacity(this.state.scrollX)
     this.props.setCurrentlySwiping(this.props.id);
     this.props.otherElement.squish(this.state.scrollX)
+  }
 
-    // if (Math.abs(e.nativeEvent.contentOffset.x)> 60) {
-    //   this.props.makeMatch();
-    // }
+  onScrollEndDrag = (e) => {
+    if (Math.abs(e.nativeEvent.contentOffset.x) > 43) {
+      this.props.makeMatch();
+    }
   }
 
   squish = (animatedEvent) => {
     if(!this.props.selected) {return}
     if (this.props.gender === 1) {
-      this.rotateImage = animatedEvent.interpolate({
-        inputRange: [-70, 0],
-        outputRange: ['50deg', '0deg'],
-        extrapolate: 'clamp',
-      });
+      // this.rotateImage = animatedEvent.interpolate({
+      //   inputRange: [-70, 0],
+      //   outputRange: ['50deg', '0deg'],
+      //   extrapolate: 'clamp',
+      // });
       this.translateY = animatedEvent.interpolate({
         inputRange: [-70, 0],
         outputRange: [-50, 0],
@@ -61,15 +63,15 @@ export default class DraggableProfilePic extends React.Component {
       });
       this.translateX = animatedEvent.interpolate({
         inputRange: [-70, 0],
-        outputRange: [-135, 0],
+        outputRange: [-130, 0],
         extrapolate: 'clamp',
       });
     } else {
-      this.rotateImage = animatedEvent.interpolate({
-        inputRange: [0, 70],
-        outputRange: ['0deg', '50deg'],
-        extrapolate: 'clamp',
-      });
+      // this.rotateImage = animatedEvent.interpolate({
+      //   inputRange: [0, 70],
+      //   outputRange: ['0deg', '50deg'],
+      //   extrapolate: 'clamp',
+      // });
       this.translateY = animatedEvent.interpolate({
         inputRange: [0, 70],
         outputRange: [0, -50],
@@ -77,7 +79,7 @@ export default class DraggableProfilePic extends React.Component {
       });
       this.translateX = animatedEvent.interpolate({
         inputRange: [0, 70],
-        outputRange: [0, 135],
+        outputRange: [0, 130],
         extrapolate: 'clamp',
       });
     }
@@ -86,11 +88,11 @@ export default class DraggableProfilePic extends React.Component {
   swipe() {
     // console.log('swiping')
     if (this.props.gender === 1) {
-      this.rotateImage = this.state.scrollX.interpolate({
-        inputRange: [0, 70],
-        outputRange: ['0deg', '50deg'],
-        extrapolate: 'clamp',
-      });
+      // this.rotateImage = this.state.scrollX.interpolate({
+      //   inputRange: [0, 70],
+      //   outputRange: ['0deg', '50deg'],
+      //   extrapolate: 'clamp',
+      // });
       this.translateY = this.state.scrollX.interpolate({
         inputRange: [0, 70],
         outputRange: [0, -50],
@@ -102,11 +104,11 @@ export default class DraggableProfilePic extends React.Component {
         extrapolate: 'clamp',
       });
     } else {
-      this.rotateImage = this.state.scrollX.interpolate({
-        inputRange: [-70, 0],
-        outputRange: ['50deg', '0deg'],
-        extrapolate: 'clamp',
-      });
+      // this.rotateImage = this.state.scrollX.interpolate({
+      //   inputRange: [-70, 0],
+      //   outputRange: ['50deg', '0deg'],
+      //   extrapolate: 'clamp',
+      // });
       this.translateY = this.state.scrollX.interpolate({
         inputRange: [-70, 0],
         outputRange: [-50, 0],
@@ -183,6 +185,7 @@ export default class DraggableProfilePic extends React.Component {
             horizontal={true}
             scrollEventThrottle={1}
             decelerationRate={'fast'}
+            onScrollEndDrag={this.onScrollEndDrag}
             onScroll={Animated.event(
               [
                 {

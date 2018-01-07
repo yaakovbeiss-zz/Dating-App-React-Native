@@ -9,11 +9,19 @@ import {
   Picker,
   Image,
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
 import DraggableProfilePic from '../components/DraggableProfilePic';
 
 class SuggestMatch extends React.Component {
+
+  static navigationOptions = {
+    title: 'Suggest',
+    isModal: false,
+    headerBackTitle: null,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -85,6 +93,8 @@ class SuggestMatch extends React.Component {
   makeMatch() {
     const guy = this.state.females.find((female) => female.id === this.state.currentFemaleId )
     const girl = this.state.males.find((male) => male.id === this.state.currentMaleId )
+    
+    this.props.navigation.navigate('MatchModal', { guy, girl })
   }
 
   render() {
@@ -177,7 +187,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollableSmooshMale: {
-    flex: 1,  
+    flex: 1,
   },
   contentContainer: {
     paddingTop: Math.floor(Layout.window.height / 4),

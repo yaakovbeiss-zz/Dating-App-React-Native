@@ -6,7 +6,7 @@
     json.birthday user.birthday.strftime("%B " "%d, " "%Y")
     json.age user.age
 
-    # json.url user.user_profile.main_image.image.url if user.user_profile
+    json.url user.avatar.image.url
 
     if user.user_settings
       json.settings do

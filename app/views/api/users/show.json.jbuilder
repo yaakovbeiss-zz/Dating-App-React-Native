@@ -1,4 +1,4 @@
-json.extract! @user, :id, :email, :first_name, :last_name, :gender, :session_token
+json.extract! @user, :id, :email, :first_name, :last_name, :gender
 
 json.birthday @user.birthday.strftime("%B " "%d, " "%Y")
 json.age @user.age
@@ -7,7 +7,9 @@ json.setup (!!@user.user_settings && !!@user.user_profile)
 json.user_settings !!@user.user_settings
 json.user_profile !!@user.user_profile
 
-json.friends @user.friends
+json.friends @user.friends.each do |friend|
+  json.partial! "api/users/friend", user: friend
+end
 
 if @user.user_settings
   json.settings do

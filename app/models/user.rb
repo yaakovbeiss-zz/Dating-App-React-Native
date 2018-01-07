@@ -11,6 +11,10 @@ class User < ApplicationRecord
   has_one :user_settings
   has_one :user_profile
 
+  has_one :avatar,
+    through: :user_profile,
+    source: :main_image
+
   has_many :connections
 
   has_many :ratings,

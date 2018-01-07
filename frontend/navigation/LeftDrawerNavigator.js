@@ -20,6 +20,7 @@ import SettingsScreen from '../containers/SettingsScreenContainer';
 import UserProfile from '../containers/UserProfileContainer';
 import RightDrawerNavigator from './RightDrawerNavigator';
 import ConnectionsNavigator from './ConnectionsNavigator';
+import SuggestMatchNavigator from './SuggestMatchNavigator';
 import DrawerSearchBar from '../components/DrawerSearchBar';
 
 import { } from 'react-navigation';
@@ -49,7 +50,7 @@ export default LeftDrawerNavigator = DrawerNavigator({
     screen: ConnectionsNavigator
   },
   SuggestMatch: {
-    screen: SuggestMatch
+    screen: SuggestMatchNavigator
   },
   UserProfile: {
     screen: UserProfile
