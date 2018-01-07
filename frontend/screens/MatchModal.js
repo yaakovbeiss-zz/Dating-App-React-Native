@@ -9,17 +9,16 @@ import {
   Image
 } from 'react-native';
 import Colors from '../constants/Colors';
+import Random from '../constants/Random';
+import { sample } from 'lodash';
 import { Ionicons } from '@expo/vector-icons';
 
 
 export default class MatchModal extends React.Component {
   static navigationOptions = ({ navigation }) => {
-    const { guy, girl } = navigation.state.params;
-
     return {
       title: 'Match',
-      headerBackTitle: <View><Ionicons name="ios-trash" size={32} color="white" /></View>,
-      headerTitle: `Match ${guy.first_name} with ${girl.first_name}`,
+      header: null,
       isModal: true,
     }
   };
@@ -45,6 +44,9 @@ export default class MatchModal extends React.Component {
           <Image source={{uri: girl.avatar}} style={styles.cardImage}/>
           <Text>{girl.first_name}</Text>
         </View>
+        <TouchableOpacity style={styles.matchButton}>
+          <Text style={styles.matchText}>{sample(Random.matchText)}</Text>
+          </TouchableOpacity>
       </View>
     )
   }
@@ -55,16 +57,38 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   maleCard: {
+    padding: 5,
     flex: .5,
     backgroundColor: Colors.slackBlue,
+    shadowColor: Colors.slackRed,
+    shadowOffset: {width: 5, height: 10},
   },
   femaleCard: {
+    padding: 5,
     flex: .5,
     backgroundColor: Colors.slackRed,
+    shadowColor: Colors.slackBlue,
+    shadowOffset: {width: 5, height: 10},
   },
   cardImage: {
     height: 150,
     width: 150,
     borderRadius: 20,
+    shadowColor: Colors.slackRed,
+    shadowOffset: {width: 5, height: 10},
+    shadowOpacity: 10,
+    shadowRadius: 10,
+  },
+  matchText: {
+    color: 'white',
+    fontWeight: '500',
+    fontSize: 20,
+  },
+  matchButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 40,
+    backgroundColor: Colors.slackGreen,
   },
 })
