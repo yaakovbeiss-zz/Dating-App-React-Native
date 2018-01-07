@@ -30,6 +30,8 @@ class SuggestMatch extends React.Component {
       currentlySwiping: null,
       addedHeight: Math.floor(Layout.window.height * .75),
     }
+    this.maleOpacity = 'rgba(129, 210, 224, 1)';
+    this.femaleOpacity = 'rgba(230, 24, 108, 1)';
     this.femaleElements = {};
     this.maleElements = {};
     this.setCurrentMaleOrFemaleId = this.setCurrentMaleOrFemaleId.bind(this);
@@ -67,6 +69,19 @@ class SuggestMatch extends React.Component {
     this.setState({ currentlySwiping: id })
   }
 
+  changeOpacity = (animatedEvent) => {
+    this.femaleOpacity = animatedEvent.interpolate({
+      inputRange: [-40, 0, 40],
+      outputRange: ['rgba(230, 24, 108, 0)', 'rgba(230, 24, 108, 1)', 'rgba(230, 24, 108, 0)'],
+      extrapolate: 'clamp',
+    });
+    this.maleOpacity = animatedEvent.interpolate({
+      inputRange: [-40, 0, 40],
+      outputRange: ['rgba(129, 210, 224, 0)', 'rgba(129, 210, 224, 1)', 'rgba(129, 210, 224, 0)'],
+      extrapolate: 'clamp',
+    });
+  }
+
   makeMatch() {
     const guy = this.state.females.find((female) => female.id === this.state.currentFemaleId )
     const girl = this.state.males.find((male) => male.id === this.state.currentMaleId )
@@ -77,10 +92,10 @@ class SuggestMatch extends React.Component {
     const femaleFriends = this.state.females;
 
     return (
-      <View style={styles.container}>
+      <Animated.View style={styles.container}>
 
         <Animated.ScrollView
-          style={styles.scrollableSmooshFemale}
+          style={[styles.scrollableSmooshFemale, {backgroundColor: this.femaleOpacity}]}
           contentContainerStyle={styles.contentContainer}
           snapToInterval={Layout.window.height / 4}
           snapToAlignment={'center'}
@@ -104,11 +119,12 @@ class SuggestMatch extends React.Component {
             makeMatch={this.makeMatch} ref={el => this.femaleElements[`${friend.id}`] = el}
             otherElement={this.state.currentMaleElement} selected={this.state.currentFemaleId === friend.id}
             setCurrentlySwiping={this.setCurrentlySwiping} currentlySwiping={this.state.currentlySwiping}
+            changeOpacity={this.changeOpacity}
             /> )}
         </Animated.ScrollView>
 
         <Animated.ScrollView
-          style={styles.scrollableSmooshMale}
+          style={[styles.scrollableSmooshMale, , {backgroundColor: this.maleOpacity}]}
           contentContainerStyle={styles.contentContainer}
           snapToInterval={Layout.window.height / 4}
           snapToAlignment={'center'}
@@ -132,11 +148,12 @@ class SuggestMatch extends React.Component {
            makeMatch={this.makeMatch} ref={el => this.maleElements[`${friend.id}`] = el}
            otherElement={this.state.currentFemaleElement} selected={this.state.currentMaleId === friend.id}
            setCurrentlySwiping={this.setCurrentlySwiping} currentlySwiping={this.state.currentlySwiping}
+           changeOpacity={this.changeOpacity}
            /> )}
 
        </Animated.ScrollView>
 
-      </View>
+     </Animated.View>
     );
   }
 }
@@ -153,15 +170,14 @@ export default connect(
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'row'
+    flexDirection: 'row',
+    backgroundColor: Colors.slackGreen,
   },
   scrollableSmooshFemale: {
     flex: 1,
-    backgroundColor: Colors.slackRed,
   },
   scrollableSmooshMale: {
-    flex: 1,
-    backgroundColor: Colors.slackBlue,
+    flex: 1,  
   },
   contentContainer: {
     paddingTop: Math.floor(Layout.window.height / 4),

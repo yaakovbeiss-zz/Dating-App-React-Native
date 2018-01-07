@@ -37,6 +37,7 @@ export default class DraggableProfilePic extends React.Component {
   }
 
   handleSwipe = (e) => {
+    this.props.changeOpacity(this.state.scrollX)
     this.props.setCurrentlySwiping(this.props.id);
     this.props.otherElement.squish(this.state.scrollX)
 
@@ -165,6 +166,8 @@ export default class DraggableProfilePic extends React.Component {
 
   render() {
     let { scale } = this.state;
+    let imageOpacity = this.opacity;
+
     if (this.props.currentlySwiping === this.props.id) {
       this.swipe();
     }
@@ -192,7 +195,7 @@ export default class DraggableProfilePic extends React.Component {
               {useNativeDriver: true}
             )}>
             <Image source={require('../assets/images/default_profile_pic.jpg')}
-            style={styles.imageStyle} />
+              style={[styles.imageStyle, {opacity: imageOpacity} ]} />
             <Text style={styles.firstName}>{this.props.firstName}</Text>
           </Animated.ScrollView>
         </Animated.View>
