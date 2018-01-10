@@ -13,7 +13,7 @@ import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
 
 
-export default class DraggableProfilePic extends React.Component {
+export default class SquishableProfilePic extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -36,8 +36,8 @@ export default class DraggableProfilePic extends React.Component {
     this.setState({ height: e.nativeEvent.layout.y })
   }
 
-  handleSwipe = (e) => {
-    this.props.changeOpacity(this.state.scrollX)
+  handleSwipe = () => {
+    this.props.changeBackgroundColor(this.state.scrollX)
     this.props.setCurrentlySwiping(this.props.id);
     this.props.otherElement.squish(this.state.scrollX)
   }
@@ -168,7 +168,6 @@ export default class DraggableProfilePic extends React.Component {
 
   render() {
     let { scale } = this.state;
-    let imageOpacity = this.opacity;
 
     if (this.props.currentlySwiping === this.props.id) {
       this.swipe();
@@ -197,9 +196,11 @@ export default class DraggableProfilePic extends React.Component {
               {listener: this.handleSwipe},
               {useNativeDriver: true}
             )}>
-            <Image source={require('../assets/images/default_profile_pic.jpg')}
-              style={[styles.imageStyle, {opacity: imageOpacity} ]} />
-            <Text style={styles.firstName}>{this.props.firstName}</Text>
+            <Animated.View style={{opacity: this.props.selected ? this.opacity : this.props.opacity}}>
+              <Image source={require('../assets/images/default_profile_pic.jpg')} style={styles.imageStyle} />
+              <Text style={styles.firstName}>{this.props.firstName}</Text>
+            </Animated.View>
+
           </Animated.ScrollView>
         </Animated.View>
       );

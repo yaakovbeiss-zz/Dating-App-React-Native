@@ -11,7 +11,6 @@ import {
 } from 'react-native';
 import Colors from '../constants/Colors';
 import Rater from '../components/Rater';
-import DraggableProfilePic from '../components/DraggableProfilePic';
 
 export default class ContactsProfile extends React.Component {
   constructor(props) {

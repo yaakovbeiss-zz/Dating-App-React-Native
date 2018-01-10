@@ -12,7 +12,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
-import DraggableProfilePic from '../components/DraggableProfilePic';
+import SquishableProfilePic from '../components/SquishableProfilePic';
 
 class SuggestMatch extends React.Component {
 
@@ -38,8 +38,9 @@ class SuggestMatch extends React.Component {
       currentlySwiping: null,
       addedHeight: Math.floor(Layout.window.height * .75),
     }
-    this.maleOpacity = 'rgba(129, 210, 224, 1)';
-    this.femaleOpacity = 'rgba(230, 24, 108, 1)';
+    this.maleBackgroundColor = 'rgba(129, 210, 224, 1)';
+    this.opacity = 1;
+    this.femaleBackgroundColor = 'rgba(230, 24, 108, 1)';
     this.femaleElements = {};
     this.maleElements = {};
     this.setCurrentMaleOrFemaleId = this.setCurrentMaleOrFemaleId.bind(this);
@@ -77,15 +78,20 @@ class SuggestMatch extends React.Component {
     this.setState({ currentlySwiping: id })
   }
 
-  changeOpacity = (animatedEvent) => {
-    this.femaleOpacity = animatedEvent.interpolate({
+  changeBackgroundColor = (animatedEvent) => {
+    this.femaleBackgroundColor = animatedEvent.interpolate({
       inputRange: [-40, 0, 40],
       outputRange: ['rgba(230, 24, 108, 0)', 'rgba(230, 24, 108, 1)', 'rgba(230, 24, 108, 0)'],
       extrapolate: 'clamp',
     });
-    this.maleOpacity = animatedEvent.interpolate({
+    this.maleBackgroundColor = animatedEvent.interpolate({
       inputRange: [-40, 0, 40],
       outputRange: ['rgba(129, 210, 224, 0)', 'rgba(129, 210, 224, 1)', 'rgba(129, 210, 224, 0)'],
+      extrapolate: 'clamp',
+    });
+    this.opacity = animatedEvent.interpolate({
+      inputRange: [-40, 0, 40],
+      outputRange: [0, 1, 0],
       extrapolate: 'clamp',
     });
   }
@@ -93,7 +99,7 @@ class SuggestMatch extends React.Component {
   makeMatch() {
     const guy = this.state.females.find((female) => female.id === this.state.currentFemaleId )
     const girl = this.state.males.find((male) => male.id === this.state.currentMaleId )
-    
+
     this.props.navigation.navigate('MatchModal', { guy, girl })
   }
 
@@ -105,7 +111,7 @@ class SuggestMatch extends React.Component {
       <Animated.View style={styles.container}>
 
         <Animated.ScrollView
-          style={[styles.scrollableSmooshFemale, {backgroundColor: this.femaleOpacity}]}
+          style={[styles.scrollableSmooshFemale, {backgroundColor: this.femaleBackgroundColor}]}
           contentContainerStyle={styles.contentContainer}
           snapToInterval={Layout.window.height / 4}
           snapToAlignment={'center'}
@@ -124,17 +130,17 @@ class SuggestMatch extends React.Component {
             {useNativeDriver: true}
           )}>
 
-          {femaleFriends.map(friend => <DraggableProfilePic id={friend.id} key={friend.id} firstName={friend.first_name}
+          {femaleFriends.map(friend => <SquishableProfilePic id={friend.id} key={friend.id} firstName={friend.first_name}
             gender={2} setCurrentMaleOrFemaleId={this.setCurrentMaleOrFemaleId} scrollY={this.state.scrollYFemales}
             makeMatch={this.makeMatch} ref={el => this.femaleElements[`${friend.id}`] = el}
             otherElement={this.state.currentMaleElement} selected={this.state.currentFemaleId === friend.id}
             setCurrentlySwiping={this.setCurrentlySwiping} currentlySwiping={this.state.currentlySwiping}
-            changeOpacity={this.changeOpacity}
+            changeBackgroundColor={this.changeBackgroundColor} opacity={this.opacity}
             /> )}
         </Animated.ScrollView>
 
         <Animated.ScrollView
-          style={[styles.scrollableSmooshMale, , {backgroundColor: this.maleOpacity}]}
+          style={[styles.scrollableSmooshMale, , {backgroundColor: this.maleBackgroundColor}]}
           contentContainerStyle={styles.contentContainer}
           snapToInterval={Layout.window.height / 4}
           snapToAlignment={'center'}
@@ -153,12 +159,12 @@ class SuggestMatch extends React.Component {
             {useNativeDriver: true}
           )}>
 
-         {maleFriends.map(friend => <DraggableProfilePic key={friend.id} id={friend.id} firstName={friend.first_name}
+         {maleFriends.map(friend => <SquishableProfilePic key={friend.id} id={friend.id} firstName={friend.first_name}
            gender={1} setCurrentMaleOrFemaleId={this.setCurrentMaleOrFemaleId} scrollY={this.state.scrollYMales}
            makeMatch={this.makeMatch} ref={el => this.maleElements[`${friend.id}`] = el}
            otherElement={this.state.currentFemaleElement} selected={this.state.currentMaleId === friend.id}
            setCurrentlySwiping={this.setCurrentlySwiping} currentlySwiping={this.state.currentlySwiping}
-           changeOpacity={this.changeOpacity}
+           changeBackgroundColor={this.changeBackgroundColor} opacity={this.opacity}
            /> )}
 
        </Animated.ScrollView>
