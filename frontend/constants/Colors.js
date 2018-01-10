@@ -17,6 +17,7 @@ export default {
   slackDeepPurple: "#36183b",
   slackGreen: "#48c4a1",
   slackDeepRed: "#60212e",
+  slackYellow: '#eeb625',
   redWarn: "#dc3e3e",
 };
 

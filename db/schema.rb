@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171217183838) do
+ActiveRecord::Schema.define(version: 20180110194351) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +20,15 @@ ActiveRecord::Schema.define(version: 20171217183838) do
     t.integer "requested_id",                     null: false
     t.string  "status",       default: "Pending", null: false
     t.index ["user_id", "requested_id"], name: "index_connections_on_user_id_and_requested_id", unique: true, using: :btree
+  end
+
+  create_table "matches", force: :cascade do |t|
+    t.integer  "matchmaker_id", null: false
+    t.integer  "recipient_id",  null: false
+    t.integer  "suggested_id",  null: false
+    t.text     "message"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
   create_table "profile_images", force: :cascade do |t|

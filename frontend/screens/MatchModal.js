@@ -34,6 +34,36 @@ export default class MatchModal extends React.Component {
       }
     }
   }
+
+  handleMatch = () => {
+    const { guy, girl } = this.props.navigation.state.params;
+    const guyMatch = {}
+    const girlMatch = {}
+
+    if (this.state.matchGuy && this.state.matchGirl) {
+      this.props.createMatch(guyMatch)
+      this.props.createMatch(girlMatch)
+    } else if (this.state.matchGuy) {
+      this.props.createMatch(guyMatch)
+    } else if (this.state.matchGirl) {
+      this.props.createMatch(girlMatch)
+    }
+  }
+
+  matchText = () => {
+    const { guy, girl } = this.props.navigation.state.params;
+
+    if (this.state.matchGuy && this.state.matchGirl) {
+      return `Send match to ${guy.first_name} & ${girl.first_name}`
+    } else if (this.state.matchGuy) {
+      return `Send match to ${guy.first_name}`
+    } else if (this.state.matchGirl) {
+      return `Send match to ${girl.first_name}`
+    } else {
+      return 'Choose who to send match to'
+    }
+  }
+
   render() {
     const { guy, girl } = this.props.navigation.state.params;
 
@@ -45,7 +75,7 @@ export default class MatchModal extends React.Component {
 
         <View style={styles.maleCard}>
 
-          <View>
+          <View style={styles.cardLeft}>
             <Image source={{uri: guy.avatar}} style={styles.cardImage} />
 
             <View style={styles.info}>
@@ -54,9 +84,9 @@ export default class MatchModal extends React.Component {
 
             <TouchableOpacity
               style={[styles.activateMatch, {backgroundColor:
-              this.state.matchGuy ? Colors.slackGreen : Colors.slackPurple } ]}
+              this.state.matchGuy ? Colors.slackGreen : Colors.slackYellow } ]}
               onPress={() => this.setState({ matchGuy: !this.state.matchGuy })}>
-              <Text>{`Match ${guy.first_name}`}</Text>
+              <Text style={styles.activateMatchText}>{`Match ${guy.first_name}`}</Text>
             </TouchableOpacity>
 
           </View>
@@ -75,7 +105,7 @@ export default class MatchModal extends React.Component {
 
         <View style={styles.femaleCard}>
 
-          <View>
+          <View style={styles.cardLeft}>
 
             <Image source={{uri: girl.avatar}} style={styles.cardImage} />
 
@@ -85,9 +115,9 @@ export default class MatchModal extends React.Component {
 
               <TouchableOpacity
                 style={[styles.activateMatch, {backgroundColor:
-                this.state.matchGirl ? Colors.slackGreen : Colors.slackPurple } ]}
+                this.state.matchGirl ? Colors.slackGreen : Colors.slackYellow } ]}
                 onPress={() => this.setState({ matchGirl: !this.state.matchGirl })}>
-                <Text>{`Match ${girl.first_name}`}</Text>
+                <Text style={styles.activateMatchText}>{`Match ${girl.first_name}`}</Text>
               </TouchableOpacity>
 
           </View>
@@ -105,9 +135,12 @@ export default class MatchModal extends React.Component {
         </View>
 
         <TouchableOpacity
+          disabled={!this.state.matchGuy && !this.state.matchGirl}
+          onPress={this.handleMatch}
           style={[styles.matchButton,
-            {opacity: (!this.state.matchGuy && !this.state.matchGirl) ? .5 : 1}]} >
-          <Text style={styles.matchText}>{sample(Random.matchText)}</Text>
+            {backgroundColor:
+            this.state.matchGirl || this.state.matchGuy ? Colors.slackGreen : Colors.slackYellow }]} >
+          <Text style={styles.matchText}>{this.matchText()}</Text>
         </TouchableOpacity>
 
       </KeyboardAwareScrollView>
@@ -148,6 +181,9 @@ const styles = StyleSheet.create({
     shadowColor: Colors.slackBlue,
     shadowOffset: {width: 5, height: 10},
   },
+  cardLeft: {
+    justifyContent: 'space-between',
+  },
   cardImage: {
     height: 150,
     width: 150,
@@ -169,6 +205,13 @@ const styles = StyleSheet.create({
   activateMatch: {
     width: 125,
     height: 25,
+    borderRadius: 5,
+    alignItems: 'center',
+  },
+  activateMatchText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
   textInput: {
     height: 280,
@@ -190,7 +233,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     height: 40,
-    backgroundColor: Colors.slackGreen,
     borderRadius: 5,
   },
 })

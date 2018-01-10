@@ -41,6 +41,22 @@ class User < ApplicationRecord
     through: :accepted_connections,
     source: :requested
 
+  has_many :made_matches,
+    class_name: 'Match',
+    foreign_key: :matchmaker_id
+
+  has_many :people_setup,
+    through: :made_matches,
+    source: :recipient
+
+  has_many :received_matches,
+    class_name: 'Match',
+    foreign_key: :recipient_id
+
+  has_many :people_setup_with_me,
+    through: :received_matches,
+    source: :suggested
+
   def suggest_matches_through_ratings
     ratings = []
     my_highly_rated_ids = self.highly_rated_matches.pluck(:id)
