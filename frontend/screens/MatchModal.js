@@ -37,8 +37,11 @@ export default class MatchModal extends React.Component {
 
   handleMatch = () => {
     const { guy, girl } = this.props.navigation.state.params;
-    const guyMatch = {}
-    const girlMatch = {}
+    const guyMatch = {matchmaker_id: this.props.currentUser.id, recipient_id: guy.id,
+      suggested_id: girl.id, message: this.state.guyMessage}
+
+    const girlMatch = {matchmaker_id: this.props.currentUser.id, recipient_id: girl.id,
+      suggested_id: guy.id, message: this.state.girlMessage}
 
     if (this.state.matchGuy && this.state.matchGirl) {
       this.props.createMatch(guyMatch)
@@ -183,6 +186,10 @@ const styles = StyleSheet.create({
   },
   cardLeft: {
     justifyContent: 'space-between',
+    shadowColor: 'grey',
+    shadowOffset: {width: 5, height: 5},
+    shadowOpacity: 1,
+    shadowRadius: 5,
   },
   cardImage: {
     height: 150,

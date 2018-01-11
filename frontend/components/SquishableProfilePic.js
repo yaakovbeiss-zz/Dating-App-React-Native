@@ -40,12 +40,17 @@ export default class SquishableProfilePic extends React.Component {
   handleSwipe = () => {
     this.props.changeBackgroundColor(this.state.scrollX)
     this.props.setCurrentlySwiping(this.props.id);
-    this.props.otherElement.setScrollable(false)
     this.props.otherElement.squish(this.state.scrollX)
   }
 
+  onScrollBeginDrag = () => {
+    this.props.otherElement.setScrollable(false)
+    console.log('setting to false')
+  }
+
   onScrollEndDrag = (e) => {
-    this.props.otherElement.setScrollable(true);
+    this.props.otherElement.setScrollable(true)
+    console.log('setting to true')
     if (Math.abs(e.nativeEvent.contentOffset.x) > 43) {
       this.props.makeMatch();
     }
@@ -187,11 +192,13 @@ export default class SquishableProfilePic extends React.Component {
           <Animated.ScrollView
             style={{opacity: this.opacity,
               transform: [{rotateY: this.rotateImage}, {translateY: this.translateY}, {translateX: this.translateX}] }}
-            scrollEnabled={this.state.selected && this.state.scrollable}
+            scrollEnabled={this.props.selected && this.state.scrollable}
             horizontal={true}
             scrollEventThrottle={1}
             decelerationRate={'fast'}
+            onScrollBeginDrag={this.onScrollBeginDrag}
             onScrollEndDrag={this.onScrollEndDrag}
+            onTouchStart={this.handleTouch}
             onScroll={Animated.event(
               [
                 {

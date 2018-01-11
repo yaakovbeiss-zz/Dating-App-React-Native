@@ -53,7 +53,7 @@ class User < ApplicationRecord
     class_name: 'Match',
     foreign_key: :recipient_id
 
-  has_many :people_setup_with_me,
+  has_many :people_suggested_to_me,
     through: :received_matches,
     source: :suggested
 

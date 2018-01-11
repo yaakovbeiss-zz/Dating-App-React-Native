@@ -11,6 +11,14 @@ json.friends @user.friends.each do |friend|
   json.partial! "api/users/friend", user: friend
 end
 
+json.people_setup @user.people_setup.each do |friend|
+  json.partial! "api/users/friend", user: friend
+end
+
+json.people_suggested_to_me @user.people_suggested_to_me.each do |friend|
+  json.partial! "api/users/friend", user: friend
+end
+
 if @user.user_settings
   json.settings do
     json.id @user.user_settings.id
