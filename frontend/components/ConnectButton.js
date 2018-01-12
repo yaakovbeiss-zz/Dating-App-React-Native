@@ -14,10 +14,10 @@ import { Ionicons } from '@expo/vector-icons';
 class ConnectButton extends React.Component {
   constructor(props) {
     super(props);
-    this._sendRequest = this._sendRequest.bind(this);
+    this.sendRequest = this.sendRequest.bind(this);
   }
 
-  _sendRequest = () => {
+  sendRequest = () => {
     let connection = { status: "Pending", requested_id: this.props.id }
     this.props.createConnection(connection);
   }
@@ -25,7 +25,7 @@ class ConnectButton extends React.Component {
   render() {
     return(
       <TouchableOpacity
-        onPress={this._sendRequest}
+        onPress={this.sendRequest}
         style={[styles.container,
           {backgroundColor: this.props.gender === 1 ? Colors.slackBlue : Colors.slackRed } ]}>
           <Text style={styles.textStyle}>Connect</Text>

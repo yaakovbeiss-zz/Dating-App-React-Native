@@ -15,8 +15,17 @@ json.people_setup @user.people_setup.each do |friend|
   json.partial! "api/users/friend", user: friend
 end
 
-json.people_suggested_to_me @user.people_suggested_to_me.each do |friend|
-  json.partial! "api/users/friend", user: friend
+json.people_suggested_to_me @user.received_matches.each do |match_received|
+  suggested = match_received.suggested
+  matchmaker = match_received.matchmaker
+
+  json.matchmaker do
+    json.partial! "api/users/friend", user: matchmaker
+  end
+  json.suggested do
+    json.partial! "api/users/friend", user: suggested
+  end
+
 end
 
 if @user.user_settings

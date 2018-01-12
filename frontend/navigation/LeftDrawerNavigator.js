@@ -21,6 +21,7 @@ import UserProfile from '../containers/UserProfileContainer';
 import RightDrawerNavigator from './RightDrawerNavigator';
 import ConnectionsNavigator from './ConnectionsNavigator';
 import SuggestMatchNavigator from './SuggestMatchNavigator';
+import MatchesNavigator from './MatchesNavigator';
 import DrawerSearchBar from '../components/DrawerSearchBar';
 
 import { } from 'react-navigation';
@@ -48,6 +49,9 @@ const styles = StyleSheet.create({
 export default LeftDrawerNavigator = DrawerNavigator({
   ConnectionsNavigator: {
     screen: ConnectionsNavigator
+  },
+  Matches: {
+    screen: MatchesNavigator
   },
   SuggestMatch: {
     screen: SuggestMatchNavigator

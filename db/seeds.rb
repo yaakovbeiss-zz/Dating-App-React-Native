@@ -34,14 +34,12 @@ profile_image = ProfileImage.create!({ user_profile_id: user_profile.id, main_im
 
   profile_image = ProfileImage.create!({ user_profile_id: user_profile.id, main_image: true, image: image })
 
-
-  status = 'Accepted'
-  Connection.create!({ user_id: yaakov.id, requested_id: user.id, status: status})
+  Connection.create!({ user_id: yaakov.id, requested_id: user.id, status: 'Accepted'})
 
   User.all.each do |other_user|
     if other_user.gender != user.gender
       Rating.create!({ rater_id: user.id, rated_id: other_user.id, rating: (rand(5) + 1) })
+      Match.create!({ matchmaker_id: user.id, recipient_id: yaakov.id, suggested_id: other_user.id, message: Faker::Seinfeld.quote })
     end
   end
-
 end
