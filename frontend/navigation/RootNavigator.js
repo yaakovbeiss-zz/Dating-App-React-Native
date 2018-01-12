@@ -20,7 +20,19 @@ export default class RootNavigator extends React.Component {
     if(currentUser && currentUser.session_token) {
         const token = currentUser.session_token;
         axios.defaults.headers.common['AUTH_TOKEN'] = token;
-        axios.defaults.headers['AUTH_TOKEN'] = token;
+        console.log(axios.defaults.headers.common['AUTH_TOKEN'])
+      }
+  }
+
+  componentDidReceiveProps() {
+    const currentUser = this.props.currentUser;
+    if(currentUser && currentUser.session_token) {
+        const token = currentUser.session_token;
+        axios.defaults.headers.common['AUTH_TOKEN'] = token;
+        console.log(axios.defaults.headers.common['AUTH_TOKEN'])
+      }
+      if (!this.props.signedIn) {
+        this.props.persistor.purge();
       }
   }
 
@@ -29,7 +41,6 @@ export default class RootNavigator extends React.Component {
     if(currentUser && currentUser.session_token) {
         const token = currentUser.session_token;
         axios.defaults.headers.common['AUTH_TOKEN'] = token;
-        axios.defaults.headers['AUTH_TOKEN'] = token;
       }
     if (!this.props.signedIn) {
       this.props.persistor.purge();
@@ -42,7 +53,7 @@ export default class RootNavigator extends React.Component {
 
   render() {
     if (this.props.signedIn && this.props.currentUser.setup) {
-      return <MainNavigator />;
+      return <MainNavigator />
     } else if (this.props.signedIn) {
       return <SetupNavigator />
     } else {

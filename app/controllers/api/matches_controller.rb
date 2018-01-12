@@ -5,18 +5,26 @@ class Api::MatchesController < ApplicationController
     match.matchmaker_id = current_user.id
 
     if match.save
-      @user = current_user
-      render "api/users/show"
+      @matches = Match.where(["matchmaker_id = :user_id OR recipient_id = :user_id",
+        {user_id: current_user.id}])
+      render :index
     else
       render json: match.errors.full_messages, status: 422
     end
   end
 
+  def index
+    @matches = Match.where(["matchmaker_id = :user_id OR recipient_id = :user_id",
+      {user_id: current_user.id}])
+    render :index
+  end
+
   def destroy
-    @user = current_user
     match = Match.find(params[:id])
     if match.destroy
-      render "api/users/show"
+      @matches = Match.where(["matchmaker_id = :user_id OR recipient_id = :user_id",
+        {user_id: current_user.id}])
+      render :index
     else
       render json: match.errors.full_messages, status: 422
     end

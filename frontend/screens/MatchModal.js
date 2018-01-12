@@ -6,9 +6,11 @@ import {
   TouchableOpacity,
   View,
   TextInput,
-  Image
+  Image,
+  Animated
 } from 'react-native';
 import Colors from '../constants/Colors';
+import Layout from '../constants/Layout';
 import Random from '../constants/Random';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { sample } from 'lodash';
@@ -25,14 +27,48 @@ export default class MatchModal extends React.Component {
   };
 
   constructor(props) {
-    super(props); {
-      this.state = {
-        matchGuy: false,
-        matchGirl: false,
-        guyMessage: '',
-        girlMessage: '',
-      }
+    super(props);
+    this.state = {
+      matchGuy: false,
+      matchGirl: false,
+      guyMessage: '',
+      girlMessage: '',
+      openMatchModal: false,
+      openModalOpacity: new Animated.Value(0)
     }
+  }
+
+  matchModal = () => {
+    if (this.state.openMatchModal) {
+      return (
+        <Animated.View
+          style={[styles.matchModal, {opacity: this.state.openModalOpacity}]}>
+          <Ionicons name="ios-man" size={150} style={styles.icons}></Ionicons>
+          <Ionicons name="md-heart" size={150} style={styles.icons}></Ionicons>
+          <Ionicons name="ios-woman" size={150} style={styles.icons}></Ionicons>
+        </Animated.View>
+      )
+    } else { return null }
+  }
+
+  openCloseModal = () => {
+    this.setState({ openMatchModal: true }, () => {
+      Animated.sequence([
+        Animated.timing(this.state.openModalOpacity, {
+          toValue: 1,
+          duration: 1500
+        }),
+        Animated.timing(this.state.openModalOpacity, {
+          toValue: 0,
+          duration: 3000
+        })
+      ]).start();
+      setTimeout(this.goToSuggestMatch, 4500 )
+    })
+  }
+
+  goToSuggestMatch = () => {
+    this.props.navigation.navigate("FindMatch");
   }
 
   handleMatch = () => {
@@ -51,6 +87,7 @@ export default class MatchModal extends React.Component {
     } else if (this.state.matchGirl) {
       this.props.createMatch(girlMatch)
     }
+    this.openCloseModal();
   }
 
   matchText = () => {
@@ -99,7 +136,7 @@ export default class MatchModal extends React.Component {
               style={styles.textInput}
               placeholder={`Send a message to ${guy.first_name}`}
               multiline={true}
-              onChangeText={(text) => this.setState({guyMessage})}
+              onChangeText={(text) => this.setState({guyMessage: text})}
               value={this.state.guyMessage}></TextInput>
           </View>
 
@@ -130,7 +167,7 @@ export default class MatchModal extends React.Component {
               style={styles.textInput}
               placeholder={`Send a message to ${girl.first_name}`}
               multiline={true}
-              onChangeText={(text) => this.setState({girlMessage})}
+              onChangeText={(text) => this.setState({girlMessage: text})}
               value={this.state.girlMessage}></TextInput>
           </View>
 
@@ -145,6 +182,8 @@ export default class MatchModal extends React.Component {
             this.state.matchGirl || this.state.matchGuy ? Colors.slackGreen : Colors.slackYellow }]} >
           <Text style={styles.matchText}>{this.matchText()}</Text>
         </TouchableOpacity>
+
+        {this.matchModal()}
 
       </KeyboardAwareScrollView>
     )
@@ -241,5 +280,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     height: 40,
     borderRadius: 5,
+  },
+  matchModal: {
+    position: 'absolute',
+    backgroundColor: 'grey',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: Layout.window.width,
+    height: Layout.window.height,
+  },
+  icons: {
+    color: Colors.slackGreen,
   },
 })

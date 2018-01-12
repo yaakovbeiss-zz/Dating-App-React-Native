@@ -1,4 +1,4 @@
-json.extract! @user, :id, :email, :first_name, :last_name, :gender
+json.extract! @user, :id, :email, :first_name, :last_name, :gender, :session_token
 
 json.birthday @user.birthday.strftime("%B " "%d, " "%Y")
 json.age @user.age

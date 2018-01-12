@@ -1,6 +1,6 @@
 import { StackNavigator } from 'react-navigation';
 import SuggestMatch from '../screens/SuggestMatch';
-import MatchModal from '../screens/MatchModal';
+import MatchModal from '../containers/MatchModalContainer';
 
 
 export default SuggestMatchNavigator =  StackNavigator(

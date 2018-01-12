@@ -101,7 +101,7 @@ export default class UserProfile extends React.Component {
       if (this.state[field]) {
         const textField = field.split('Open')[0]
         return <TextInput style={styles.textInput}
-          onChangeText={ (field) => this.setState({ [textField]: field })}>
+          onChangeText={ (text) => this.setState({ [textField]: text })}>
         </TextInput>
       }
   }

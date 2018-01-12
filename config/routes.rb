@@ -8,7 +8,7 @@ Rails.application.routes.draw do
     resources :profile_images, only: [:create, :destroy, :index, :show]
     resources :connections, only: [:create, :update, :destroy, :index]
     resources :ratings, only: [:create, :update, :destroy, :index]
-    resources :matches, only: [:create, :destroy]
+    resources :matches, only: [:create, :index, :destroy]
   end
 
 end

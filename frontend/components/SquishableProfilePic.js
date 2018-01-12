@@ -45,12 +45,10 @@ export default class SquishableProfilePic extends React.Component {
 
   onScrollBeginDrag = () => {
     this.props.otherElement.setScrollable(false)
-    console.log('setting to false')
   }
 
   onScrollEndDrag = (e) => {
     this.props.otherElement.setScrollable(true)
-    console.log('setting to true')
     if (Math.abs(e.nativeEvent.contentOffset.x) > 43) {
       this.props.makeMatch();
     }
@@ -198,7 +196,6 @@ export default class SquishableProfilePic extends React.Component {
             decelerationRate={'fast'}
             onScrollBeginDrag={this.onScrollBeginDrag}
             onScrollEndDrag={this.onScrollEndDrag}
-            onTouchStart={this.handleTouch}
             onScroll={Animated.event(
               [
                 {
