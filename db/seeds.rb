@@ -7,8 +7,10 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 require 'faker'
+require 'ui_faces'
+require 'open-uri'
 
-image = File.new("app/assets/images/default_profile_pic.jpg")
+
 
 yaakov = User.create!({ email: "yaakovbeiss@gmail.com", password: 'password', first_name: "Yaakov", last_name: "Beiss",
   gender: 1, birthday: Faker::Date.birthday })
@@ -16,6 +18,8 @@ yaakov = User.create!({ email: "yaakovbeiss@gmail.com", password: 'password', fi
 user_settings = UserSettings.create!({ user_id: yaakov.id, discoverable: true, suggestable: true, messageable: true })
 user_profile = UserProfile.create!({ user_id: yaakov.id, lat: Faker::Address.latitude, lng: Faker::Address.longitude,
   bio: Faker::Seinfeld.quote, work: Faker::Seinfeld.quote, education: Faker::Seinfeld.quote })
+
+image = URI.parse(UiFaces.man)
 
 profile_image = ProfileImage.create!({ user_profile_id: user_profile.id, main_image: true, image: image })
 
@@ -31,6 +35,13 @@ profile_image = ProfileImage.create!({ user_profile_id: user_profile.id, main_im
   user_settings = UserSettings.create!({ user_id: user.id, discoverable: true, suggestable: true, messageable: true })
   user_profile = UserProfile.create!({ user_id: user.id, lat: Faker::Address.latitude, lng: Faker::Address.longitude,
     bio: Faker::Seinfeld.quote, work: Faker::Seinfeld.quote, education: Faker::Seinfeld.quote })
+
+  if user.gender == 1
+    image = URI.parse(UiFaces.man)
+  else
+    image = URI.parse(UiFaces.woman)
+  end
+
 
   profile_image = ProfileImage.create!({ user_profile_id: user_profile.id, main_image: true, image: image })
 

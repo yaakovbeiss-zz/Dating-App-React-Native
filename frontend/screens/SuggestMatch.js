@@ -65,11 +65,11 @@ class SuggestMatch extends React.Component {
   setCurrentMaleOrFemaleId(gender) {
     if (gender === 1) {
       const mappableMales = Object.keys(this.maleElements).map(id => this.maleElements[id] );
-      const maleScrollView = mappableMales.find((el) => el.currentHeight > 150 && el.currentHeight < 300 );
+      const maleScrollView = mappableMales.find((el) => el.currentHeight > 140 && el.currentHeight < 315 );
       this.setState({ currentMaleElement: maleScrollView, currentMaleId: maleScrollView.props.id });
     } else {
       const mappableFemales = Object.keys(this.femaleElements).map(id => this.femaleElements[id] );
-      const femaleScrollView = mappableFemales.find((el) => el.currentHeight > 150 && el.currentHeight < 300 );
+      const femaleScrollView = mappableFemales.find((el) => el.currentHeight > 140 && el.currentHeight < 315 );
       this.setState({ currentFemaleElement: femaleScrollView, currentFemaleId: femaleScrollView.props.id });
     }
   }
@@ -113,7 +113,7 @@ class SuggestMatch extends React.Component {
         <Animated.ScrollView
           style={[styles.scrollableSmooshFemale, {backgroundColor: this.femaleBackgroundColor}]}
           contentContainerStyle={styles.contentContainer}
-          snapToInterval={Layout.window.height / 4}
+          snapToInterval={Layout.window.height / 2}
           snapToAlignment={'center'}
           scrollEventThrottle={1}
           onMomentumScrollEnd={() => this.setCurrentMaleOrFemaleId(2)}
@@ -131,7 +131,7 @@ class SuggestMatch extends React.Component {
           )}>
 
           {femaleFriends.map(friend => <SquishableProfilePic id={friend.id} key={friend.id} firstName={friend.first_name}
-            gender={2} setCurrentMaleOrFemaleId={this.setCurrentMaleOrFemaleId} scrollY={this.state.scrollYFemales}
+            gender={2} avatar={friend.avatar} setCurrentMaleOrFemaleId={this.setCurrentMaleOrFemaleId} scrollY={this.state.scrollYFemales}
             makeMatch={this.makeMatch} ref={el => this.femaleElements[`${friend.id}`] = el}
             otherElement={this.state.currentMaleElement} selected={this.state.currentFemaleId === friend.id}
             setCurrentlySwiping={this.setCurrentlySwiping} currentlySwiping={this.state.currentlySwiping}
@@ -142,7 +142,7 @@ class SuggestMatch extends React.Component {
         <Animated.ScrollView
           style={[styles.scrollableSmooshMale, , {backgroundColor: this.maleBackgroundColor}]}
           contentContainerStyle={styles.contentContainer}
-          snapToInterval={Layout.window.height / 4}
+          snapToInterval={Layout.window.height / 2}
           snapToAlignment={'center'}
           onMomentumScrollEnd={() => this.setCurrentMaleOrFemaleId(1)}
           scrollEventThrottle={1}
@@ -160,7 +160,7 @@ class SuggestMatch extends React.Component {
           )}>
 
          {maleFriends.map(friend => <SquishableProfilePic key={friend.id} id={friend.id} firstName={friend.first_name}
-           gender={1} setCurrentMaleOrFemaleId={this.setCurrentMaleOrFemaleId} scrollY={this.state.scrollYMales}
+           gender={1} avatar={friend.avatar} setCurrentMaleOrFemaleId={this.setCurrentMaleOrFemaleId} scrollY={this.state.scrollYMales}
            makeMatch={this.makeMatch} ref={el => this.maleElements[`${friend.id}`] = el}
            otherElement={this.state.currentFemaleElement} selected={this.state.currentMaleId === friend.id}
            setCurrentlySwiping={this.setCurrentlySwiping} currentlySwiping={this.state.currentlySwiping}
@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   contentContainer: {
-    paddingTop: Math.floor(Layout.window.height / 4),
-    paddingBottom: Math.floor(Layout.window.height / 2),
+    paddingTop: Math.floor(Layout.window.height / 4) + 75,
+    paddingBottom: Math.floor(Layout.window.height / 4) + 75 ,
   },
 });

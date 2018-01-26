@@ -61,11 +61,11 @@ export default class SquishableProfilePic extends React.Component {
   squish = (animatedEvent) => {
     if(!this.props.selected) {return}
     if (this.props.gender === 1) {
-      // this.rotateImage = animatedEvent.interpolate({
-      //   inputRange: [-70, 0],
-      //   outputRange: ['50deg', '0deg'],
-      //   extrapolate: 'clamp',
-      // });
+      this.rotateImage = animatedEvent.interpolate({
+        inputRange: [-70, 0],
+        outputRange: ['50deg', '0deg'],
+        extrapolate: 'clamp',
+      });
       this.translateY = animatedEvent.interpolate({
         inputRange: [-70, 0],
         outputRange: [-50, 0],
@@ -77,11 +77,11 @@ export default class SquishableProfilePic extends React.Component {
         extrapolate: 'clamp',
       });
     } else {
-      // this.rotateImage = animatedEvent.interpolate({
-      //   inputRange: [0, 70],
-      //   outputRange: ['0deg', '50deg'],
-      //   extrapolate: 'clamp',
-      // });
+      this.rotateImage = animatedEvent.interpolate({
+        inputRange: [0, 70],
+        outputRange: ['0deg', '50deg'],
+        extrapolate: 'clamp',
+      });
       this.translateY = animatedEvent.interpolate({
         inputRange: [0, 70],
         outputRange: [0, -50],
@@ -98,11 +98,11 @@ export default class SquishableProfilePic extends React.Component {
   swipe() {
     // console.log('swiping')
     if (this.props.gender === 1) {
-      // this.rotateImage = this.state.scrollX.interpolate({
-      //   inputRange: [0, 70],
-      //   outputRange: ['0deg', '50deg'],
-      //   extrapolate: 'clamp',
-      // });
+      this.rotateImage = this.state.scrollX.interpolate({
+        inputRange: [0, 70],
+        outputRange: ['0deg', '50deg'],
+        extrapolate: 'clamp',
+      });
       this.translateY = this.state.scrollX.interpolate({
         inputRange: [0, 70],
         outputRange: [0, -50],
@@ -114,11 +114,11 @@ export default class SquishableProfilePic extends React.Component {
         extrapolate: 'clamp',
       });
     } else {
-      // this.rotateImage = this.state.scrollX.interpolate({
-      //   inputRange: [-70, 0],
-      //   outputRange: ['50deg', '0deg'],
-      //   extrapolate: 'clamp',
-      // });
+      this.rotateImage = this.state.scrollX.interpolate({
+        inputRange: [-70, 0],
+        outputRange: ['50deg', '0deg'],
+        extrapolate: 'clamp',
+      });
       this.translateY = this.state.scrollX.interpolate({
         inputRange: [-70, 0],
         outputRange: [-50, 0],
@@ -208,7 +208,7 @@ export default class SquishableProfilePic extends React.Component {
               {useNativeDriver: true}
             )}>
             <Animated.View style={{opacity: this.props.selected ? this.opacity : this.props.opacity}}>
-              <Image source={require('../assets/images/default_profile_pic.jpg')} style={styles.imageStyle} />
+              <Image source={{uri: this.props.avatar}} style={styles.imageStyle} />
               <Text style={styles.firstName}>{this.props.firstName}</Text>
             </Animated.View>
 

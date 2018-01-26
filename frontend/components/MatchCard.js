@@ -31,6 +31,7 @@ class MatchCard extends React.Component {
 
   render() {
     const {suggested} = this.props;
+
     if (this.state.displayExpandedCard) {
       return (
         <ExpandedMatchCard closeCard={this.closeExpandedCard} />
@@ -39,7 +40,7 @@ class MatchCard extends React.Component {
       return (
         <TouchableOpacity style={styles.container}
           onPress={this.handlePress}>
-          <Image source={require('../assets/images/default_profile_pic.jpg')} style={styles.imageStyle} />
+          <Image source={{uri: suggested.avatar}} style={styles.imageStyle} />
           <Text style={styles.textStyle}>{suggested.first_name}</Text>
         </TouchableOpacity>
       )
