@@ -14,37 +14,36 @@ import { Ionicons } from '@expo/vector-icons';
 import ExpandedMatchCard from './ExpandedMatchCard';
 
 class MatchCard extends React.Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: 'Match',
+      header: null,
+    }
+  };
+
   constructor(props) {
     super(props);
-    this.state = {
-      displayExpandedCard: false,
-    }
   }
 
   handlePress = () => {
-    this.setState({ displayExpandedCard: true })
-  }
-
-  closeExpandedCard = () => {
-    this.setState({ displayExpandedCard: false})
+    const {suggested, matchmaker, message} = this.props;
+    this.props.navigation.navigate("MatchScreen", {suggested, matchmaker, message});
   }
 
   render() {
-    const {suggested} = this.props;
+    const {suggested, matchmaker, message} = this.props;
 
-    if (this.state.displayExpandedCard) {
-      return (
-        <ExpandedMatchCard closeCard={this.closeExpandedCard} />
-      )
-    } else {
       return (
         <TouchableOpacity style={styles.container}
           onPress={this.handlePress}>
           <Image source={{uri: suggested.avatar}} style={styles.imageStyle} />
           <Text style={styles.textStyle}>{suggested.first_name}</Text>
+          <View style={styles.matchmakerContainer}>
+            <Image source={{uri: matchmaker.avatar}} style={styles.matchmakerImageStyle} />
+            <Text style={styles.message}>{message}</Text>
+          </View>
         </TouchableOpacity>
       )
-    }
   }
 
 }
@@ -79,7 +78,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.slackPurple,
   },
   imageStyle: {
-    height: 170,
+    height: 140,
     width: (Layout.window.width / 2) - 9,
   },
   textStyle: {
@@ -87,5 +86,22 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     fontSize: 18,
     fontWeight: '500',
+    position: 'absolute',
+  },
+  matchmakerContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: Colors.slackGreen,
+  },
+  matchmakerImageStyle: {
+    height: 50,
+    width: 50,
+    borderRadius: 20,
+    marginRight: 8,
+  },
+  message: {
+    color: 'white',
+    flex: 1,
+    flexWrap: 'wrap',
   },
 });

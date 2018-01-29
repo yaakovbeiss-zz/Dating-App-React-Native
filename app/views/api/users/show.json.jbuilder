@@ -18,6 +18,9 @@ end
 json.people_suggested_to_me @user.received_matches.each do |match_received|
   suggested = match_received.suggested
   matchmaker = match_received.matchmaker
+  
+  json.id match_received.id
+  json.message match_received.message
 
   json.matchmaker do
     json.partial! "api/users/friend", user: matchmaker

@@ -133,7 +133,7 @@ export default class SquishableProfilePic extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.scrollY !== this.props.scrollY) {
+    // if (prevProps.scrollY !== this.props.scrollY) {
       const { height } = this.state;
       const { scrollY } = this.props;
 
@@ -173,7 +173,7 @@ export default class SquishableProfilePic extends React.Component {
         },
         {useNativeDriver: true}
       ).start();
-    }
+    // }
   }
 
   render() {

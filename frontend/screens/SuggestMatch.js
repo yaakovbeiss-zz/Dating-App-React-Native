@@ -65,12 +65,14 @@ class SuggestMatch extends React.Component {
   setCurrentMaleOrFemaleId(gender) {
     if (gender === 1) {
       const mappableMales = Object.keys(this.maleElements).map(id => this.maleElements[id] );
-      const maleScrollView = mappableMales.find((el) => el.currentHeight > 140 && el.currentHeight < 315 );
-      this.setState({ currentMaleElement: maleScrollView, currentMaleId: maleScrollView.props.id });
+      let maleSquishView = mappableMales.find((el) => el.currentHeight > 140 && el.currentHeight < 315 );
+      const offset = Math.floor(Layout.window.height / 2) - (maleSquishView.currentHeight)
+      // this.maleScrollView._component.scrollTo({y: offset })
+      this.setState({ currentMaleElement: maleSquishView, currentMaleId: maleSquishView.props.id });
     } else {
       const mappableFemales = Object.keys(this.femaleElements).map(id => this.femaleElements[id] );
-      const femaleScrollView = mappableFemales.find((el) => el.currentHeight > 140 && el.currentHeight < 315 );
-      this.setState({ currentFemaleElement: femaleScrollView, currentFemaleId: femaleScrollView.props.id });
+      let femaleSquishView = mappableFemales.find((el) => el.currentHeight > 140 && el.currentHeight < 315 );
+      this.setState({ currentFemaleElement: femaleSquishView, currentFemaleId: femaleSquishView.props.id });
     }
   }
 
@@ -113,9 +115,8 @@ class SuggestMatch extends React.Component {
         <Animated.ScrollView
           style={[styles.scrollableSmooshFemale, {backgroundColor: this.femaleBackgroundColor}]}
           contentContainerStyle={styles.contentContainer}
-          snapToInterval={Layout.window.height / 2}
-          snapToAlignment={'center'}
           scrollEventThrottle={1}
+          ref={ref => this.femaleScrollView = ref}
           onMomentumScrollEnd={() => this.setCurrentMaleOrFemaleId(2)}
           decelerationRate={'fast'}
           onScroll={Animated.event(
@@ -142,9 +143,8 @@ class SuggestMatch extends React.Component {
         <Animated.ScrollView
           style={[styles.scrollableSmooshMale, , {backgroundColor: this.maleBackgroundColor}]}
           contentContainerStyle={styles.contentContainer}
-          snapToInterval={Layout.window.height / 2}
-          snapToAlignment={'center'}
           onMomentumScrollEnd={() => this.setCurrentMaleOrFemaleId(1)}
+          ref={ref => this.maleScrollView = ref}
           scrollEventThrottle={1}
           decelerationRate={'fast'}
           onScroll={Animated.event(
@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   contentContainer: {
-    paddingTop: Math.floor(Layout.window.height / 4) + 75,
-    paddingBottom: Math.floor(Layout.window.height / 4) + 75 ,
+    paddingTop: Math.floor(Layout.window.height / 4) + 90,
+    paddingBottom: Math.floor(Layout.window.height / 4) + 90,
   },
 });
